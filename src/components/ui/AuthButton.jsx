@@ -1,9 +1,9 @@
 import React from 'react'
 
-function AuthButton({title}) {
+function AuthButton({title,classname}) {
   return (
     <div>
-      <button className='bg-black rounded-[30px] text-white px-10 py-2 '>{title}</button>
+      <button className={`bg-black rounded-[30px] text-white px-10 py-2 ${classname}`}>{title}</button>
     </div>
   )
 }
