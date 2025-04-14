@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
 import ChangePassword from './modules/authentication/components/ChangePassword/ChangePassword';
 import ForgetPassword from './modules/authentication/components/ForgetPassword/ForgetPassword';
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer />
       <RouterProvider router={routes}></RouterProvider>
     </>
   );
