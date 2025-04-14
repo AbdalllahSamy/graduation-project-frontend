@@ -17,7 +17,7 @@ function App() {
     {
       path: '/',
       element: <AuthLayout />,
-      errorElement: <NotFound />,
+      // errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
         { path: 'login', element: <Login /> },
