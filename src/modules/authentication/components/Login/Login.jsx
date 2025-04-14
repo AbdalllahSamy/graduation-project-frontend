@@ -12,6 +12,7 @@ import {
 } from '@/services/validation/validation';
 import { Key, User, UserPlus } from 'lucide-react';
 import AuthButton from '@/components/ui/AuthButton';
+import Input from '@/components/ui/Input';
 
 export default function Login() {
   // const navigate = useNavigate();
@@ -50,7 +51,7 @@ export default function Login() {
         <h1 className='text-5xl font-bold font-family-pri'>Welcome Again</h1>
         <p className='mt-2 font-family-sec'>Welcome to Health Advisor. dashboard Community</p>
       </div>
-    <AuthButton title={'zzz'} />
+    <Input/>
     </div>
   );
 }
