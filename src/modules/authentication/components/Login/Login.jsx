@@ -51,7 +51,7 @@ export default function Login() {
         <h1 className='text-5xl font-bold font-family-pri'>Welcome Again</h1>
         <p className='mt-2 font-family-sec'>Welcome to Health Advisor. dashboard Community</p>
       </div>
-    <Input/>
+      
     </div>
   );
 }
