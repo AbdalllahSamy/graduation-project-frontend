@@ -10,6 +10,7 @@ function Input({
   labelClassName = '',
   error = false,
   disabled = false,
+  name
 }) {
   const inputRef = useRef(null);
   const [isActive, setIsActive] = useState(false);
@@ -44,6 +45,7 @@ function Input({
         defaultValue={value} // For uncontrolled, fallback to controlled
         placeholder={isActive ? placeholder : ''} // Show placeholder only when active
         disabled={disabled}
+        name={name}
         className={`
           h-10  rounded-md border px-4 py-2 text-gray-900
           transition-all duration-200 ease-in-out
