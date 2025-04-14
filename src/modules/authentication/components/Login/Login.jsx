@@ -11,6 +11,7 @@ import {
   GetRequiredMessage,
 } from '@/services/validation/validation';
 import { Key, User, UserPlus } from 'lucide-react';
+import AuthButton from '@/components/ui/AuthButton';
 
 export default function Login() {
   // const navigate = useNavigate();
@@ -47,8 +48,9 @@ export default function Login() {
     <div>
       <div className='flex flex-col items-center justify-center'>
         <h1 className='text-5xl font-bold font-family-pri'>Welcome Again</h1>
-        <p className='mt-2'>Welcome to Health Advisor. dashboard Community</p>
+        <p className='mt-2 font-family-sec'>Welcome to Health Advisor. dashboard Community</p>
       </div>
+    <AuthButton title={'zzz'} />
     </div>
   );
 }
