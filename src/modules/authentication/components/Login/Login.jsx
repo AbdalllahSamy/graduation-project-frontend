@@ -76,30 +76,38 @@ export default function Login() {
             )}
           </div>
           <div className="flex flex-col  mt-1">
-          <Input
-        label="Password"
-        type="password"
-        {...register("password", {
-          required: "Password is required",
-          pattern: {
-            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-            message: "Password must contain at least one letter and one number",
-          }
-        })}
-        error={errors.password}
-      />
-             {errors?.password && (
-              <span className="text-red-500 mt-2">{errors?.password?.message}</span>
+          <input
+              type="password"
+              placeholder="Please enter your password"
+              className="  rounded-lg p-2 mt-3 placeholder-gray-500 outline-1 outline-gray-500"
+              {...register("password", {
+                required: "Password is required",
+                pattern:{
+                  value:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+                  message:"Password must contain at least one letter and one number",
+                }
+              })}
+            />
+              {errors.password && (
+              <span className="text-red-500">{errors.password.message}</span>
             )}
           </div>
           <div className="flex gap-3 items-center mt-1">
             <input type="checkbox" />
             <p>Remember me</p>
           </div>
-          <div className="w-[100%] mt-7">
+          <div className="w-[100%] mt-2">
             <AuthButton title={"Login"} classname={'w-[100%] font-family-sec cursor-pointer'} />
           </div>
         </form>
+        <div className="flex justify-center items-center">
+          <p className="font-family-sec">
+          Don’t have an account?
+          <Link className="text-primary cursor-pointer font-bold ms-2" to="/register">
+          Sign Up
+          </Link> 
+          </p>
+        </div>
       </div>
     </div>
   );
