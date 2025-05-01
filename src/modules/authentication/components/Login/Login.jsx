@@ -59,10 +59,11 @@ export default function Login() {
 
         <form action="" onSubmit={handleSubmit(onSubmit())} className="flex flex-col gap-5">
           <div className="flex flex-col">
-          <input
+          <Input
               type="email"
+              label="Email"
               placeholder="Please enter your email"
-              className="  rounded-lg p-2 mt-3 placeholder-gray-500 outline-1 outline-gray-500"
+              className={"w-full"}
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -79,6 +80,7 @@ export default function Login() {
           <Input
         label="Password"
         type="password"
+        className={"w-full"}
         {...register("password", {
           required: "Password is required",
           pattern: {
