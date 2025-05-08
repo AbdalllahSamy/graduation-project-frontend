@@ -59,7 +59,7 @@ export default function Login() {
 
         <form action="" onSubmit={handleSubmit(onSubmit())} className="flex flex-col gap-5">
           <div className="flex flex-col">
-          <Input
+          <Inputauth
               type="email"
               label="Email"
               placeholder="Please enter your email"
@@ -83,10 +83,10 @@ export default function Login() {
         className={"w-full"}
         {...register("password", {
           required: "Password is required",
-          pattern: {
-            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-            message: "Password must contain at least one letter and one number",
-          }
+          // pattern: {
+          //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+          //   message: "Password must contain at least one letter and one number",
+          // }
         })}
         error={errors.password}
       />

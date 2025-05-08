@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-export const baseURL = 'https://upskilling-egypt.com:3005/api';
+export const baseURL = 'http://health-advisor.runasp.net/api';
 
 export const axiosInstance = axios.create({
   baseURL,
-  headers: { Authorization: localStorage.getItem('token') },
+  headers: { Authorization: localStorage.getItem('token'), 'Content-Type': 'application/json' },
 });
 
 export const AuthAxiosInstance = axios.create({
   baseURL,
+  headers:{ 'Content-Type': 'application/json' }, 
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -22,10 +23,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const Auth = {
-  login: `/auth/login`,
-  register: `/auth/register`,
-  changePassword: `/auth/change-password`,
-  forgotPassword: `auth/forgot-password`,
-  resetPassword: `auth/reset-password`,
-  logout: `auth/logout`,
+  login: `/Auth/login`,
+  register: `/Auth/register`,
 };
