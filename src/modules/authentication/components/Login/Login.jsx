@@ -83,10 +83,10 @@ export default function Login() {
         className={"w-full"}
         {...register("password", {
           required: "Password is required",
-          pattern: {
-            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-            message: "Password must contain at least one letter and one number",
-          }
+          // pattern: {
+          //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
+          //   message: "Password must contain at least one letter and one number",
+          // }
         })}
         error={errors.password}
       />
