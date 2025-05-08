@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseURL = 'https://upskilling-egypt.com:3005/api';
+export const baseURL = 'http://graduation-api.runasp.net/api';
 
 export const axiosInstance = axios.create({
   baseURL,
@@ -22,10 +22,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const Auth = {
-  login: `/auth/login`,
-  register: `/auth/register`,
-  changePassword: `/auth/change-password`,
-  forgotPassword: `auth/forgot-password`,
-  resetPassword: `auth/reset-password`,
-  logout: `auth/logout`,
+  login: `/Account/login`,
+  register: `/Account/register`,
 };
