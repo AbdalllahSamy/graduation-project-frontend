@@ -22,6 +22,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const Auth = {
-  login: `/Account/login`,
+  SignIn: `/Account/login`,
   register: `/Account/register`,
 };
