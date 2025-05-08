@@ -40,7 +40,7 @@ export function RegisterFirstPage({ setPage, page }) {
         <CustomProgressBar progress={25} />
       </div>
       <div className='grid grid-cols-2 gap-2 justify-center '>
-        <Input className='w-full' />
+        <Input  className='w-full' />
         <Input className='w-full' />
         <div className='col-span-2'>
           <Input className='w-full' />
