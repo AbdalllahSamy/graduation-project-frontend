@@ -14,7 +14,7 @@ export default function SideBar() {
   return (
     <>
       <Sidebar
-        className="uppercase text-[#787878] font-bold h-screen bg-[#FFEDCDAB]"
+        className="uppercase text-[#787878] font-bold h-screen bg-[#FFEDCDAB] min-h-screen"
         collapsed={isCollapsed}
       >
         <div className="mb-8 mt-4 mx-2 flex items-center  justify-between">

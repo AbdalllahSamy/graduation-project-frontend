@@ -11,6 +11,7 @@ import Dashboard from './modules/dashboard/components/Dashboard/Dashboard';
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout';
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout';
 import NotFound from './modules/shared/components/NotFound/NotFound';
+import Test from './modules/test/Test';
 
 function App() {
   const routes = createBrowserRouter([
@@ -35,6 +36,7 @@ function App() {
       children: [
         { index: true, element: <Dashboard /> },
         { path: 'dashboard', element: <Dashboard /> },
+        { path: 'test', element: <Test /> },
       ],
     },
   ]);
