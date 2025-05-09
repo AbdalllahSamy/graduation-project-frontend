@@ -5,8 +5,12 @@ import { Auth, AuthAxiosInstance } from '@/services/apisUrls/apisUrls';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa';
-import { GiBodyHeight, GiWeight } from 'react-icons/gi';
 import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4.png';
+import beginner from './../../../../assets/images/beg.png';
+import intermediate from './../../../../assets/images/inter.jpg';
+import advanced from './../../../../assets/images/prof.jpg';
+import { GiBodyHeight } from "react-icons/gi";
+import { GiWeight } from "react-icons/gi";
 
 export default function Register() {
   const [page, setPage] = React.useState(1);
@@ -279,21 +283,47 @@ export function RegisterThirdPage({ setPage, page }) {
       <div className="flex justify-center">
         <CustomProgressBar progress={75} />
       </div>
-      <div className="grid grid-cols-2 gap-2 justify-center ">
-        <Input className="w-full" />
-        <Input className="w-full" />
-        <div className="col-span-2"></div>
-        <Input className="w-full" />
+      <div>
+        <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
+          What is your training level ?
+        </h3>
       </div>
-      <div className="col-span-2">
-        <Input className="w-full" />
+
+      <div className="grid grid-cols-2 gap-8 mt-4 justify-center">
+        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
+          <img
+            src={beginner}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[25%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Beginner
+          </h3>
+        </div>
+        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
+          <img
+            src={intermediate}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[8%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Intermediate
+          </h3>
+        </div>
+
+        {/* Third card on a new row and centered */}
+        <div className="relative border py-5 h-[295px] rounded-[20px]  px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500 col-span-2 sm:col-span-1 flex justify-center">
+          <img
+            src={advanced}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[20%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Advanced
+          </h3>
+        </div>
       </div>
-      <div className="col-span-2">
-        <Input className="w-full" />
-      </div>
-      <Input className="w-full" />
-      <Input className="w-full" />
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full my-5">
         <AuthButton
           title={'prev'}
           onclick={() => setPage((prev) => prev - 1)}
@@ -312,13 +342,12 @@ export function RegisterFourthPage({ setPage, page }) {
       <div className="flex justify-center">
         <CustomProgressBar progress={100} />
       </div>
-
       <h2 className="text-2xl font-bold text-center my-2 ">Gym Information</h2>
-
       <form className="flex flex-col gap-6 ">
         {/* Height */}
         <div className="flex items-center gap-3">
           <GiBodyHeight className=" text-lg" />
+          
           <input
             type="number"
             placeholder="Height (cm)"
@@ -348,7 +377,7 @@ export function RegisterFourthPage({ setPage, page }) {
 
         {/* Gender */}
 
-        <div className='flex justify-between'>
+        <div className="flex justify-between">
           <label className="text-sm font-medium text-gray-700 mb-2 flex  items-center gap-2">
             <FaTransgenderAlt className=" text-lg" />
             Gender
@@ -384,6 +413,7 @@ export function RegisterFourthPage({ setPage, page }) {
           <AuthButton title={'Submit'} />
         </div>
       </form>
+      
     </>
   );
 }
