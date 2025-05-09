@@ -32,7 +32,7 @@ export default function Login() {
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await AuthAxiosInstance.post(Auth.SignIn, data);
+      const response = await AuthAxiosInstance.post(Auth.login, data);
       toast.success("Login Successfully");
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
