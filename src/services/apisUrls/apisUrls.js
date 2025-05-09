@@ -3,8 +3,8 @@ import axios from 'axios';
 export const baseURL = 'http://health-advisor.runasp.net/api';
 
 export const axiosInstance = axios.create({
-  baseURL,
-  headers: { Authorization: localStorage.getItem('token'), 'Content-Type': 'application/json' },
+  baseURL:baseURL,
+  headers: { Authorization: localStorage.getItem('token') },
 });
 
 export const AuthAxiosInstance = axios.create({
