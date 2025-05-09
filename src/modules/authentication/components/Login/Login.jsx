@@ -36,12 +36,11 @@ export default function Login() {
       toast.success("Login Successfully");
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
-      
       saveLoginData();
       navigate("/dashboard");
       console.log(response);
     } catch (error) {
-      toast.error(error.response.data);
+      toast.error("");
       console.log(error);
     }
   };
