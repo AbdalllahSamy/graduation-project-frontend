@@ -5,7 +5,11 @@ import { data, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { AuthContext } from "@/context/Authcontext/Authcontext";
-import { Auth, AuthAxiosInstance, axiosInstance } from "@/services/apisUrls/apisUrls";
+import {
+  Auth,
+  AuthAxiosInstance,
+  axiosInstance,
+} from "@/services/apisUrls/apisUrls";
 import {
   EMAIL_VALIDATION,
   GetRequiredMessage,
@@ -16,6 +20,7 @@ import google from "../../../../assets/images/google 1.png";
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Input from "@/components/ui/Input";
+import { FaSpinner } from "react-icons/fa";
 
 export default function Login() {
   let { saveLoginData } = useContext(AuthContext);
@@ -23,14 +28,20 @@ export default function Login() {
   let {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const onSubmit = async (data) => {
     try {
-      const response = await axiosInstance.post(Auth.SignIn, data);
+      const response = await AuthAxiosInstance.post(Auth.SignIn, data);
       toast.success("Login Successfully");
+      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+      
+      saveLoginData();
+      navigate("/dashboard");
       console.log(response);
     } catch (error) {
+      toast.error(error.response.data);
       console.log(error);
     }
   };
@@ -71,7 +82,7 @@ export default function Login() {
 
         <form
           action=""
-          onSubmit={ handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-5"
         >
           <div className="flex flex-col">
@@ -119,11 +130,20 @@ export default function Login() {
             <p>Remember me</p>
           </div>
           <div className="w-[100%] mt-2">
-            <AuthButton
+            <button
+              disabled={isSubmitting}
               type="submit"
               title={"Login"}
-              classname={"w-[100%] font-family-sec cursor-pointer"}
-            />
+              className="w-[100%] font-family-sec bg-black rounded-[30px] text-white px-10 py-2 cursor-pointer disabled:bg-gray-400 hover:transform hover:scale-105 transition-all duration-300"
+            >
+              {isSubmitting ? (
+              <>
+                Submiting ...
+              </>
+            ) : (
+              'Login'
+            )}
+            </button>
           </div>
         </form>
         <div className="flex justify-center items-center">

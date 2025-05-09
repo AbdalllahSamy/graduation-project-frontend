@@ -1,14 +1,15 @@
 import axios from 'axios';
 
-export const baseURL = 'http://graduation-api.runasp.net/api';
+export const baseURL = 'http://health-advisor.runasp.net/api';
 
 export const axiosInstance = axios.create({
-  baseURL,
+  baseURL:baseURL,
   headers: { Authorization: localStorage.getItem('token') },
 });
 
 export const AuthAxiosInstance = axios.create({
-  baseURL,
+  baseURL:baseURL,
+  headers:{ 'Content-Type': 'application/json' },
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -22,6 +23,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const Auth = {
-  SignIn: `/Account/login`,
+  SignIn: `/Auth/login`,
   register: `/Account/register`,
 };

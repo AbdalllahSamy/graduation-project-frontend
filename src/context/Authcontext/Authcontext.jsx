@@ -7,16 +7,10 @@ export default function AuthContextProvider({ children }) {
   const [loginData, setLoginData] = useState(null);
 
   const saveLoginData = () => {
-    const encodedToken = localStorage.getItem('token');
-    if (encodedToken) {
-      try {
-        const decodedToken = jwtDecode(encodedToken);
-        setLoginData(decodedToken);
-      } catch (error) {
-        console.error('Invalid token:', error);
-        localStorage.removeItem('token');
-        setLoginData(null);
-      }
+    const encodeToken = localStorage.getItem('token');
+    if (encodeToken) {
+      const decodeToken = jwtDecode(encodeToken);
+      setLoginData(decodeToken);
     }
   };
 
