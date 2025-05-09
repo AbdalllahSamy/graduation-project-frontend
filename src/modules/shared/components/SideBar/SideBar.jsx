@@ -2,14 +2,17 @@ import {
   ChevronLeft,
   ChevronRight,
   House,
+  LogOut,
   SquareChartGantt,
-} from 'lucide-react';
-import { useState } from 'react';
-import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
-import logo from '../../../../assets/images/dashboard-logo.png';
+} from "lucide-react";
+import { useState } from "react";
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import logo from "../../../../assets/images/dashboard-logo.png";
+import { useNavigate } from "react-router-dom";
 
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  let navigate = useNavigate();
 
   return (
     <>
@@ -44,6 +47,16 @@ export default function SideBar() {
               <MenuItem> Next Week </MenuItem>
               <MenuItem> Last Week </MenuItem>
             </SubMenu>
+            <MenuItem
+              icon={<LogOut />}
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              
+              LogOut
+            </MenuItem>
           </div>
         </Menu>
       </Sidebar>
