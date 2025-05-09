@@ -5,6 +5,9 @@ import { Progress } from "@/components/ui/progress";
 import { MessageSquare } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import actor1 from "./../../../../assets/images/6dbde96d619fa2275584886db44d81a4.png";
+import beginner from "./../../../../assets/images/beg.png";
+import intermediate from "./../../../../assets/images/inter.jpg";
+import advanced from "./../../../../assets/images/prof.jpg";
 import { useForm } from "react-hook-form";
 import { Auth, AuthAxiosInstance } from "@/services/apisUrls/apisUrls";
 export default function Register() {
@@ -31,7 +34,12 @@ export default function Register() {
   );
 }
 export function RegisterFirstPage({ setPage, page }) {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
   const password = watch("password");
   const registerUser = async (data) => {
     console.log("Form Data:", data);
@@ -40,10 +48,9 @@ export function RegisterFirstPage({ setPage, page }) {
       const res = await AuthAxiosInstance.post(Auth.register, {
         ...data,
         role: "Trainee",
-        isAgree: true
-
-      })
-      setPage(page + 1)
+        isAgree: true,
+      });
+      setPage(page + 1);
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -51,74 +58,139 @@ export function RegisterFirstPage({ setPage, page }) {
   };
   return (
     <>
-
       <div className="flex flex-col gap-4 justify-center  h-[400px]">
         <div className="flex justify-center">
           <CustomProgressBar progress={25} />
         </div>
-        <form onSubmit={handleSubmit(registerUser)} className="grid grid-cols-2 gap-2">
-
+        <form
+          onSubmit={handleSubmit(registerUser)}
+          className="grid grid-cols-2 gap-2"
+        >
           <div className="flex flex-col">
-            <Input label="First Name" className="w-full" {...register("firstName", { required: "First Name is required" })} />
-            {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
+            <Input
+              label="First Name"
+              className="w-full"
+              {...register("firstName", { required: "First Name is required" })}
+            />
+            {errors.firstName && (
+              <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+            )}
           </div>
           <div className="flex flex-col">
-            <Input label="Last Name" className="w-full" {...register("lastName", { required: "Last Name is required" })} />
-            {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
+            <Input
+              label="Last Name"
+              className="w-full"
+              {...register("lastName", { required: "Last Name is required" })}
+            />
+            {errors.lastName && (
+              <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+            )}
           </div>
           <div className="col-span-2">
-            <Input className="w-full" label="Email" type="email" {...register("email", { required: "Email is required" })} />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            <Input
+              className="w-full"
+              label="Email"
+              type="email"
+              {...register("email", { required: "Email is required" })}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            )}
           </div>
           <div className="flex flex-col col-span-2 w-full">
-            <Input label="Phone Number" className="w-full" {...register("phoneNumber", { required: "Phone Number is required" })} />
-            {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
+            <Input
+              label="Phone Number"
+              className="w-full"
+              {...register("phoneNumber", {
+                required: "Phone Number is required",
+              })}
+            />
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm">
+                {errors.phoneNumber.message}
+              </p>
+            )}
           </div>
           <div className="col-span-2">
-            <Input className="w-full" label="Password" type="password" {...register("password", {
-              required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" }, validate: {
-                hasUppercase: value =>
-                  /[A-Z]/.test(value) || "Password must have at least one uppercase letter",
-                hasLowercase: value =>
-                  /[a-z]/.test(value) || "Password must have at least one lowercase letter",
-                hasNonAlphanumeric: value =>
-                  /[^a-zA-Z0-9]/.test(value) || "Password must have at least one non-alphanumeric character",
-              }
-            })} />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            <Input
+              className="w-full"
+              label="Password"
+              type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+                validate: {
+                  hasUppercase: (value) =>
+                    /[A-Z]/.test(value) ||
+                    "Password must have at least one uppercase letter",
+                  hasLowercase: (value) =>
+                    /[a-z]/.test(value) ||
+                    "Password must have at least one lowercase letter",
+                  hasNonAlphanumeric: (value) =>
+                    /[^a-zA-Z0-9]/.test(value) ||
+                    "Password must have at least one non-alphanumeric character",
+                },
+              })}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm">{errors.password.message}</p>
+            )}
           </div>
           <div className="col-span-2">
-            <Input className="w-full" label="Confirm Password" type="password" {...register("confirmPassword", {
-              required: "Confirm Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters"
-              },
-              validate: (value) =>
-                value === password || "Passwords do not match",
+            <Input
+              className="w-full"
+              label="Confirm Password"
+              type="password"
+              {...register("confirmPassword", {
+                required: "Confirm Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+                validate: (value) =>
+                  value === password || "Passwords do not match",
 
-              hasUppercase: value =>
-                /[A-Z]/.test(value) || "Password must have at least one uppercase letter",
-              hasLowercase: value =>
-                /[a-z]/.test(value) || "Password must have at least one lowercase letter",
-              hasNonAlphanumeric: value =>
-                /[^a-zA-Z0-9]/.test(value) || "Password must have at least one non-alphanumeric character",
-
-            })} />
-            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
+                hasUppercase: (value) =>
+                  /[A-Z]/.test(value) ||
+                  "Password must have at least one uppercase letter",
+                hasLowercase: (value) =>
+                  /[a-z]/.test(value) ||
+                  "Password must have at least one lowercase letter",
+                hasNonAlphanumeric: (value) =>
+                  /[^a-zA-Z0-9]/.test(value) ||
+                  "Password must have at least one non-alphanumeric character",
+              })}
+            />
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
           <div className="col-span-2">
-            <Input className="w-full" label="Username" type="text" {...register("username", { required: "Username is required" })} />
-            {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
+            <Input
+              className="w-full"
+              label="Username"
+              type="text"
+              {...register("username", { required: "Username is required" })}
+            />
+            {errors.username && (
+              <p className="text-red-500 text-sm">{errors.username.message}</p>
+            )}
           </div>
           <div className="flex justify-center col-span-2">
-            <AuthButton title="Next" type="submit" onclick={() => setPage(page + 1)} />
+            <AuthButton
+              title="Next"
+              type="submit"
+              onclick={() => setPage(page + 1)}
+            />
           </div>
         </form>
       </div>
-
-
     </>
   );
 }
@@ -143,10 +215,11 @@ export function RegisterSecondPage({ setPage, page }) {
           <div
             key={goal.id}
             onClick={() => setSelectedGoal(goal.id)}
-            className={`relative cursor-pointer ${selectedGoal === goal.id
+            className={`relative cursor-pointer ${
+              selectedGoal === goal.id
                 ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
                 : "bg-gradient-to-t from-[#F4F4F4] to-white border-black"
-              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -177,7 +250,6 @@ export function RegisterSecondPage({ setPage, page }) {
         ))}
       </div>
 
-      
       {selectedGoal === "other" && (
         <div className="mt-4">
           <input
@@ -191,8 +263,14 @@ export function RegisterSecondPage({ setPage, page }) {
       )}
 
       <div className="flex justify-between w-full mt-6">
-        <AuthButton title={"Prev"} onclick={() => setPage((prev) => prev - 1)} />
-        <AuthButton title={"Next"} onclick={() => setPage((prev) => prev + 1)} />
+        <AuthButton
+          title={"Prev"}
+          onclick={() => setPage((prev) => prev - 1)}
+        />
+        <AuthButton
+          title={"Next"}
+          onclick={() => setPage((prev) => prev + 1)}
+        />
       </div>
     </>
   );
@@ -203,29 +281,45 @@ export function RegisterThirdPage({ setPage, page }) {
       <div className="flex justify-center">
         <CustomProgressBar progress={75} />
       </div>
-      <div className="grid grid-cols-2 gap-2 justify-center ">
-        <Input className="w-full" />
-        <Input className="w-full" />
-        <div className="col-span-2"></div>
-        <Input className="w-full" />
+      <div>
+        <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
+          What is your training level ?
+        </h3>
       </div>
-      <div className="col-span-2">
-        <Input className="w-full" />
-      </div>
-      <div className="col-span-2">
-        <Input className="w-full" />
-      </div>
-      <Input className="w-full" />
-      <Input className="w-full" />
-      <div className="flex justify-between w-full">
-        <AuthButton
-          title={"prev"}
-          onclick={() => setPage((prev) => prev - 1)}
-        />
-        <AuthButton
-          title={"Next"}
-          onclick={() => setPage((prev) => prev + 1)}
-        />
+
+      <div className="grid grid-cols-2 gap-8 mt-4 justify-center">
+        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
+          <img
+            src={beginner}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[25%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Beginner
+          </h3>
+        </div>
+        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
+          <img
+            src={intermediate}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[8%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Intermediate
+          </h3>
+        </div>
+
+        {/* Third card on a new row and centered */}
+        <div className="relative border py-5 h-[295px] rounded-[20px]  px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500 col-span-2 sm:col-span-1 flex justify-center">
+          <img
+            src={advanced}
+            alt=""
+            className="object-contain w-full h-[295px] rounded-[20px]"
+          />
+          <h3 className="absolute bottom-1/4 left-[20%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            Advanced
+          </h3>
+        </div>
       </div>
     </>
   );
