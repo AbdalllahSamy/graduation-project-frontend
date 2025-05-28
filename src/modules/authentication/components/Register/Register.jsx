@@ -321,6 +321,16 @@ export function RegisterThirdPage({ setPage, page }) {
           </h3>
         </div>
       </div>
+       <div className="flex justify-between w-full my-5">
+        <AuthButton
+          title={"prev"}
+          onclick={() => setPage((prev) => prev - 1)}
+        />
+         <AuthButton
+          title={"Next"}
+          onclick={() => setPage((prev) => prev + 1)}
+        /> 
+      </div>
     </>
   );
 }

@@ -13,6 +13,7 @@ import MasterLayout from "./modules/shared/components/MasterLayout/MasterLayout"
 import NotFound from "./modules/shared/components/NotFound/NotFound";
 import Test from "./modules/test/Test";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
+import WaterTracker from "./modules/test/WaterTracker";
 
 function App() {
   const routes = createBrowserRouter([
@@ -42,6 +43,7 @@ function App() {
         { index: true, element: <Dashboard /> },
         { path: "dashboard", element: <Dashboard /> },
         { path: "test", element: <Test /> },
+        { path: "water", element: <WaterTracker/> },
       ],
     },
   ]);
