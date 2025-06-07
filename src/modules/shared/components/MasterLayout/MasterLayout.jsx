@@ -6,9 +6,9 @@
     return (
       <>
         <div className='flex'>
-          <div>
+          {/* <div>
             <SideBar />
-          </div>
+          </div> */}
           <div className='w-full '>
             <Outlet />
           </div>
