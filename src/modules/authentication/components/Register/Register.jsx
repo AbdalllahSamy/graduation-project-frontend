@@ -211,17 +211,19 @@ export function RegisterSecondPage({ setPage, page }) {
       <div className="flex justify-center">
         <CustomProgressBar progress={50} />
       </div>
+      <div>
+        <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">What is your goal?</h2>
 
+      </div>
       <div className="grid grid-cols-2 justify-center gap-3">
         {goals.map((goal) => (
           <div
             key={goal.id}
             onClick={() => setSelectedGoal(goal.id)}
-            className={`relative cursor-pointer ${
-              selectedGoal === goal.id
-                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
-            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            className={`relative cursor-pointer ${selectedGoal === goal.id
+              ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+              : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
+              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -278,6 +280,14 @@ export function RegisterSecondPage({ setPage, page }) {
   );
 }
 export function RegisterThirdPage({ setPage, page }) {
+  const [selectedLevel, setSelectedLevel] = useState(null);
+
+  const trainingLevels = [
+    { id: 1, label: 'Beginner', image: beginner },
+    { id: 2, label: 'Intermediate', image: intermediate },
+    { id: 3, label: 'Advanced', image: advanced },
+  ];
+
   return (
     <>
       <div className="flex justify-center">
@@ -285,53 +295,49 @@ export function RegisterThirdPage({ setPage, page }) {
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
-          What is your training level ?
+          What is your training level?
         </h3>
       </div>
 
-      <div className="grid grid-cols-2 gap-8 mt-4 justify-center">
-        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
-          <img
-            src={beginner}
-            alt=""
-            className="object-contain w-full h-[295px] rounded-[20px]"
-          />
-          <h3 className="absolute bottom-1/4 left-[25%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Beginner
-          </h3>
-        </div>
-        <div className="relative border py-5 h-[295px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500">
-          <img
-            src={intermediate}
-            alt=""
-            className="object-contain w-full h-[295px] rounded-[20px]"
-          />
-          <h3 className="absolute bottom-1/4 left-[8%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Intermediate
-          </h3>
-        </div>
+      <div className="grid grid-cols-1 gap-8 mt-4 justify-center">
+        {trainingLevels.map((level) => {
+          const isSelected = selectedLevel === level.id;
 
-        {/* Third card on a new row and centered */}
-        <div className="relative border py-5 h-[295px] rounded-[20px]  px-2 w-full overflow-hidden transition-all duration-1000 group hover:bg-gradient-to-t from-primary/55 to-white border-yellow-500 col-span-2 sm:col-span-1 flex justify-center">
-          <img
-            src={advanced}
-            alt=""
-            className="object-contain w-full h-[295px] rounded-[20px]"
-          />
-          <h3 className="absolute bottom-1/4 left-[20%] font-family-pri text-[43px] leading-10 whitespace-pre-line text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Advanced
-          </h3>
-        </div>
+          return (
+            <div
+              key={level.id}
+              className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
+        ${isSelected ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500' : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'}`}
+              onClick={() => setSelectedLevel(level.id)}
+            >
+              <img
+                src={level.image}
+                alt={level.label}
+                className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
+          ${isSelected ? 'opacity-70' : 'opacity-100 group-hover:opacity-40'}`}
+              />
+              <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
+                {level.label}
+              </h3>
+            </div>
+          );
+        })}
       </div>
+
+
       <div className="flex justify-between w-full my-5">
+        <AuthButton title="Prev" onclick={() => setPage((prev) => prev - 1)} />
+        <AuthButton title="Next" onclick={() => setPage((prev) => prev + 1)} />
+      </div>
+       <div className="flex justify-between w-full my-5">
         <AuthButton
-          title={'prev'}
+          title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
-        <AuthButton
-          title={'Next'}
+         <AuthButton
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
-        />
+        /> 
       </div>
     </>
   );
@@ -342,12 +348,12 @@ export function RegisterFourthPage({ setPage, page }) {
       <div className="flex justify-center">
         <CustomProgressBar progress={100} />
       </div>
-      <h2 className="text-2xl font-bold text-center my-2 ">Gym Information</h2>
+      <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2 ">Body Information</h2>
       <form className="flex flex-col gap-6 ">
         {/* Height */}
         <div className="flex items-center gap-3">
           <GiBodyHeight className=" text-lg" />
-          
+
           <input
             type="number"
             placeholder="Height (cm)"
@@ -413,7 +419,7 @@ export function RegisterFourthPage({ setPage, page }) {
           <AuthButton title={'Submit'} />
         </div>
       </form>
-      
+
     </>
   );
 }
