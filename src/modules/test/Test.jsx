@@ -11,67 +11,67 @@ export default function Test() {
           <Navbar />
         </div>
 
-        <div>
-          <div className="grid grid-cols-3">
-            <div className=" shadow-2xl rounded-2xl p-6 w-max">
-              <div className="flex items-center gap-2 ">
-                <div className="p-1.5 bg-[#FBF0F3] text-[#CA6B6E] inline-block rounded-lg">
-                  <Heart />
+          <div>
+            <div className="grid grid-cols-3">
+              <div className=" shadow-2xl rounded-2xl p-6 w-max">
+                <div className="flex items-center gap-2 ">
+                  <div className="p-1.5 bg-[#FBF0F3] text-[#CA6B6E] inline-block rounded-lg">
+                    <Heart />
+                  </div>
+                  <div>
+                    <span className="font-semibold">Heart Rate</span>
+                  </div>
                 </div>
-                <div>
-                  <span className="font-semibold">Heart Rate</span>
-                </div>
-              </div>
-              <div className="my-2">
-                <span className="text-2xl block font-semibold">
-                  98 <span className="text-[#818181] text-sm">bpm</span>{' '}
-                </span>
+                <div className="my-2">
+                  <span className="text-2xl block font-semibold">
+                    98 <span className="text-[#818181] text-sm">bpm</span>{' '}
+                  </span>
 
-                <span className="bg-[#FBF0F3] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
-                  Normal
-                </span>
-              </div>
-            </div>
-            <div className=" shadow-2xl rounded-2xl p-6 w-max">
-              <div className="flex items-center gap-2 ">
-                <div className="p-1.5 bg-[#F8DEBD] text-[#CA6B6E] inline-block rounded-lg">
-                  <PaintbrushVertical />
-                </div>
-                <div>
-                  <span className="font-semibold">Blood Sugar</span>
+                  <span className="bg-[#FBF0F3] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
+                    Normal
+                  </span>
                 </div>
               </div>
-              <div className="my-2">
-                <span className="text-2xl block font-semibold">
-                  80 <span className="text-[#818181] text-sm">mg/dL</span>{' '}
-                </span>
+              <div className=" shadow-2xl rounded-2xl p-6 w-max">
+                <div className="flex items-center gap-2 ">
+                  <div className="p-1.5 bg-[#F8DEBD] text-[#CA6B6E] inline-block rounded-lg">
+                    <PaintbrushVertical />
+                  </div>
+                  <div>
+                    <span className="font-semibold">Blood Sugar</span>
+                  </div>
+                </div>
+                <div className="my-2">
+                  <span className="text-2xl block font-semibold">
+                    80 <span className="text-[#818181] text-sm">mg/dL</span>{' '}
+                  </span>
 
-                <span className="bg-[#F8DEBD] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
-                  Normal
-                </span>
-              </div>
-            </div>
-            <div className=" shadow-2xl rounded-2xl p-6 w-max">
-              <div className="flex items-center gap-2 ">
-                <div className="p-1.5 bg-[#D0FBFF] text-[#478F96] inline-block rounded-lg">
-                  <PaintbrushVertical />
-                </div>
-                <div>
-                  <span className="font-semibold">Blood Sugar</span>
+                  <span className="bg-[#F8DEBD] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
+                    Normal
+                  </span>
                 </div>
               </div>
-              <div className="my-2">
-                <span className="text-2xl block font-semibold">
-                  80 <span className="text-[#818181] text-sm">mg/dL</span>{' '}
-                </span>
+              <div className=" shadow-2xl rounded-2xl p-6 w-max">
+                <div className="flex items-center gap-2 ">
+                  <div className="p-1.5 bg-[#D0FBFF] text-[#478F96] inline-block rounded-lg">
+                    <PaintbrushVertical />
+                  </div>
+                  <div>
+                    <span className="font-semibold">Blood Sugar</span>
+                  </div>
+                </div>
+                <div className="my-2">
+                  <span className="text-2xl block font-semibold">
+                    80 <span className="text-[#818181] text-sm">mg/dL</span>{' '}
+                  </span>
 
-                <span className="bg-[#D0FBFF] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
-                  Normal
-                </span>
+                  <span className="bg-[#D0FBFF] px-2 py-0.5 text-sm rounded-md inline-block mt-1.5 font-medium">
+                    Normal
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
         <div className="mt-10 shadow-lg p-3">
           <div className="w-full flex justify-between items-center mb-3  ">
@@ -246,7 +246,7 @@ export default function Test() {
         </div>
       </div>
 
-      <div className="col-span-2">aaaaaaaaaaaaaaaannnnnnnnnnnnn</div>
+      <div className="col-span-2">aaaaaaaaaaaaaaaannnnnnnnnnnnn</div> 
     </div>
     <div className='mt-20 mx-14'>
     <section className="bg-[#151515] py-16">
