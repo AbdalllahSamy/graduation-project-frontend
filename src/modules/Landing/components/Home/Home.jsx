@@ -1,4 +1,10 @@
 import { useState } from 'react';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import userDash from '../../../../assets/images/userDash.png';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -583,10 +589,206 @@ export default function Home() {
 
   return (
     <>
-      <section
-        id="health-tools"
-        className="px-4 py-6  bg-[#151515] "
-      >
+      <nav className="bg-gray-500">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="text-white text-2xl font-bold">QuizMaster</div>
+          <ul className="hidden md:flex space-x-8 text-white font-semibold">
+            <li>
+              <a href="#home" className="hover:text-yellow-300 transition">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="#quiz" className="hover:text-yellow-300 transition">
+                Quiz
+              </a>
+            </li>
+            <li>
+              <a href="#about" className="hover:text-yellow-300 transition">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="#contact" className="hover:text-yellow-300 transition">
+                Contact
+              </a>
+            </li>
+          </ul>
+          <button className="md:hidden text-white focus:outline-none">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div className="hero h-screen flex flex-col justify-center items-center text-center ">
+        <div className="hero-content flex flex-col justify-center items-center">
+          <h1 className="text-5xl font-bold font-family-pri text-white">
+            Welcome to Health Advisor
+          </h1>
+          <p className="py-6 font-family-sec text-white">
+            Your journey to a healthier life starts here. Explore our features
+            and take the first step towards better health.
+          </p>
+          <div>
+            <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section className="my-20 mx-12">
+        <div className="text-center mb-16 ">
+          <h1 className="text-4xl font-extrabold mb-4 text-gray-900">
+            What Health Advisor Offers
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+            Our platform provides a comprehensive approach to fitness, combining
+            expert coaching, personalized training, and nutritional guidance to
+            help you achieve your goals.
+          </p>
+        </div>
+
+        <Swiper
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          slidesPerView={3}
+          spaceBetween={30}
+          grabCursor={true}
+          breakpoints={{
+            320: { slidesPerView: 1, spaceBetween: 15 },
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
+          }}
+          className="py-10"
+        >
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Personalized Coaching
+              </h2>
+              <p className="text-gray-700">
+                Get tailored fitness plans and one-on-one coaching to meet your
+                unique health goals.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Nutrition Guidance
+              </h2>
+              <p className="text-gray-700">
+                Receive expert nutritional advice to complement your fitness
+                routine and enhance your results.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Progress Tracking
+              </h2>
+              <p className="text-gray-700">
+                Monitor your progress with our advanced tracking tools and stay
+                motivated on your journey.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Community Support
+              </h2>
+              <p className="text-gray-700">
+                Connect with like-minded fitness enthusiasts and share your
+                journey for extra motivation.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Flexible Scheduling
+              </h2>
+              <p className="text-gray-700">
+                Plan your workouts around your lifestyle with our flexible
+                session scheduling.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Expert Webinars
+              </h2>
+              <p className="text-gray-700">
+                Attend live webinars with health experts covering fitness,
+                nutrition, and wellness tips.
+              </p>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </section>
+
+      <div className="user-dashboard ">
+        <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
+          User Dashboard Preview
+        </h1>
+        <div className="dashboard-preview flex justify-center items-center">
+          <div>
+            <img
+              src={userDash}
+              alt="Dashboard Preview"
+              className="w-full max-w-[400px] rounded-lg "
+            />
+          </div>
+          <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
+            <h2 className="text-2xl font-bold mb-4">Track Your Progress</h2>
+            <p className="mb-4 max-w-2xl">
+              Get a detailed overview of your fitness journey with our
+              comprehensive dashboard. Monitor your workouts, nutrition, and
+              progress over time with interactive charts and data visualization.
+            </p>
+            <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+              Explore Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center py-20 flex-col">
+        <h2 className="text-3xl font-bold font-family-pri text-center mb-4">
+          Ready to Transform Your Life?
+        </h2>
+        <p>
+          Join Health Advisor today and start your journey towards a healthier,
+          happier you.
+        </p>
+        <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
+          Start Your Transformation
+        </button>
+      </div>
+
+      <section id="health-tools" className="px-4 py-6  bg-[#151515] ">
         <h1 className="text-3xl font-bold text-white mb-8 text-center">
           Health & Fitness Tools
         </h1>
@@ -609,7 +811,9 @@ export default function Home() {
         {/* Render the active tab content */}
         {renderTabContent()}
       </section>
-      <section className=" py-12">
+      
+
+      <section className=" py-12 mx-12">
         <div className=" mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">English Quiz</h2>
 
@@ -651,6 +855,74 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <footer class="bg-gray-900 text-white p-12">
+        <div class="container mx-auto grid grid-cols-3 gap-20">
+          <div>
+            <h2 class="text-5xl font-bold mb-4 font-family-pri">
+              Health Advisor
+            </h2>
+            <p class="text-sm font-family-sec">
+              Your AI-powered fitness companion. Personalized workouts and
+              nutrition plans — completely free.
+            </p>
+          </div>
+
+          <div className="font-family-sec">
+            <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="#features" class="hover:underline">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#dashboard" class="hover:underline">
+                  Dashboard
+                </a>
+              </li>
+              <li>
+                <a href="#tools" class="hover:underline">
+                  Tools
+                </a>
+              </li>
+              <li>
+                <a href="#faqs" class="hover:underline">
+                  FAQs
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="font-family-sec">
+            <h3 class="text-lg font-semibold mb-4">Useful Tools</h3>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="#bmi-calculator" class="hover:underline">
+                  BMI Calculator
+                </a>
+              </li>
+              <li>
+                <a href="#water-intake" class="hover:underline">
+                  Water Intake Guide
+                </a>
+              </li>
+              <li>
+                <a href="#progress-tracker" class="hover:underline">
+                  Progress Tracker
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="border-t border-gray-700 mt-8 py-4 text-center text-xs">
+          <p className="font-family-sec">
+            &copy; {new Date().getFullYear()} Health Advisor Coach. All rights
+            reserved.
+          </p>
+        </div>
+      </footer>
     </>
   );
 }
