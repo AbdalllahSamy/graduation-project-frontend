@@ -15,6 +15,7 @@ import ProtectedRoute from './modules/shared/components/ProtectedRoute/Protected
 import Test from './modules/test/Test';
 import Testt from './modules/test/Testt';
 import WaterTracker from './modules/test/WaterTracker';
+import Home from './modules/Landing/components/Home/Home';
 
 function App() {
   const routes = createBrowserRouter([
@@ -46,6 +47,7 @@ function App() {
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
         { path: 'testt', element: <Testt /> },
+        { path: 'home', element: <Home /> },
       ],
     },
   ]);
