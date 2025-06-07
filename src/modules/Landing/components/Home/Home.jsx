@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function HealthTools() {
+export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleIndex = (index) => {
