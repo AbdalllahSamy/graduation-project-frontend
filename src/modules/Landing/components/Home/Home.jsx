@@ -1,11 +1,16 @@
 import React from "react";
 import heroImg from "../../../../assets/images/Hero.png";
-import userDash from "../../../../assets/images/userDash.png";
-import { useState } from "react";
 import workImg from "../../../../assets/images/workImg.png";
 import cardioImg from "../../../../assets/images/cardio.jpg";
 import bodyImg from "../../../../assets/images/body.jpg";
 import endImg from "../../../../assets/images/nut.jpg";
+import { useState } from 'react';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import userDash from '../../../../assets/images/userDash.png';
+
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -14,7 +19,7 @@ export default function Home() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const [activeTab, setActiveTab] = useState("bmi");
+  const [activeTab, setActiveTab] = useState('bmi');
 
   // States for results of each calculator
   const [bmiResult, setBmiResult] = useState(null);
@@ -24,25 +29,25 @@ export default function Home() {
   const [caloriesResult, setCaloriesResult] = useState(null);
 
   const tabs = [
-    { id: "bmi", label: "BMI BODY MASS" },
-    { id: "water", label: "WATER INTAKE" },
-    { id: "protein", label: "PROTEIN INTAKE" },
-    { id: "bfp", label: "BFP BODY FAT" },
-    { id: "calories", label: "CALORIES TO BURN" }, // التاب الجديد
+    { id: 'bmi', label: 'BMI BODY MASS' },
+    { id: 'water', label: 'WATER INTAKE' },
+    { id: 'protein', label: 'PROTEIN INTAKE' },
+    { id: 'bfp', label: 'BFP BODY FAT' },
+    { id: 'calories', label: 'CALORIES TO BURN' }, // التاب الجديد
   ];
 
   const quizData = [
     {
-      question: "What is the capital of France?",
-      answer: "The capital of France is Paris.",
+      question: 'What is the capital of France?',
+      answer: 'The capital of France is Paris.',
     },
     {
-      question: "Which planet is known as the Red Planet?",
-      answer: "Mars is known as the Red Planet.",
+      question: 'Which planet is known as the Red Planet?',
+      answer: 'Mars is known as the Red Planet.',
     },
     {
-      question: "What is the largest mammal?",
-      answer: "The blue whale is the largest mammal.",
+      question: 'What is the largest mammal?',
+      answer: 'The blue whale is the largest mammal.',
     },
     {
       question: "Who wrote 'Romeo and Juliet'?",
@@ -52,7 +57,7 @@ export default function Home() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "bmi":
+      case 'bmi':
         return (
           <div className="mt-20 mx-14">
             <section className="bg-[#151515] py-16">
@@ -82,14 +87,14 @@ export default function Home() {
                         </thead>
                         <tbody>
                           {[
-                            ["Below 18.5", "Underweight"],
-                            ["18.5 - 24.9", "Healthy"],
-                            ["25.0 - 29.9", "Overweight"],
-                            ["30.0 - and Above", "Obese"],
+                            ['Below 18.5', 'Underweight'],
+                            ['18.5 - 24.9', 'Healthy'],
+                            ['25.0 - 29.9', 'Overweight'],
+                            ['30.0 - and Above', 'Obese'],
                           ].map(([bmi, status], idx) => (
                             <tr
                               key={idx}
-                              className={idx % 2 === 1 ? "bg-[#111111]" : ""}
+                              className={idx % 2 === 1 ? 'bg-[#111111]' : ''}
                             >
                               <td className="px-6 py-4 border-r border-[#363636]">
                                 {bmi}
@@ -136,16 +141,16 @@ export default function Home() {
                               weightKg /
                               (heightM * heightM)
                             ).toFixed(2);
-                            let status = "";
-                            if (bmi < 18.5) status = "Underweight";
-                            else if (bmi < 25) status = "Healthy";
-                            else if (bmi < 30) status = "Overweight";
-                            else status = "Obese";
+                            let status = '';
+                            if (bmi < 18.5) status = 'Underweight';
+                            else if (bmi < 25) status = 'Healthy';
+                            else if (bmi < 30) status = 'Overweight';
+                            else status = 'Obese';
 
                             setBmiResult({ bmi, status });
                           } else {
                             setBmiResult(null);
-                            alert("Please enter valid height and weight.");
+                            alert('Please enter valid height and weight.');
                           }
                         }}
                       >
@@ -192,7 +197,7 @@ export default function Home() {
           </div>
         );
 
-      case "water":
+      case 'water':
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -219,7 +224,7 @@ export default function Home() {
                     setWaterResult(liters);
                   } else {
                     setWaterResult(null);
-                    alert("Please enter a valid weight.");
+                    alert('Please enter a valid weight.');
                   }
                 }}
               >
@@ -239,7 +244,7 @@ export default function Home() {
               </form>
               {waterResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You should drink approximately{" "}
+                  You should drink approximately{' '}
                   <strong>{waterResult} liters</strong> of water per day.
                 </p>
               )}
@@ -247,7 +252,7 @@ export default function Home() {
           </div>
         );
 
-      case "protein":
+      case 'protein':
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -270,16 +275,16 @@ export default function Home() {
                   const weight = parseFloat(e.target.weight.value);
                   const activity = e.target.activity.value;
                   let multiplier = 1;
-                  if (activity === "low") multiplier = 0.8;
-                  else if (activity === "moderate") multiplier = 1.2;
-                  else if (activity === "high") multiplier = 1.6;
+                  if (activity === 'low') multiplier = 0.8;
+                  else if (activity === 'moderate') multiplier = 1.2;
+                  else if (activity === 'high') multiplier = 1.6;
 
                   if (!isNaN(weight) && weight > 0) {
                     const protein = (weight * multiplier).toFixed(1);
                     setProteinResult(protein);
                   } else {
                     setProteinResult(null);
-                    alert("Please enter a valid weight.");
+                    alert('Please enter a valid weight.');
                   }
                 }}
               >
@@ -309,7 +314,7 @@ export default function Home() {
               </form>
               {proteinResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You need approximately <strong>{proteinResult} grams</strong>{" "}
+                  You need approximately <strong>{proteinResult} grams</strong>{' '}
                   of protein per day.
                 </p>
               )}
@@ -317,7 +322,7 @@ export default function Home() {
           </div>
         );
 
-      case "bfp":
+      case 'bfp':
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -342,7 +347,7 @@ export default function Home() {
                   const neck = parseFloat(e.target.neck.value);
                   const height = parseFloat(e.target.height.value);
                   const hip =
-                    gender === "female" ? parseFloat(e.target.hip.value) : 0;
+                    gender === 'female' ? parseFloat(e.target.hip.value) : 0;
 
                   if (
                     !isNaN(waist) &&
@@ -351,12 +356,12 @@ export default function Home() {
                     neck > 0 &&
                     !isNaN(height) &&
                     height > 0 &&
-                    (gender === "male" ||
-                      (gender === "female" && !isNaN(hip) && hip > 0))
+                    (gender === 'male' ||
+                      (gender === 'female' && !isNaN(hip) && hip > 0))
                   ) {
                     // Using U.S. Navy Method formula (simplified)
                     let bodyFat = 0;
-                    if (gender === "male") {
+                    if (gender === 'male') {
                       bodyFat =
                         495 /
                           (1.0324 -
@@ -374,7 +379,7 @@ export default function Home() {
                     setBfpResult(bodyFat.toFixed(2));
                   } else {
                     setBfpResult(null);
-                    alert("Please enter valid measurements.");
+                    alert('Please enter valid measurements.');
                   }
                 }}
               >
@@ -435,7 +440,7 @@ export default function Home() {
               </form>
               {bfpResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated body fat percentage is{" "}
+                  Your estimated body fat percentage is{' '}
                   <strong>{bfpResult}%</strong>.
                 </p>
               )}
@@ -443,7 +448,7 @@ export default function Home() {
           </div>
         );
 
-      case "calories":
+      case 'calories':
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -470,7 +475,7 @@ export default function Home() {
                   const activity = e.target.activity.value;
 
                   if (
-                    (gender === "male" || gender === "female") &&
+                    (gender === 'male' || gender === 'female') &&
                     !isNaN(weight) &&
                     weight > 0 &&
                     !isNaN(height) &&
@@ -480,7 +485,7 @@ export default function Home() {
                   ) {
                     // Calculate BMR using Mifflin-St Jeor Equation
                     let bmr = 0;
-                    if (gender === "male") {
+                    if (gender === 'male') {
                       bmr = 10 * weight + 6.25 * height - 5 * age + 5;
                     } else {
                       bmr = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -502,7 +507,7 @@ export default function Home() {
                     setCaloriesResult(caloriesBurned);
                   } else {
                     setCaloriesResult(null);
-                    alert("Please enter valid inputs.");
+                    alert('Please enter valid inputs.');
                   }
                 }}
               >
@@ -575,7 +580,7 @@ export default function Home() {
               </form>
               {caloriesResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated daily calories burned:{" "}
+                  Your estimated daily calories burned:{' '}
                   <strong>{caloriesResult} kcal</strong>.
                 </p>
               )}
@@ -590,6 +595,205 @@ export default function Home() {
 
   return (
     <>
+      <nav className="bg-gray-500">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="text-white text-2xl font-bold">QuizMaster</div>
+          <ul className="hidden md:flex space-x-8 text-white font-semibold">
+            <li>
+              <a href="#home" className="hover:text-yellow-300 transition">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="#quiz" className="hover:text-yellow-300 transition">
+                Quiz
+              </a>
+            </li>
+            <li>
+              <a href="#about" className="hover:text-yellow-300 transition">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="#contact" className="hover:text-yellow-300 transition">
+                Contact
+              </a>
+            </li>
+          </ul>
+          <button className="md:hidden text-white focus:outline-none">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      <div className="hero h-screen flex flex-col justify-center items-center text-center ">
+        <div className="hero-content flex flex-col justify-center items-center">
+          <h1 className="text-5xl font-bold font-family-pri text-white">
+            Welcome to Health Advisor
+          </h1>
+          <p className="py-6 font-family-sec text-white">
+            Your journey to a healthier life starts here. Explore our features
+            and take the first step towards better health.
+          </p>
+          <div>
+            <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+              Get Started
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section className="my-20 mx-12">
+        <div className="text-center mb-16 ">
+          <h1 className="text-4xl font-extrabold mb-4 text-gray-900">
+            What Health Advisor Offers
+          </h1>
+          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+            Our platform provides a comprehensive approach to fitness, combining
+            expert coaching, personalized training, and nutritional guidance to
+            help you achieve your goals.
+          </p>
+        </div>
+
+        <Swiper
+          modules={[Pagination]}
+          pagination={{ clickable: true }}
+          slidesPerView={3}
+          spaceBetween={30}
+          grabCursor={true}
+          breakpoints={{
+            320: { slidesPerView: 1, spaceBetween: 15 },
+            640: { slidesPerView: 2, spaceBetween: 20 },
+            1024: { slidesPerView: 3, spaceBetween: 30 },
+          }}
+          className="py-10"
+        >
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Personalized Coaching
+              </h2>
+              <p className="text-gray-700">
+                Get tailored fitness plans and one-on-one coaching to meet your
+                unique health goals.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Nutrition Guidance
+              </h2>
+              <p className="text-gray-700">
+                Receive expert nutritional advice to complement your fitness
+                routine and enhance your results.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Progress Tracking
+              </h2>
+              <p className="text-gray-700">
+                Monitor your progress with our advanced tracking tools and stay
+                motivated on your journey.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Community Support
+              </h2>
+              <p className="text-gray-700">
+                Connect with like-minded fitness enthusiasts and share your
+                journey for extra motivation.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Flexible Scheduling
+              </h2>
+              <p className="text-gray-700">
+                Plan your workouts around your lifestyle with our flexible
+                session scheduling.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
+                Expert Webinars
+              </h2>
+              <p className="text-gray-700">
+                Attend live webinars with health experts covering fitness,
+                nutrition, and wellness tips.
+              </p>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </section>
+
+      <div className="user-dashboard ">
+        <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
+          User Dashboard Preview
+        </h1>
+        <div className="dashboard-preview flex justify-center items-center">
+          <div>
+            <img
+              src={userDash}
+              alt="Dashboard Preview"
+              className="w-full max-w-[400px] rounded-lg "
+            />
+          </div>
+          <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
+            <h2 className="text-2xl font-bold mb-4">Track Your Progress</h2>
+            <p className="mb-4 max-w-2xl">
+              Get a detailed overview of your fitness journey with our
+              comprehensive dashboard. Monitor your workouts, nutrition, and
+              progress over time with interactive charts and data visualization.
+            </p>
+            <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+              Explore Dashboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center py-20 flex-col">
+        <h2 className="text-3xl font-bold font-family-pri text-center mb-4">
+          Ready to Transform Your Life?
+        </h2>
+        <p>
+          Join Health Advisor today and start your journey towards a healthier,
+          happier you.
+        </p>
+        <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
+          Start Your Transformation
+        </button>
+      </div>
+
       <section id="health-tools" className="px-4 py-6  bg-[#151515] ">
         <h1 className="text-3xl font-bold text-white mb-8 text-center">
           Health & Fitness Tools
@@ -601,8 +805,8 @@ export default function Home() {
               onClick={() => setActiveTab(id)}
               className={`px-5 py-3 rounded-md font-semibold border-2 ${
                 activeTab === id
-                  ? "bg-orange-600 border-orange-600 text-white"
-                  : "border-gray-600 text-gray-400 hover:bg-orange-500 hover:border-orange-500 hover:text-white"
+                  ? 'bg-orange-600 border-orange-600 text-white'
+                  : 'border-gray-600 text-gray-400 hover:bg-orange-500 hover:border-orange-500 hover:text-white'
               }`}
             >
               {label}
@@ -613,7 +817,9 @@ export default function Home() {
         {/* Render the active tab content */}
         {renderTabContent()}
       </section>
-      <section className=" py-12">
+      
+
+      <section className=" py-12 mx-12">
         <div className=" mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">English Quiz</h2>
 
@@ -631,7 +837,7 @@ export default function Home() {
                 </span>
                 <svg
                   className={`w-6 h-6 text-gray-500 transform transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
+                    openIndex === index ? 'rotate-180' : ''
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -655,125 +861,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-      <div>
-        <div className="hero h-screen flex flex-col justify-center items-center text-center ">
-          <div className="hero-content flex flex-col justify-center items-center">
-            <h1 className="text-5xl font-bold font-family-pri text-white">
-              Welcome to Health Advisor
-            </h1>
-            <p className="py-6 font-family-sec text-white">
-              Your journey to a healthier life starts here. Explore our features
-              and take the first step towards better health.
-            </p>
-            <div>
-              <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
-                Get Started
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="feature-section flex flex-col items-center justify-center py-20 ">
-          <div className="content">
-            <div>
-              <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
-                What Health Advisor Offers
-              </h1>
-              <p className="max-w-3xl text-center">
-                Our platform provides a comprehensive approach to fitness,
-                combining expert coaching, personalized training, and
-                nutritional guidance to help you achieve your goals.
-              </p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 p-8">
-            <div className="feature-card  p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4 ">
-                Personalized Coaching
-              </h2>
-              <p>
-                Get tailored fitness plans and one-on-one coaching to meet your
-                unique health goals.
-              </p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Nutrition Guidance</h2>
-              <p>
-                Receive expert nutritional advice to complement your fitness
-                routine and enhance your results.
-              </p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Progress Tracking</h2>
-              <p>
-                Monitor your progress with our advanced tracking tools and stay
-                motivated on your journey.
-              </p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 p-8">
-            <div className="feature-card  p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4 ">
-                Personalized Coaching
-              </h2>
-              <p>
-                Get tailored fitness plans and one-on-one coaching to meet your
-                unique health goals.
-              </p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Nutrition Guidance</h2>
-              <p>
-                Receive expert nutritional advice to complement your fitness
-                routine and enhance your results.
-              </p>
-            </div>
-            <div className="feature-card bg-white p-6 rounded-lg shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Progress Tracking</h2>
-              <p>
-                Monitor your progress with our advanced tracking tools and stay
-                motivated on your journey.
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="user-dashboard  py-1">
-          <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
-            User Dashboard Preview
-          </h1>
-          <div className="dashboard-preview flex justify-center items-center">
-            <div>
-              <img
-                src={userDash}
-                alt="Dashboard Preview"
-                className="w-full max-w-[400px] rounded-lg "
-              />
-            </div>
-            <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
-              <h2 className="text-2xl font-bold mb-4">Track Your Progress</h2>
-              <p className="mb-4 max-w-2xl">
-                Get a detailed overview of your fitness journey with our
-                comprehensive dashboard. Monitor your workouts, nutrition, and
-                progress over time with interactive charts and data
-                visualization.
-              </p>
-              <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
-                Explore Dashboard
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center py-20 flex-col">
-          <h2 className="text-3xl font-bold font-family-pri text-center mb-4">
-            Ready to Transform Your Life?
-          </h2>
-          <p>
-            Join Health Advisor today and start your journey towards a
-            healthier, happier you.
-          </p>
-          <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
-            Start Your Transformation
-          </button>
-        </div>
 
           <div className="works flex justify-center items-center gap-16 my-10">
             <div className="content flex flex-col items-start justify-start">
@@ -881,7 +968,6 @@ export default function Home() {
             </p>
           </div>
         </footer>
-      </div>
     </>
   );
 }
