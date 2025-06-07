@@ -2,6 +2,10 @@ import React from "react";
 import heroImg from "../../../../assets/images/Hero.png";
 import userDash from "../../../../assets/images/userDash.png";
 import { useState } from "react";
+import workImg from "../../../../assets/images/workImg.png";
+import cardioImg from "../../../../assets/images/cardio.jpg";
+import bodyImg from "../../../../assets/images/body.jpg";
+import endImg from "../../../../assets/images/nut.jpg";
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -770,6 +774,46 @@ export default function Home() {
             Start Your Transformation
           </button>
         </div>
+
+          <div className="works flex justify-center items-center gap-16 my-10">
+            <div className="content flex flex-col items-start justify-start">
+              <h2 className="text-5xl font-bold font-family-pri  mb-6">
+                How It Works
+              </h2>
+              <div className="flex justify-center flex-col items-center">
+                <div className="flex justify-center items-center gap-8 mb-8">
+                  <img src={bodyImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
+                  <div>
+                    <h2 className="text-2xl font-family-sec font-semibold">Body Training</h2>
+                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Personalized workout routines are designed to build strength and muscle, tailored to your fitness level and goals. Whether it's lifting, bodyweight exercises, or resistance training, we've got you covered.</p>  
+                  </div> 
+                </div>  
+                <div className="flex justify-center items-center gap-8 mb-8">
+                  <img src={cardioImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
+                  <div>
+                    <h2 className="text-2xl font-family-sec font-semibold">Cardio Training</h2>
+                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Engage in heart-pumping cardio exercises, from running and cycling to high-intensity interval training (HIIT). Improve your cardiovascular health and endurance with our tailored programs.  </p>  
+                  </div> 
+                </div>  
+                <div className="flex justify-center items-center gap-8 mb-8">
+                  <img src={endImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
+                  <div>
+                    <h2 className="text-2xl font-family-sec font-semibold">Nutrition Plans</h2>
+                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Based on your weight, height, and fitness goals, our nutrition plans are designed to fuel your body for performance and recovery. Track your calories, macros, and get daily meal suggestions.</p>  
+                  </div> 
+                </div>  
+              </div>
+              <div>
+                <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+                  Get Started
+                </button>
+              </div>
+            </div>
+            <div>
+              <img src={workImg} alt="" className="max-w-[500px] rounded-3xl"/>
+            </div>
+          </div>
+
         <footer class="bg-gray-900 text-white p-12">
           <div class="container mx-auto grid grid-cols-3 gap-20">
             <div>
