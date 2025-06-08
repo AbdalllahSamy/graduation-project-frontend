@@ -5,18 +5,39 @@
 
 
 
-@theme  {
+@theme {
   /* --color-primary: #FFC263; */
   --color-primary: #daac00;
   --font-family-pri: "Bebas Neue", sans-serif;
-  --font-family-sec:'Montserrat', sans-serif;
+  --font-family-sec: 'Montserrat', sans-serif;
+  --spacing-lg: 7rem;
+  --spacing-md: 5rem;
+  --spacing-sm: 4rem;
+  --spacing-y: 7rem;
 }
 
 
 .hero {
   background-image: url('../src/assets/images/hero.png');
-  background-size: cover; 
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
+}
+
+
+.custom-swiper-pagination .swiper-pagination-bullet {
+  background-color: white;
+  opacity: 0.5;
+  margin: 0 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+
+}
+
+.custom-swiper-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #daac00;
 }

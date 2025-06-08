@@ -5,12 +5,14 @@ import cardioImg from "../../../../assets/images/cardio.jpg";
 import bodyImg from "../../../../assets/images/body.jpg";
 import endImg from "../../../../assets/images/nut.jpg";
 import { useState } from 'react';
-import { Pagination } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import userDash from '../../../../assets/images/userDash.png';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
+
+import { Link } from "react-router-dom";
+import { motion } from 'framer-motion'
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -60,13 +62,13 @@ export default function Home() {
       case 'bmi':
         return (
           <div className="mt-20 mx-14">
-            <section className="bg-[#151515] py-16">
+            <section className="bg-black py-16">
               <div className="container mx-auto px-4">
                 <div className="flex flex-col lg:flex-row gap-12">
-                  {/* BMI Chart Table */}
+
                   <div className="lg:w-1/2 w-full">
                     <div className="mb-6">
-                      <span className="text-orange-500 uppercase text-sm">
+                      <span className="text-primary uppercase text-sm">
                         check your body
                       </span>
                       <h2 className="text-white text-3xl font-bold mt-2">
@@ -112,7 +114,7 @@ export default function Home() {
                   {/* BMI Form */}
                   <div className="lg:w-1/2 w-full">
                     <div className="mb-6">
-                      <span className="text-orange-500 uppercase text-sm">
+                      <span className="text-primary uppercase text-sm">
                         check your body
                       </span>
                       <h2 className="text-white text-3xl font-bold mt-2">
@@ -174,7 +176,7 @@ export default function Home() {
                         </div>
                         <button
                           type="submit"
-                          className="w-full bg-[#f36100] text-white font-bold uppercase py-3 mt-2"
+                          className="w-full bg-primary text-white font-bold uppercase py-3 mt-2"
                         >
                           Calculate
                         </button>
@@ -202,7 +204,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-orange-500 uppercase text-sm">
+                <span className="text-primary uppercase text-sm">
                   stay hydrated
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -237,7 +239,7 @@ export default function Home() {
                 />
                 <button
                   type="submit"
-                  className="w-full bg-[#f36100] text-white font-bold uppercase py-3"
+                  className="w-full bg-primary text-white font-bold uppercase py-3"
                 >
                   Calculate
                 </button>
@@ -257,7 +259,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-orange-500 uppercase text-sm">
+                <span className="text-primary uppercase text-sm">
                   build your body
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -307,7 +309,7 @@ export default function Home() {
                 </select>
                 <button
                   type="submit"
-                  className="w-full bg-[#f36100] text-white font-bold uppercase py-3"
+                  className="w-full bg-primary text-white font-bold uppercase py-3"
                 >
                   Calculate
                 </button>
@@ -327,7 +329,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-orange-500 uppercase text-sm">
+                <span className="text-primary uppercase text-sm">
                   know your body
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -364,16 +366,16 @@ export default function Home() {
                     if (gender === 'male') {
                       bodyFat =
                         495 /
-                          (1.0324 -
-                            0.19077 * Math.log10(waist - neck) +
-                            0.15456 * Math.log10(height)) -
+                        (1.0324 -
+                          0.19077 * Math.log10(waist - neck) +
+                          0.15456 * Math.log10(height)) -
                         450;
                     } else {
                       bodyFat =
                         495 /
-                          (1.29579 -
-                            0.35004 * Math.log10(waist + hip - neck) +
-                            0.221 * Math.log10(height)) -
+                        (1.29579 -
+                          0.35004 * Math.log10(waist + hip - neck) +
+                          0.221 * Math.log10(height)) -
                         450;
                     }
                     setBfpResult(bodyFat.toFixed(2));
@@ -429,11 +431,11 @@ export default function Home() {
                   name="hip"
                   placeholder="Hip circumference (cm) - For females only"
                   className="w-full bg-transparent border border-[#363636] text-gray-300 placeholder-gray-400 px-4 py-3"
-                  // Not required, but needed for females
+                // Not required, but needed for females
                 />
                 <button
                   type="submit"
-                  className="w-full bg-[#f36100] text-white font-bold uppercase py-3"
+                  className="w-full bg-primary text-white font-bold uppercase py-3"
                 >
                   Calculate
                 </button>
@@ -453,7 +455,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-orange-500 uppercase text-sm">
+                <span className="text-primary uppercase text-sm">
                   burn it off
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -573,7 +575,7 @@ export default function Home() {
                 </select>
                 <button
                   type="submit"
-                  className="w-full bg-[#f36100] text-white font-bold uppercase py-3"
+                  className="w-full bg-primary text-white font-bold uppercase py-3"
                 >
                   Calculate
                 </button>
@@ -595,34 +597,41 @@ export default function Home() {
 
   return (
     <>
-      <nav className="bg-gray-500">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-white text-2xl font-bold">QuizMaster</div>
-          <ul className="hidden md:flex space-x-8 text-white font-semibold">
-            <li>
-              <a href="#home" className="hover:text-yellow-300 transition">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#quiz" className="hover:text-yellow-300 transition">
-                Quiz
-              </a>
-            </li>
-            <li>
-              <a href="#about" className="hover:text-yellow-300 transition">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="hover:text-yellow-300 transition">
-                Contact
-              </a>
-            </li>
+      <nav className="bg-black/60 backdrop-blur-lg shadow-md border-b border-white/10 fixed top-0 left-0 w-full z-50">
+        <div className=" mx-auto px-sm md:px-md lg:px-lg py-5 flex justify-between items-center">
+
+          <div className="text-white text-3xl md:text-4xl font-extrabold font-family-sec bg-gradient-to-r from-primary to-yellow-200 bg-clip-text text-transparent">
+            Health Advisor
+          </div>
+
+
+          <ul className="hidden md:flex space-x-10 text-white font-medium tracking-wide">
+            {["Home", "Services", "About", "Contact"].map((item) => (
+              <li key={item}>
+                <a
+                  href={`#${item.toLowerCase()}`}
+                  className="relative hover:text-yellow-300 transition duration-300"
+                >
+                  {item}
+                  <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-yellow-300 transition-all duration-300 group-hover:w-full"></span>
+                </a>
+              </li>
+            ))}
           </ul>
+
+          <div className="hidden lg:block">
+            <Link
+              to="/login"
+              className="bg-primary hover:bg-prfrom-primary text-black font-bold py-2 px-5 rounded-xl shadow-lg transition duration-300"
+            >
+              Login
+            </Link>
+          </div>
+
+
           <button className="md:hidden text-white focus:outline-none">
             <svg
-              className="w-6 h-6"
+              className="w-7 h-7"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -639,6 +648,8 @@ export default function Home() {
         </div>
       </nav>
 
+
+
       <div className="hero h-screen flex flex-col justify-center items-center text-center ">
         <div className="hero-content flex flex-col justify-center items-center">
           <h1 className="text-5xl font-bold font-family-pri text-white">
@@ -649,113 +660,89 @@ export default function Home() {
             and take the first step towards better health.
           </p>
           <div>
-            <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+            <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
               Get Started
             </button>
           </div>
         </div>
       </div>
 
-      <section className="my-20 mx-12">
-        <div className="text-center mb-16 ">
-          <h1 className="text-4xl font-extrabold mb-4 text-gray-900">
-            What Health Advisor Offers
-          </h1>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-            Our platform provides a comprehensive approach to fitness, combining
-            expert coaching, personalized training, and nutritional guidance to
-            help you achieve your goals.
-          </p>
+      <section className="bg-black px-sm md:px-md lg:px-lg h-screen flex items-center justify-center">
+        <div className="w-full max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-extrabold mb-4 text-white font-family-sec">
+              What Health Advisor Offers
+            </h1>
+            <p className="text-gray-400 text-sm max-w-3xl mx-auto">
+              Our platform provides a comprehensive approach to fitness, combining
+              expert coaching, personalized training, and nutritional guidance to help you achieve your goals.
+            </p>
+          </div>
+
+          <div className="relative">
+            <Swiper
+              modules={[Pagination, Autoplay]}
+              pagination={{ el: ".custom-swiper-pagination", clickable: true }}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+              }}
+              grabCursor={true}
+              spaceBetween={30}
+              slidesPerView={3}
+              breakpoints={{
+                320: { slidesPerView: 1, spaceBetween: 15 },
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 30 },
+              }}
+              className="custom-swiper flex items-stretch h-[200px] "
+            >
+              {[
+                {
+                  title: "Personalized Coaching",
+                  text: "Get tailored fitness plans and one-on-one coaching to meet your unique health goals.",
+                },
+                {
+                  title: "Nutrition Guidance",
+                  text: "Receive expert nutritional advice to complement your fitness routine and enhance your results.",
+                },
+                {
+                  title: "Progress Tracking",
+                  text: "Monitor your progress with our advanced tracking tools and stay motivated on your journey.",
+                },
+                {
+                  title: "Community Support",
+                  text: "Connect with like-minded fitness enthusiasts and share your journey for extra motivation.",
+                },
+                {
+                  title: "Flexible Scheduling",
+                  text: "Plan your workouts around your lifestyle with our flexible session scheduling.",
+                },
+                {
+                  title: "Expert Webinars",
+                  text: "Attend live webinars with health experts covering fitness, nutrition, and wellness tips.",
+                },
+              ].map((item, idx) => (
+                <SwiperSlide key={idx} className="flex">
+                  <div className="feature-card p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white/10 backdrop-blur-md backdrop-brightness-125 border border-white/20 text-white w-full h-full flex flex-col">
+                    <h2 className="text-2xl font-semibold mb-4 text-primary">
+                      {item.title}
+                    </h2>
+                    <p className="text-white">{item.text}</p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            <div className="custom-swiper-pagination mt-6 flex justify-center" />
+
+          </div>
         </div>
-
-        <Swiper
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          slidesPerView={3}
-          spaceBetween={30}
-          grabCursor={true}
-          breakpoints={{
-            320: { slidesPerView: 1, spaceBetween: 15 },
-            640: { slidesPerView: 2, spaceBetween: 20 },
-            1024: { slidesPerView: 3, spaceBetween: 30 },
-          }}
-          className="py-10"
-        >
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Personalized Coaching
-              </h2>
-              <p className="text-gray-700">
-                Get tailored fitness plans and one-on-one coaching to meet your
-                unique health goals.
-              </p>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Nutrition Guidance
-              </h2>
-              <p className="text-gray-700">
-                Receive expert nutritional advice to complement your fitness
-                routine and enhance your results.
-              </p>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Progress Tracking
-              </h2>
-              <p className="text-gray-700">
-                Monitor your progress with our advanced tracking tools and stay
-                motivated on your journey.
-              </p>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Community Support
-              </h2>
-              <p className="text-gray-700">
-                Connect with like-minded fitness enthusiasts and share your
-                journey for extra motivation.
-              </p>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Flexible Scheduling
-              </h2>
-              <p className="text-gray-700">
-                Plan your workouts around your lifestyle with our flexible
-                session scheduling.
-              </p>
-            </div>
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <div className="feature-card bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">
-                Expert Webinars
-              </h2>
-              <p className="text-gray-700">
-                Attend live webinars with health experts covering fitness,
-                nutrition, and wellness tips.
-              </p>
-            </div>
-          </SwiperSlide>
-        </Swiper>
       </section>
 
-      <div className="user-dashboard ">
+
+
+      <div className="user-dashboard px-sm md:px-md lg:px-lg py-20 bg-black text-white ">
         <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
           User Dashboard Preview
         </h1>
@@ -768,7 +755,7 @@ export default function Home() {
             />
           </div>
           <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
-            <h2 className="text-2xl font-bold mb-4">Track Your Progress</h2>
+            <h2 className="text-2xl font-bold mb-4 text-primary">Track Your Progress</h2>
             <p className="mb-4 max-w-2xl">
               Get a detailed overview of your fitness journey with our
               comprehensive dashboard. Monitor your workouts, nutrition, and
@@ -781,20 +768,40 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center py-20 flex-col">
-        <h2 className="text-3xl font-bold font-family-pri text-center mb-4">
-          Ready to Transform Your Life?
-        </h2>
-        <p>
-          Join Health Advisor today and start your journey towards a healthier,
-          happier you.
-        </p>
-        <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
-          Start Your Transformation
-        </button>
+      <div className="relative ">
+
+        <motion.div
+          className="absolute inset-0 h-full w-full"
+          style={{
+            backgroundImage:
+              'linear-gradient(270deg, #daac00, #b08f00,  #1a1a10, #000000,#daac00)',
+            backgroundSize: '400% 400%',
+          }}
+          animate={{
+            backgroundPosition: ['0% 100%', '100% 100%', '0% 100%'],
+          }}
+          transition={{
+            duration: 20,
+            ease: 'easeInOut',
+            repeat: Infinity,
+          }}
+        />
+
+        <div className="relative z-10 flex justify-center items-center py-10 flex-col bg-white/10 backdrop-blur-3xl">
+          <h2 className="text-3xl font-bold font-family-pri text-center mb-4">
+            Ready to Transform Your Life?
+          </h2>
+          <p className="text-center text-lg">
+            Join Health Advisor today and start your journey towards a healthier,
+            happier you.
+          </p>
+          <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
+            Start Your Transformation
+          </button>
+        </div>
       </div>
 
-      <section id="health-tools" className="px-4 py-6  bg-[#151515] ">
+      <section id="health-tools" className="px-sm md:px-md lg:px-lg py-20  bg-black ">
         <h1 className="text-3xl font-bold text-white mb-8 text-center">
           Health & Fitness Tools
         </h1>
@@ -803,42 +810,43 @@ export default function Home() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`px-5 py-3 rounded-md font-semibold border-2 ${
-                activeTab === id
-                  ? 'bg-orange-600 border-orange-600 text-white'
-                  : 'border-gray-600 text-gray-400 hover:bg-orange-500 hover:border-orange-500 hover:text-white'
-              }`}
+              className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${activeTab === id
+                ? 'bg-primary border-primary text-white'
+                : 'border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white'
+                }`}
             >
               {label}
             </button>
           ))}
         </div>
 
-        {/* Render the active tab content */}
+
         {renderTabContent()}
       </section>
-      
 
-      <section className=" py-12 mx-12">
-        <div className=" mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">English Quiz</h2>
+
+      <section className="px-sm md:px-md lg:px-lg py-20 bg-black text-white">
+        <div className="mx-auto max-w-3xl px-4">
+
+          <h2 className="text-5xl font-bold text-center mb-12 font-family-pri bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent">
+            Frequently Asked Questions
+          </h2>
 
           {quizData.map((item, index) => (
             <div
               key={index}
-              className="mb-4 border border-gray-300 rounded-lg overflow-hidden"
+              className="mb-4 border border-gray-700 rounded-lg overflow-hidden bg-[#151515] backdrop-blur-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <button
                 onClick={() => toggleIndex(index)}
-                className="w-full px-6 py-4 bg-white flex justify-between items-center text-left focus:outline-none"
+                className="w-full px-6 py-4 flex justify-between items-center text-left focus:outline-none hover:bg-[#222] transition-colors duration-200"
               >
-                <span className="font-medium text-gray-800">
+                <span className="font-semibold text-lg text-white font-family-sec">
                   {item.question}
                 </span>
                 <svg
-                  className={`w-6 h-6 text-gray-500 transform transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
+                  className={`w-6 h-6 text-primary transform transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -853,121 +861,127 @@ export default function Home() {
                 </svg>
               </button>
               {openIndex === index && (
-                <div className="px-6 py-4 bg-gray-50 text-gray-700">
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  className="px-6 py-4 bg-[#1a1a1a] text-gray-300 font-family-sec text-base"
+                >
                   {item.answer}
-                </div>
+                </motion.div>
               )}
             </div>
           ))}
         </div>
       </section>
 
-          <div className="works flex justify-center items-center gap-16 my-10">
-            <div className="content flex flex-col items-start justify-start">
-              <h2 className="text-5xl font-bold font-family-pri  mb-6">
-                How It Works
-              </h2>
-              <div className="flex justify-center flex-col items-center">
-                <div className="flex justify-center items-center gap-8 mb-8">
-                  <img src={bodyImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
-                  <div>
-                    <h2 className="text-2xl font-family-sec font-semibold">Body Training</h2>
-                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Personalized workout routines are designed to build strength and muscle, tailored to your fitness level and goals. Whether it's lifting, bodyweight exercises, or resistance training, we've got you covered.</p>  
-                  </div> 
-                </div>  
-                <div className="flex justify-center items-center gap-8 mb-8">
-                  <img src={cardioImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
-                  <div>
-                    <h2 className="text-2xl font-family-sec font-semibold">Cardio Training</h2>
-                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Engage in heart-pumping cardio exercises, from running and cycling to high-intensity interval training (HIIT). Improve your cardiovascular health and endurance with our tailored programs.  </p>  
-                  </div> 
-                </div>  
-                <div className="flex justify-center items-center gap-8 mb-8">
-                  <img src={endImg} alt="" className="w-[100px] h-[100px] rounded-3xl"/>
-                  <div>
-                    <h2 className="text-2xl font-family-sec font-semibold">Nutrition Plans</h2>
-                    <p className="max-w-2xl font-family-sec text-sm text-gray-500">Based on your weight, height, and fitness goals, our nutrition plans are designed to fuel your body for performance and recovery. Track your calories, macros, and get daily meal suggestions.</p>  
-                  </div> 
-                </div>  
-              </div>
+      <div className="works flex justify-center items-center gap-16 px-sm md:px-md lg:px-lg py-y bg-black text-white">
+        <div className="content flex flex-col items-start justify-start">
+          <h2 className="text-5xl font-bold font-family-pri bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent  mb-6">
+            How It Works
+          </h2>
+          <div className="flex justify-center flex-col items-center">
+            <div className="flex justify-center items-center gap-8 mb-8">
+              <img src={bodyImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
               <div>
-                <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
-                  Get Started
-                </button>
+                <h2 className="text-2xl font-family-sec font-semibold">Body Training</h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Personalized workout routines are designed to build strength and muscle, tailored to your fitness level and goals. Whether it's lifting, bodyweight exercises, or resistance training, we've got you covered.</p>
               </div>
             </div>
-            <div>
-              <img src={workImg} alt="" className="max-w-[500px] rounded-3xl"/>
+            <div className="flex justify-center items-center gap-8 mb-8">
+              <img src={cardioImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
+              <div>
+                <h2 className="text-2xl font-family-sec font-semibold">Cardio Training</h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Engage in heart-pumping cardio exercises, from running and cycling to high-intensity interval training (HIIT). Improve your cardiovascular health and endurance with our tailored programs.  </p>
+              </div>
+            </div>
+            <div className="flex justify-center items-center gap-8 mb-8">
+              <img src={endImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
+              <div>
+                <h2 className="text-2xl font-family-sec font-semibold">Nutrition Plans</h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Based on your weight, height, and fitness goals, our nutrition plans are designed to fuel your body for performance and recovery. Track your calories, macros, and get daily meal suggestions.</p>
+              </div>
             </div>
           </div>
-
-        <footer class="bg-gray-900 text-white p-12">
-          <div class="container mx-auto grid grid-cols-3 gap-20">
-            <div>
-              <h2 class="text-5xl font-bold mb-4 font-family-pri">
-                Health Advisor
-              </h2>
-              <p class="text-sm font-family-sec">
-                Your AI-powered fitness companion. Personalized workouts and
-                nutrition plans — completely free.
-              </p>
-            </div>
-
-            <div className="font-family-sec">
-              <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-              <ul class="space-y-2 text-sm">
-                <li>
-                  <a href="#features" class="hover:underline">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#dashboard" class="hover:underline">
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a href="#tools" class="hover:underline">
-                    Tools
-                  </a>
-                </li>
-                <li>
-                  <a href="#faqs" class="hover:underline">
-                    FAQs
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="font-family-sec">
-              <h3 class="text-lg font-semibold mb-4">Useful Tools</h3>
-              <ul class="space-y-2 text-sm">
-                <li>
-                  <a href="#bmi-calculator" class="hover:underline">
-                    BMI Calculator
-                  </a>
-                </li>
-                <li>
-                  <a href="#water-intake" class="hover:underline">
-                    Water Intake Guide
-                  </a>
-                </li>
-                <li>
-                  <a href="#progress-tracker" class="hover:underline">
-                    Progress Tracker
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div>
+            <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
+              Get Started
+            </button>
           </div>
+        </div>
+        <div>
+          <img src={workImg} alt="" className="max-w-[500px] object-contain shadow-[10px_10px_10px_0px_rgba(251,191,36,0.5)] rounded-3xl "  />
+        </div>
+      </div>
+<footer className="relative bg-black/95 backdrop-blur-3xl  text-white py-16">
+  
+  <div className="absolute inset-0 z-0 blur-md overflow-hidden">
+    <motion.div initial={{y:-30,x:-30}} animate={{y:50,x:50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-64 h-64 bg-gradient-to-r from-primary to-yellow-200/30 rounded-full opacity-40 animate-float top-10 left-10" ></motion.div>
+    <motion.div initial={{y:-30,x:30}} animate={{y:50,x:-50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-96 h-96 bg-gradient-to-r from-primary to-yellow-200/20 rounded-full opacity-15 animate-float-slow top-1/2 right-20"></motion.div>
+    <motion.div initial={{y:-30,x:-30}} animate={{y:50,x:50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-48 h-48 bg-gradient-to-r from-primary to-yellow-200/25 rounded-full opacity-25 animate-float-fast bottom-20 left-1/3"></motion.div>
+  </div>
 
-          <div class="border-t border-gray-700 mt-8 py-4 text-center text-xs">
-            <p className="font-family-sec">
-              &copy; {new Date().getFullYear()} Health Advisor Coach. All rights
-              reserved.
-            </p>
-          </div>
-        </footer>
+  
+  <div className="relative container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 z-10">
+    <div>
+      <h2 className="text-4xl font-bold mb-4 font-family-pri bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
+        Health Advisor
+      </h2>
+      <p className="text-sm font-family-sec text-gray-300 max-w-xs">
+        Your AI-powered fitness companion. Personalized workouts and nutrition plans — completely free.
+      </p>
+    </div>
+
+    <div className="font-family-sec">
+      <h3 className="text-lg font-semibold mb-4 text-primary">Quick Links</h3>
+      <ul className="space-y-3 text-sm">
+        {['Features', 'Dashboard', 'Tools', 'FAQs'].map((item) => (
+          <li key={item}>
+            <a
+              href={`#${item.toLowerCase()}`}
+              className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
+            >
+              {item}
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div className="font-family-sec">
+      <h3 className="text-lg font-semibold mb-4 text-primary">Useful Tools</h3>
+      <ul className="space-y-3 text-sm">
+        {[
+          { text: 'BMI Calculator', href: '#bmi-calculator' },
+          { text: 'Water Intake Guide', href: '#water-intake' },
+          { text: 'Progress Tracker', href: '#progress-tracker' },
+        ].map((item) => (
+          <li key={item.text}>
+            <a
+              href={item.href}
+              className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
+            >
+              {item.text}
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+ 
+  <div className="relative border-t border-gray-700 mt-12 py-6 text-center text-xs z-10">
+    <p className="font-family-sec text-gray-300">
+      © {new Date().getFullYear()} Health Advisor Coach. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+ 
     </>
   );
 }

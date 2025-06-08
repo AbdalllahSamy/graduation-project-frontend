@@ -21,10 +21,21 @@ function App() {
   const routes = createBrowserRouter([
     {
       path: '/',
+      element: <Home />,
+      errorElement: <NotFound />,
+      index: true,
+    },
+    {
+      path: '/home',
+      element: <Home />,
+      errorElement: <NotFound />,
+    },
+    {
+      path: '/',
       element: <AuthLayout />,
       // errorElement: <NotFound />,
       children: [
-        { index: true, element: <Login /> },
+
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'verify', element: <Verify /> },
@@ -47,7 +58,6 @@ function App() {
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
         { path: 'testt', element: <Testt /> },
-        { path: 'home', element: <Home /> },
       ],
     },
   ]);
