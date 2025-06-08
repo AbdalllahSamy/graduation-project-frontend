@@ -6,9 +6,17 @@
 
 
 @theme  {
-  --color-primary: #FFC263;
+  /* --color-primary: #FFC263; */
+  --color-primary: #daac00;
   --font-family-pri: "Bebas Neue", sans-serif;
   --font-family-sec:'Montserrat', sans-serif;
 }
 
 
+.hero {
+  background-image: url('../src/assets/images/hero.png');
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
