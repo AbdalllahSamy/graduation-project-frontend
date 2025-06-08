@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import auth_pic from "../../../../assets/images/89000b92253dca26e577a35a03740603.jpg";
-import logo from "../../../../assets/images/health (2) 4.png";
-
+// import logo from "../../../../assets/images/health (2) 4.png";
+import logo from './../../../../assets/images/PicsArt_05-29-02.53.50.png'
 export default function AuthLayout() {
   return (
     <>

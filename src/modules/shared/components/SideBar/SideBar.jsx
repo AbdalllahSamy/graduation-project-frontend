@@ -17,12 +17,12 @@ export default function SideBar() {
   return (
     <>
       <Sidebar
-        className="uppercase text-[#787878] font-bold h-screen bg-[#FFEDCDAB] min-h-screen"
+        className="uppercase text-[#787878] font-bold bg-[#FFEDCDAB] min-h-screen"
         collapsed={isCollapsed}
       >
-        <div className="mb-8 mt-4 mx-2 flex items-center  justify-between">
+        <div className="mb-8 mt-4 mx-2 flex items-center  justify-between bg-amber-200/25 rounded-2xl p-2">
           <div className="hidden sm:block">
-            <img src={logo} alt="logo" className="w-[60%]" />
+            <img src={logo} alt="logo" className="w-[60%] object-contain" />
           </div>
           <div
             className="p-0.5 bg-[#FFFFFF] cursor-pointer "
