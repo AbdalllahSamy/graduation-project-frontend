@@ -41,3 +41,12 @@
   opacity: 1;
   background-color: #daac00;
 }
+
+.css-dip3t8 {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 3;
+  background-color: black !important;
+}

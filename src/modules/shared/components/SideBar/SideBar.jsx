@@ -4,11 +4,11 @@ import {
   House,
   LogOut,
   SquareChartGantt,
-} from "lucide-react";
-import { useState } from "react";
-import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
-import logo from "../../../../assets/images/dashboard-logo.png";
-import { useNavigate } from "react-router-dom";
+} from 'lucide-react';
+import { useState } from 'react';
+import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
+import { useNavigate } from 'react-router-dom';
+import logo from '../../../../assets/images/White.svg';
 
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -17,15 +17,15 @@ export default function SideBar() {
   return (
     <>
       <Sidebar
-        className="uppercase text-[#787878] font-bold bg-[#FFEDCDAB] min-h-screen"
+        className="uppercase text-[#787878] font-bold bg-black min-h-screen"
         collapsed={isCollapsed}
       >
-        <div className="mb-8 mt-4 mx-2 flex items-center  justify-between bg-amber-200/25 rounded-2xl p-2">
+        <div className="mb-8 mt-4 mx-2 flex items-center  justify-between rounded-2xl p-2">
           <div className="hidden sm:block">
             <img src={logo} alt="logo" className="w-[60%] object-contain" />
           </div>
           <div
-            className="p-0.5 bg-[#FFFFFF] cursor-pointer "
+            className="p-0.5 bg-yellow-700 cursor-pointer rounded-xl "
             onClick={() => setIsCollapsed((prev) => !prev)}
           >
             {isCollapsed ? (
@@ -36,11 +36,11 @@ export default function SideBar() {
           </div>
         </div>
         <Menu>
-          <div className="ps-4  text-[#78787891] ">Dashboard</div>
+          <div className="ps-4  text-[#fefefe] font-family-sec ">Dashboard</div>
           <MenuItem icon={<House />}> Home </MenuItem>
           <MenuItem icon={<SquareChartGantt />}> Analasis </MenuItem>
           <div className="mt-5">
-            <div className="ps-4  text-[#78787891] ">Plan</div>
+            <div className="ps-4  text-[#fefefe] font-family-sec ">Plan</div>
             <MenuItem icon={<House />}> Gym Plan </MenuItem>
             <SubMenu label="Diet Plan" icon={<SquareChartGantt />}>
               <MenuItem> This Week </MenuItem>
@@ -51,10 +51,9 @@ export default function SideBar() {
               icon={<LogOut />}
               onClick={() => {
                 localStorage.clear();
-                navigate("/login");
+                navigate('/login');
               }}
             >
-              
               LogOut
             </MenuItem>
           </div>
