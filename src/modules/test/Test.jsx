@@ -11,6 +11,46 @@ export default function Test() {
           <Navbar />
         </div>
 
+        {/* <div
+          className={`${cardDark} p-4 rounded-xl shadow col-span-2 sm:col-span-2 xl:col-span-3`}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <p className="font-semibold text-gray-200">Activity Tracking</p>
+            <p className="text-sm text-gray-500">Weekly</p>
+          </div>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={activityData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke={primaryColor}
+                strokeWidth={3}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          <div className="text-center text-sm text-gray-400 mt-2">
+            Avg Speed: 24 kmph
+          </div>
+        </div> */}
+
+{/* const activityData = [
+  { name: 'Jan', value: 20 },
+  { name: 'Feb', value: 40 },
+  { name: 'Mar', value: 50 },
+  { name: 'Apr', value: 60 },
+  { name: 'May', value: 70 },
+  { name: 'Jun', value: 100 },
+  { name: 'Jul', value: 80 },
+  { name: 'Aug', value: 90 },
+  { name: 'Sep', value: 70 },
+  { name: 'Oct', value: 80 },
+]; */}
+
           <div>
             <div className="grid grid-cols-3">
               <div className=" shadow-2xl rounded-2xl p-6 w-max">

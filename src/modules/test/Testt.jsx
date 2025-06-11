@@ -4,29 +4,17 @@ import { useEffect, useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-
-const activityData = [
-  { name: 'Jan', value: 20 },
-  { name: 'Feb', value: 40 },
-  { name: 'Mar', value: 50 },
-  { name: 'Apr', value: 60 },
-  { name: 'May', value: 70 },
-  { name: 'Jun', value: 100 },
-  { name: 'Jul', value: 80 },
-  { name: 'Aug', value: 90 },
-  { name: 'Sep', value: 70 },
-  { name: 'Oct', value: 80 },
+import { useNavigate } from 'react-router-dom';
+import week from '../../assets/images/week.png';
+const weeksData = [
+  { weekNumber: 1, image: week },
+  { weekNumber: 2, image: week },
+  { weekNumber: 3, image: week },
+  { weekNumber: 4, image: week },
+  { weekNumber: 5, image: week },
 ];
+
+import { Line, LineChart, ResponsiveContainer } from 'recharts';
 
 const caloriesData = [
   { name: 'Mon', value: 1700 },
@@ -59,6 +47,12 @@ const bmiData = [
 ];
 
 export default function Testt() {
+  //weeks
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/dashboard');
+  };
+
   //water
   const goal = 8;
   const [cups, setCups] = useState(() => {
@@ -124,8 +118,8 @@ export default function Testt() {
 
   return (
     <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
-      <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-4">
+      <div className="col-span-2 grid grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-4 gap-4 col-span-4 ">
           {[
             {
               key: 'bmr',
@@ -187,34 +181,50 @@ export default function Testt() {
           ))}
         </div>
 
-        <div
-          className={`${cardDark} p-4 rounded-xl shadow col-span-2 sm:col-span-2 xl:col-span-3`}
-        >
-          <div className="flex justify-between items-center mb-4">
-            <p className="font-semibold text-gray-200">Activity Tracking</p>
-            <p className="text-sm text-gray-500">Weekly</p>
-          </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={activityData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" stroke="#ccc" />
-              <YAxis stroke="#ccc" />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke={primaryColor}
-                strokeWidth={3}
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-          <div className="text-center text-sm text-gray-400 mt-2">
-            Avg Speed: 24 kmph
+        {/* weeks */}
+
+        <div className="col-span-4">
+          <div className="weeks-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {weeksData.map((week) => (
+              <div
+                key={week.weekNumber}
+                className="weeks-card bg-[#1e1e1e] text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+              >
+                <img
+                  src={week.image}
+                  alt={`Week ${week.weekNumber}`}
+                  className="w-full h-48 object-cover rounded-lg mb-4"
+                />
+                <h2 className="text-center text-xl font-bold mb-4 text-white">
+                  Week {week.weekNumber}
+                </h2>
+
+                {/* Progress bar */}
+                <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
+                  <div
+                    className="h-2 rounded-full"
+                    style={{
+                      width: `${week.progress}%`,
+                      backgroundColor: '#daac00',
+                    }}
+                  ></div>
+                </div>
+
+                {/* View Button */}
+                <button
+                  onClick={() => handleClick()}
+                  className="w-full bg-[#daac00] text-black p-3 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300"
+                >
+                  View Week Plan
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* weeks */}
+
+        {/* <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
           {dietPlans.map((item, idx) => (
             <div key={idx} className={`${cardDark} p-4 rounded-xl shadow`}>
               <p className="font-semibold text-[${primaryColor}] mb-2">
@@ -226,28 +236,30 @@ export default function Testt() {
               </span>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-col items-center space-y-6 xl:space-y-8 w-full h-full overflow-y-auto px-2">
-        <div className="flex items-center gap-4 w-full">
-          <img
-            src="https://i.imgur.com/TkIrScD.png"
-            alt="Lionel Messi"
-            className="w-14 h-14 rounded-full object-cover border-2 border-[${primaryColor}]"
-          />
-          <div className="flex-1">
-            <p className="font-bold  font-family-sec   text-gray-100 text-lg">
-              {userAnalysis.name || 'ziad yasser'}
-            </p>
-            <p className="text-sm text-gray-400">
-              {userAnalysis.email || 'ziad55@gmail.com'}
-            </p>
+        <div className="w-full p-4 bg-[#1a1a1a] rounded-2xl shadow-md">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-white font-bold uppercase tracking-wider">
+              Name:
+            </span>
+            <span className="text-gray-100">
+              {userAnalysis.name || 'Ziad Yasser'}
+            </span>
           </div>
-          <button className="text-2xl text-[${primaryColor}]">⋮</button>
+          <div className="flex items-center gap-2">
+            <span className=" text-white font-bold uppercase tracking-wider">
+              Email:
+            </span>
+            <span className="text-gray-100 ">
+              {userAnalysis.email || 'ziad55@gmail.com'}
+            </span>
+          </div>
         </div>
 
-        <div className="flex w-full text-center text-sm font-medium border border-gray-700 rounded-xl overflow-hidden">
+        <div className="flex w-full text-center text-sm font-medium  rounded-xl  overflow-hidden">
           {[
             { label: 'Height', key: 'height', unit: 'cm' },
             { label: 'Weight', key: 'weight', unit: 'kg' },
@@ -255,7 +267,7 @@ export default function Testt() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className={`w-1/3 ${cardDark} px-4 py-3 border-l border-gray-600 ${
+              className={`w-1/3 ${cardDark} px-4 py-3 border-l border-yellow-500 ${
                 idx === 0 ? 'border-l-0' : ''
               }`}
             >
@@ -272,7 +284,6 @@ export default function Testt() {
         </div>
 
         {/* water */}
-
         <div className="  flex flex-col justify-center items-center  text-center">
           <h1 className="text-3xl font-bold text-primary mb-2 font-family-pri">
             Water Tracker
@@ -284,10 +295,10 @@ export default function Testt() {
               text={`${cups} / ${goal} cups`}
               styles={buildStyles({
                 pathColor: primaryColor,
-                textColor:primaryColor,
+                textColor: primaryColor,
                 trailColor: '#bfdbfe',
                 textSize: '16px',
-                width:'20px'
+                width: '20px',
               })}
             />
             <h2 className=" text-primary text-3xl my-2">{percentage}%</h2>
@@ -300,7 +311,6 @@ export default function Testt() {
             Drink
           </button>
         </div>
-
         {/* water */}
 
         {/* 
