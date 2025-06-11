@@ -1,23 +1,24 @@
 import AuthButton from '@/components/ui/AuthButton';
 import CustomProgressBar from '@/components/ui/CustomProgressBar';
 import Input from '@/components/ui/Input';
-import { Auth, AuthAxiosInstance, axiosInstance } from '@/services/apisUrls/apisUrls';
+import {
+  Auth,
+  AuthAxiosInstance,
+  axiosInstance,
+} from '@/services/apisUrls/apisUrls';
 import React, { useEffect, useState } from 'react';
-import { set, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa';
+import { GiBodyHeight, GiWeight } from 'react-icons/gi';
 import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4.png';
 import musclar from './../../../../assets/images/muscle.png';
 import cardio from './../../../../assets/images/cardio.png';
 import flex from './../../../../assets/images/flex.png';
 import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
-import advanced from './../../../../assets/images/prof.jpg';
-import { GiBodyHeight } from "react-icons/gi";
-import { GiWeight } from "react-icons/gi";
-import { AuthContext } from '@/context/Authcontext/Authcontext';
 
 export default function Register() {
-  const [token,setToken] = useState('');
+  const [token, setToken] = useState('');
   const [page, setPage] = React.useState(1);
   const [formData, setFormData] = useState({
     sex: '',
@@ -35,7 +36,7 @@ export default function Register() {
     console.log('Form Data:', formData);
   }, [page, formData]);
   // const { token, setToken } = React.useContext(AuthContext);
-useEffect(() => {
+  useEffect(() => {
     const storedToken = localStorage.getItem('token');
     setToken(storedToken || '');
     if (storedToken) {
@@ -43,17 +44,17 @@ useEffect(() => {
     }
   }, []);
   const sendAnswers = async () => {
-      console.log('Token:', token); // Check token presence
+    console.log('Token:', token); // Check token presence
 
     try {
       const res = await axiosInstance.post('/answer-questions', formData, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
       console.log(res);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
   const handleNext = () => {
     setPage((prev) => {
       const nextPage = prev + 1;
@@ -65,10 +66,40 @@ useEffect(() => {
     <div className="w-full flex justify-center gap-3">
       <div className="flex flex-col gap-3 w-[60%] ">
         {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
-        {page === 3 && <RegisterSecondPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} />}
-        {page === 2 && <RegisterThirdPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} />}
-        {page === 5 && <RegisterFourthPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} sendAnswers={sendAnswers} />}
-        {page === 4 && <RegisterFifthPage setPage={setPage} page={page} formData={formData} setFormData={setFormData}  />}
+        {page === 3 && (
+          <RegisterSecondPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {page === 2 && (
+          <RegisterThirdPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {page === 5 && (
+          <RegisterFourthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+            sendAnswers={sendAnswers}
+          />
+        )}
+        {page === 4 && (
+          <RegisterFifthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+            sendAnswers={sendAnswers}
+          />
+        )}
       </div>
     </div>
   );
@@ -88,7 +119,6 @@ export function RegisterFirstPage({ setPage, page }) {
     try {
       const res = await AuthAxiosInstance.post(Auth.register, {
         ...data,
-
       });
       console.log('Response:', res);
       setPage(page + 1);
@@ -101,22 +131,22 @@ export function RegisterFirstPage({ setPage, page }) {
   };
   return (
     <>
-      <div className="flex flex-col gap-4 justify-center  h-[400px]">
+      <div className="flex flex-col gap-8 justify-center  h-[400px]">
         <div className="flex justify-center">
-          <CustomProgressBar progress={25} />
+          <CustomProgressBar progress={0} />
         </div>
         <form
           onSubmit={handleSubmit(registerUser)}
-          className="grid grid-cols-2 gap-2"
+          className="grid grid-cols-2 gap-4"
         >
-          <div className="flex flex-col">
+          <div className="col-span-2">
             <Input
-              label="First Name"
-              className="w-full"
-              {...register('name', { required: 'First Name is required' })}
+              className="w-full "
+              label="name"
+              {...register('name', { required: 'Name is required' })}
             />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+            {errors.name && (
+              <p className="text-red-500 text-sm">{errors.name.message}</p>
             )}
           </div>
           {/* <div className="flex flex-col">
@@ -129,7 +159,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.lastName.message}</p>
             )}
           </div> */}
-          <div className="col-span-2">
+          <div className="col-span-2 ">
             <Input
               className="w-full"
               label="Email"
@@ -225,7 +255,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div> */}
-          <div className="flex justify-center col-span-2">
+          <div className="flex justify-center col-span-2 mt-4">
             <AuthButton
               title="Next"
               type="submit"
@@ -250,27 +280,29 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={75} />
+        <CustomProgressBar progress={50} />
       </div>
       <div>
-        <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">What is your goal?</h2>
-
+        <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">
+          What is your goal?
+        </h2>
       </div>
       <div className="grid grid-cols-2 justify-center gap-3">
         {goals.map((goal) => (
           <div
             key={goal.id}
             onClick={() => {
-              setSelectedGoal(goal.id)
+              setSelectedGoal(goal.id);
               setFormData((prev) => ({
                 ...prev,
                 fitness_goal: goal.goal || customGoal,
               }));
             }}
-            className={`relative cursor-pointer ${selectedGoal === goal.id
-              ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-              : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
-              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            className={`relative cursor-pointer ${
+              selectedGoal === goal.id
+                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
+            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -313,7 +345,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
         </div>
       )}
 
-      <div className="flex justify-between w-full mt-6">
+      <div className="flex justify-center md:justify-between w-full my-5 gap-5 ">
         <AuthButton
           title={'Prev'}
           onclick={() => setPage((prev) => prev - 1)}
@@ -337,7 +369,7 @@ export function RegisterThirdPage({ setPage, page }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={50} />
+        <CustomProgressBar progress={25} />
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
@@ -353,7 +385,11 @@ export function RegisterThirdPage({ setPage, page }) {
             <div
               key={level.id}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${isSelected ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500' : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'}`}
+        ${
+          isSelected
+            ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+            : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+        }`}
               onClick={() => setSelectedLevel(level.id)}
             >
               <img
@@ -370,22 +406,26 @@ export function RegisterThirdPage({ setPage, page }) {
         })}
       </div>
 
-
-
-      <div className="flex justify-between w-full my-5">
+      <div className="flex justify-center md:justify-between w-full my-5 gap-5">
         <AuthButton
-          title={"prev"}
+          title={'prev'}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={"Next"}
+          title={'Next'}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
     </>
   );
 }
-export function RegisterFourthPage({ setPage, page, formData, setFormData, sendAnswers }) {
+export function RegisterFourthPage({
+  setPage,
+  page,
+  formData,
+  setFormData,
+  sendAnswers,
+}) {
   const {
     register,
     handleSubmit,
@@ -398,23 +438,26 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
       <div className="flex justify-center">
         <CustomProgressBar progress={100} />
       </div>
-      <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2 ">Body Information</h2>
-      <form className="flex flex-col gap-6 " onSubmit={formData && handleSubmit(sendAnswers)}>
+      <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2 ">
+        Body Information
+      </h2>
+      <form
+        className="flex flex-col gap-6 "
+        onSubmit={formData && handleSubmit(sendAnswers)}
+      >
         {/* Height */}
         <div className="flex items-center gap-3">
           <GiBodyHeight className=" text-lg" />
 
-
           <Input
             label={'Height'}
-
             placeholder="Height (cm)"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register("height", {
-              required: "Height is required",
-              onChange: (e) => setFormData((prev) => ({ ...prev, height: e.target.value })),
+            {...register('height', {
+              required: 'Height is required',
+              onChange: (e) =>
+                setFormData((prev) => ({ ...prev, height: e.target.value })),
             })}
-
           />
           {errors.height && (
             <p className="text-red-500 text-sm">{errors.height.message}</p>
@@ -427,12 +470,12 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
 
           <Input
             label={'Weight'}
-
             placeholder="Weight (kg)"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register("weight", {
-              required: "Weight is required",
-              onChange: (e) => setFormData((prev) => ({ ...prev, weight: e.target.value })),
+            {...register('weight', {
+              required: 'Weight is required',
+              onChange: (e) =>
+                setFormData((prev) => ({ ...prev, weight: e.target.value })),
             })}
           />
           {errors.weight && (
@@ -444,15 +487,15 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
         <div className="flex items-center gap-3">
           <FaBirthdayCake className="text-lg" />
 
-
           <Input
             label={'Age'}
             type="number"
             placeholder="Age"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register("age", {
-              required: "Age is required",
-              onChange: (e) => setFormData((prev) => ({ ...prev, age: e.target.value })),
+            {...register('age', {
+              required: 'Age is required',
+              onChange: (e) =>
+                setFormData((prev) => ({ ...prev, age: e.target.value })),
             })}
           />
           {errors.age && (
@@ -474,10 +517,12 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
                 name="sex"
                 value="male"
                 className="accent-primary"
-                onChange={(e) => setFormData((prev) => ({
-                  ...prev,
-                  sex: e.target.value
-                }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    sex: e.target.value,
+                  }))
+                }
               />
               <span className="text-sm text-gray-700">Male</span>
             </label>
@@ -488,56 +533,94 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
                 name="sex"
                 value="female"
                 className="accent-primary"
-                onChange={(e) => setFormData((prev) => ({
-                  ...prev,
-                  sex: e.target.value
-
-                }))
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    sex: e.target.value,
+                  }))
                 }
               />
               <span className="text-sm text-gray-700">Female</span>
             </label>
           </div>
         </div>
-        <div className='flex flex-col gap-3 '>
-          <h3 className='text-nowrap'>Do you have any medical conditions?</h3>
-          <div className='flex justify-between'>
+        <div className="flex flex-col gap-2 mt-4 ">
+          <h3 className="md:text-lg text-sm font-bold text-yellow-800 mb-2 md:mb-0 ">
+            Do you have any medical conditions?
+          </h3>
+          <div className="flex justify-between gap-5 md-gap-0">
             <p>Hypertension</p>
-            <div className='flex gap-3 '>
-              <div className='flex gap-3'>
+            <div className="flex gap-3 ">
+              <div className="flex gap-3">
                 <label htmlFor="hypertension">Yes</label>
-                <input type="radio" name="hypertension" value="yes" className='accent-primary w-5 h-5 border-white'
+                <input
+                  type="radio"
+                  name="hypertension"
+                  value="yes"
+                  className="accent-primary w-5 h-5 border-white"
                   onChange={(e) =>
                     setFormData((prev) => ({
                       ...prev,
                       hypertension: e.target.value,
                     }))
                   }
-
                 />
               </div>
-              <div className='flex gap-3'>
+              <div className="flex gap-3">
                 <label htmlFor="hypertension">No</label>
-                <input type="radio" name="hypertension" value="no" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, hypertension: e.target.value }))} />
+                <input
+                  type="radio"
+                  name="hypertension"
+                  value="no"
+                  className="accent-primary w-5 h-5 border-white"
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      hypertension: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
           </div>
-          <div className='flex justify-between'>
+          <div className="flex justify-between">
             <p>Diabetes</p>
-            <div className='flex gap-3 '>
-              <div className='flex gap-3'>
+            <div className="flex gap-3 ">
+              <div className="flex gap-3">
                 <label htmlFor="diabetes">Yes</label>
-                <input type="radio" name="diabetes" value="yes" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, diabetes: e.target.value }))} />
+                <input
+                  type="radio"
+                  name="diabetes"
+                  value="yes"
+                  className="accent-primary w-5 h-5 border-white"
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      diabetes: e.target.value,
+                    }))
+                  }
+                />
               </div>
-              <div className='flex gap-3'>
+              <div className="flex gap-3">
                 <label htmlFor="diabetes">No</label>
-                <input type="radio" name="diabetes" value="no" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, diabetes: e.target.value }))} />
+                <input
+                  type="radio"
+                  name="diabetes"
+                  value="no"
+                  className="accent-primary w-5 h-5 border-white"
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      diabetes: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full gap-5 md:gap-0">
           <AuthButton
             title={'prev'}
             onclick={() => setPage((prev) => prev - 1)}
@@ -545,7 +628,6 @@ export function RegisterFourthPage({ setPage, page, formData, setFormData, sendA
           <AuthButton title={'Submit'} type={'submit'} />
         </div>
       </form>
-
     </>
   );
 }
@@ -566,7 +648,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={100} />
+        <CustomProgressBar progress={75} />
       </div>
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
         What is your fitness type?
