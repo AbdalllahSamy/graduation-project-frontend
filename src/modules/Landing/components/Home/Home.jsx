@@ -4,15 +4,15 @@ import workImg from "../../../../assets/images/workImg.png";
 import cardioImg from "../../../../assets/images/cardio.jpg";
 import bodyImg from "../../../../assets/images/body.jpg";
 import endImg from "../../../../assets/images/nut.jpg";
-import { useState } from 'react';
-import { Pagination, Autoplay } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import userDash from '../../../../assets/images/userDash.png';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import { useState } from "react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import userDash from "../../../../assets/images/userDash.png";
+import "swiper/css";
+import "swiper/css/pagination";
 
 import { Link } from "react-router-dom";
-import { motion } from 'framer-motion'
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -21,7 +21,7 @@ export default function Home() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const [activeTab, setActiveTab] = useState('bmi');
+  const [activeTab, setActiveTab] = useState("bmi");
 
   // States for results of each calculator
   const [bmiResult, setBmiResult] = useState(null);
@@ -31,25 +31,25 @@ export default function Home() {
   const [caloriesResult, setCaloriesResult] = useState(null);
 
   const tabs = [
-    { id: 'bmi', label: 'BMI BODY MASS' },
-    { id: 'water', label: 'WATER INTAKE' },
-    { id: 'protein', label: 'PROTEIN INTAKE' },
-    { id: 'bfp', label: 'BFP BODY FAT' },
-    { id: 'calories', label: 'CALORIES TO BURN' }, // التاب الجديد
+    { id: "bmi", label: "BMI BODY MASS" },
+    { id: "water", label: "WATER INTAKE" },
+    { id: "protein", label: "PROTEIN INTAKE" },
+    { id: "bfp", label: "BFP BODY FAT" },
+    { id: "calories", label: "CALORIES TO BURN" }, // التاب الجديد
   ];
 
   const quizData = [
     {
-      question: 'What is the capital of France?',
-      answer: 'The capital of France is Paris.',
+      question: "What is the capital of France?",
+      answer: "The capital of France is Paris.",
     },
     {
-      question: 'Which planet is known as the Red Planet?',
-      answer: 'Mars is known as the Red Planet.',
+      question: "Which planet is known as the Red Planet?",
+      answer: "Mars is known as the Red Planet.",
     },
     {
-      question: 'What is the largest mammal?',
-      answer: 'The blue whale is the largest mammal.',
+      question: "What is the largest mammal?",
+      answer: "The blue whale is the largest mammal.",
     },
     {
       question: "Who wrote 'Romeo and Juliet'?",
@@ -59,13 +59,12 @@ export default function Home() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'bmi':
+      case "bmi":
         return (
           <div className="mt-20 mx-14">
             <section className="bg-black py-16">
               <div className="container mx-auto px-4">
                 <div className="flex flex-col lg:flex-row gap-12">
-
                   <div className="lg:w-1/2 w-full">
                     <div className="mb-6">
                       <span className="text-primary uppercase text-sm">
@@ -89,14 +88,14 @@ export default function Home() {
                         </thead>
                         <tbody>
                           {[
-                            ['Below 18.5', 'Underweight'],
-                            ['18.5 - 24.9', 'Healthy'],
-                            ['25.0 - 29.9', 'Overweight'],
-                            ['30.0 - and Above', 'Obese'],
+                            ["Below 18.5", "Underweight"],
+                            ["18.5 - 24.9", "Healthy"],
+                            ["25.0 - 29.9", "Overweight"],
+                            ["30.0 - and Above", "Obese"],
                           ].map(([bmi, status], idx) => (
                             <tr
                               key={idx}
-                              className={idx % 2 === 1 ? 'bg-[#111111]' : ''}
+                              className={idx % 2 === 1 ? "bg-[#111111]" : ""}
                             >
                               <td className="px-6 py-4 border-r border-[#363636]">
                                 {bmi}
@@ -143,16 +142,16 @@ export default function Home() {
                               weightKg /
                               (heightM * heightM)
                             ).toFixed(2);
-                            let status = '';
-                            if (bmi < 18.5) status = 'Underweight';
-                            else if (bmi < 25) status = 'Healthy';
-                            else if (bmi < 30) status = 'Overweight';
-                            else status = 'Obese';
+                            let status = "";
+                            if (bmi < 18.5) status = "Underweight";
+                            else if (bmi < 25) status = "Healthy";
+                            else if (bmi < 30) status = "Overweight";
+                            else status = "Obese";
 
                             setBmiResult({ bmi, status });
                           } else {
                             setBmiResult(null);
-                            alert('Please enter valid height and weight.');
+                            alert("Please enter valid height and weight.");
                           }
                         }}
                       >
@@ -199,7 +198,7 @@ export default function Home() {
           </div>
         );
 
-      case 'water':
+      case "water":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -226,7 +225,7 @@ export default function Home() {
                     setWaterResult(liters);
                   } else {
                     setWaterResult(null);
-                    alert('Please enter a valid weight.');
+                    alert("Please enter a valid weight.");
                   }
                 }}
               >
@@ -246,7 +245,7 @@ export default function Home() {
               </form>
               {waterResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You should drink approximately{' '}
+                  You should drink approximately{" "}
                   <strong>{waterResult} liters</strong> of water per day.
                 </p>
               )}
@@ -254,7 +253,7 @@ export default function Home() {
           </div>
         );
 
-      case 'protein':
+      case "protein":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -277,16 +276,16 @@ export default function Home() {
                   const weight = parseFloat(e.target.weight.value);
                   const activity = e.target.activity.value;
                   let multiplier = 1;
-                  if (activity === 'low') multiplier = 0.8;
-                  else if (activity === 'moderate') multiplier = 1.2;
-                  else if (activity === 'high') multiplier = 1.6;
+                  if (activity === "low") multiplier = 0.8;
+                  else if (activity === "moderate") multiplier = 1.2;
+                  else if (activity === "high") multiplier = 1.6;
 
                   if (!isNaN(weight) && weight > 0) {
                     const protein = (weight * multiplier).toFixed(1);
                     setProteinResult(protein);
                   } else {
                     setProteinResult(null);
-                    alert('Please enter a valid weight.');
+                    alert("Please enter a valid weight.");
                   }
                 }}
               >
@@ -316,7 +315,7 @@ export default function Home() {
               </form>
               {proteinResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You need approximately <strong>{proteinResult} grams</strong>{' '}
+                  You need approximately <strong>{proteinResult} grams</strong>{" "}
                   of protein per day.
                 </p>
               )}
@@ -324,7 +323,7 @@ export default function Home() {
           </div>
         );
 
-      case 'bfp':
+      case "bfp":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -349,7 +348,7 @@ export default function Home() {
                   const neck = parseFloat(e.target.neck.value);
                   const height = parseFloat(e.target.height.value);
                   const hip =
-                    gender === 'female' ? parseFloat(e.target.hip.value) : 0;
+                    gender === "female" ? parseFloat(e.target.hip.value) : 0;
 
                   if (
                     !isNaN(waist) &&
@@ -358,30 +357,30 @@ export default function Home() {
                     neck > 0 &&
                     !isNaN(height) &&
                     height > 0 &&
-                    (gender === 'male' ||
-                      (gender === 'female' && !isNaN(hip) && hip > 0))
+                    (gender === "male" ||
+                      (gender === "female" && !isNaN(hip) && hip > 0))
                   ) {
                     // Using U.S. Navy Method formula (simplified)
                     let bodyFat = 0;
-                    if (gender === 'male') {
+                    if (gender === "male") {
                       bodyFat =
                         495 /
-                        (1.0324 -
-                          0.19077 * Math.log10(waist - neck) +
-                          0.15456 * Math.log10(height)) -
+                          (1.0324 -
+                            0.19077 * Math.log10(waist - neck) +
+                            0.15456 * Math.log10(height)) -
                         450;
                     } else {
                       bodyFat =
                         495 /
-                        (1.29579 -
-                          0.35004 * Math.log10(waist + hip - neck) +
-                          0.221 * Math.log10(height)) -
+                          (1.29579 -
+                            0.35004 * Math.log10(waist + hip - neck) +
+                            0.221 * Math.log10(height)) -
                         450;
                     }
                     setBfpResult(bodyFat.toFixed(2));
                   } else {
                     setBfpResult(null);
-                    alert('Please enter valid measurements.');
+                    alert("Please enter valid measurements.");
                   }
                 }}
               >
@@ -431,7 +430,7 @@ export default function Home() {
                   name="hip"
                   placeholder="Hip circumference (cm) - For females only"
                   className="w-full bg-transparent border border-[#363636] text-gray-300 placeholder-gray-400 px-4 py-3"
-                // Not required, but needed for females
+                  // Not required, but needed for females
                 />
                 <button
                   type="submit"
@@ -442,7 +441,7 @@ export default function Home() {
               </form>
               {bfpResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated body fat percentage is{' '}
+                  Your estimated body fat percentage is{" "}
                   <strong>{bfpResult}%</strong>.
                 </p>
               )}
@@ -450,7 +449,7 @@ export default function Home() {
           </div>
         );
 
-      case 'calories':
+      case "calories":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -477,7 +476,7 @@ export default function Home() {
                   const activity = e.target.activity.value;
 
                   if (
-                    (gender === 'male' || gender === 'female') &&
+                    (gender === "male" || gender === "female") &&
                     !isNaN(weight) &&
                     weight > 0 &&
                     !isNaN(height) &&
@@ -487,7 +486,7 @@ export default function Home() {
                   ) {
                     // Calculate BMR using Mifflin-St Jeor Equation
                     let bmr = 0;
-                    if (gender === 'male') {
+                    if (gender === "male") {
                       bmr = 10 * weight + 6.25 * height - 5 * age + 5;
                     } else {
                       bmr = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -509,7 +508,7 @@ export default function Home() {
                     setCaloriesResult(caloriesBurned);
                   } else {
                     setCaloriesResult(null);
-                    alert('Please enter valid inputs.');
+                    alert("Please enter valid inputs.");
                   }
                 }}
               >
@@ -582,7 +581,7 @@ export default function Home() {
               </form>
               {caloriesResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated daily calories burned:{' '}
+                  Your estimated daily calories burned:{" "}
                   <strong>{caloriesResult} kcal</strong>.
                 </p>
               )}
@@ -599,11 +598,9 @@ export default function Home() {
     <>
       <nav className="bg-black/60 backdrop-blur-lg shadow-md border-b border-white/10 fixed top-0 left-0 w-full z-50">
         <div className=" mx-auto px-sm md:px-md lg:px-lg py-5 flex justify-between items-center">
-
           <div className="text-white text-3xl md:text-4xl font-extrabold font-family-sec bg-gradient-to-r from-primary to-yellow-200 bg-clip-text text-transparent">
             Health Advisor
           </div>
-
 
           <ul className="hidden md:flex space-x-10 text-white font-medium tracking-wide">
             {["Home", "Services", "About", "Contact"].map((item) => (
@@ -628,7 +625,6 @@ export default function Home() {
             </Link>
           </div>
 
-
           <button className="md:hidden text-white focus:outline-none">
             <svg
               className="w-7 h-7"
@@ -647,8 +643,6 @@ export default function Home() {
           </button>
         </div>
       </nav>
-
-
 
       <div className="hero h-screen flex flex-col justify-center items-center text-center ">
         <div className="hero-content flex flex-col justify-center items-center">
@@ -674,8 +668,9 @@ export default function Home() {
               What Health Advisor Offers
             </h1>
             <p className="text-gray-400 text-sm max-w-3xl mx-auto">
-              Our platform provides a comprehensive approach to fitness, combining
-              expert coaching, personalized training, and nutritional guidance to help you achieve your goals.
+              Our platform provides a comprehensive approach to fitness,
+              combining expert coaching, personalized training, and nutritional
+              guidance to help you achieve your goals.
             </p>
           </div>
 
@@ -735,12 +730,9 @@ export default function Home() {
             </Swiper>
 
             <div className="custom-swiper-pagination mt-6 flex justify-center" />
-
           </div>
         </div>
       </section>
-
-
 
       <div className="user-dashboard px-sm md:px-md lg:px-lg py-20 bg-black text-white ">
         <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
@@ -755,7 +747,9 @@ export default function Home() {
             />
           </div>
           <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
-            <h2 className="text-2xl font-bold mb-4 text-primary">Track Your Progress</h2>
+            <h2 className="text-2xl font-bold mb-4 text-primary">
+              Track Your Progress
+            </h2>
             <p className="mb-4 max-w-2xl">
               Get a detailed overview of your fitness journey with our
               comprehensive dashboard. Monitor your workouts, nutrition, and
@@ -769,20 +763,19 @@ export default function Home() {
       </div>
 
       <div className="relative ">
-
         <motion.div
           className="absolute inset-0 h-full w-full"
           style={{
             backgroundImage:
-              'linear-gradient(270deg, #daac00, #b08f00,  #1a1a10, #000000,#daac00)',
-            backgroundSize: '400% 400%',
+              "linear-gradient(270deg, #daac00, #b08f00,  #1a1a10, #000000,#daac00)",
+            backgroundSize: "400% 400%",
           }}
           animate={{
-            backgroundPosition: ['0% 100%', '100% 100%', '0% 100%'],
+            backgroundPosition: ["0% 100%", "100% 100%", "0% 100%"],
           }}
           transition={{
             duration: 20,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: Infinity,
           }}
         />
@@ -792,8 +785,8 @@ export default function Home() {
             Ready to Transform Your Life?
           </h2>
           <p className="text-center text-lg">
-            Join Health Advisor today and start your journey towards a healthier,
-            happier you.
+            Join Health Advisor today and start your journey towards a
+            healthier, happier you.
           </p>
           <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer mt-4">
             Start Your Transformation
@@ -801,7 +794,10 @@ export default function Home() {
         </div>
       </div>
 
-      <section id="health-tools" className="px-sm md:px-md lg:px-lg py-20  bg-black ">
+      <section
+        id="health-tools"
+        className="px-sm md:px-md lg:px-lg py-20  bg-black "
+      >
         <h1 className="text-3xl font-bold text-white mb-8 text-center">
           Health & Fitness Tools
         </h1>
@@ -810,24 +806,22 @@ export default function Home() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${activeTab === id
-                ? 'bg-primary border-primary text-white'
-                : 'border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white'
-                }`}
+              className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${
+                activeTab === id
+                  ? "bg-primary border-primary text-white"
+                  : "border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white"
+              }`}
             >
               {label}
             </button>
           ))}
         </div>
 
-
         {renderTabContent()}
       </section>
 
-
       <section className="px-sm md:px-md lg:px-lg py-20 bg-black text-white">
         <div className="mx-auto max-w-3xl px-4">
-
           <h2 className="text-5xl font-bold text-center mb-12 font-family-pri bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent">
             Frequently Asked Questions
           </h2>
@@ -845,8 +839,9 @@ export default function Home() {
                   {item.question}
                 </span>
                 <svg
-                  className={`w-6 h-6 text-primary transform transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''
-                    }`}
+                  className={`w-6 h-6 text-primary transform transition-transform duration-300 ${
+                    openIndex === index ? "rotate-180" : ""
+                  }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -863,9 +858,9 @@ export default function Home() {
               {openIndex === index && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="px-6 py-4 bg-[#1a1a1a] text-gray-300 font-family-sec text-base"
                 >
                   {item.answer}
@@ -883,24 +878,57 @@ export default function Home() {
           </h2>
           <div className="flex justify-center flex-col items-center">
             <div className="flex justify-center items-center gap-8 mb-8">
-              <img src={bodyImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
+              <img
+                src={bodyImg}
+                alt=""
+                className="w-[100px] h-[100px] rounded-3xl"
+              />
               <div>
-                <h2 className="text-2xl font-family-sec font-semibold">Body Training</h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Personalized workout routines are designed to build strength and muscle, tailored to your fitness level and goals. Whether it's lifting, bodyweight exercises, or resistance training, we've got you covered.</p>
+                <h2 className="text-2xl font-family-sec font-semibold">
+                  Body Training
+                </h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
+                  Personalized workout routines are designed to build strength
+                  and muscle, tailored to your fitness level and goals. Whether
+                  it's lifting, bodyweight exercises, or resistance training,
+                  we've got you covered.
+                </p>
               </div>
             </div>
             <div className="flex justify-center items-center gap-8 mb-8">
-              <img src={cardioImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
+              <img
+                src={cardioImg}
+                alt=""
+                className="w-[100px] h-[100px] rounded-3xl"
+              />
               <div>
-                <h2 className="text-2xl font-family-sec font-semibold">Cardio Training</h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Engage in heart-pumping cardio exercises, from running and cycling to high-intensity interval training (HIIT). Improve your cardiovascular health and endurance with our tailored programs.  </p>
+                <h2 className="text-2xl font-family-sec font-semibold">
+                  Cardio Training
+                </h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
+                  Engage in heart-pumping cardio exercises, from running and
+                  cycling to high-intensity interval training (HIIT). Improve
+                  your cardiovascular health and endurance with our tailored
+                  programs.{" "}
+                </p>
               </div>
             </div>
             <div className="flex justify-center items-center gap-8 mb-8">
-              <img src={endImg} alt="" className="w-[100px] h-[100px] rounded-3xl" />
+              <img
+                src={endImg}
+                alt=""
+                className="w-[100px] h-[100px] rounded-3xl"
+              />
               <div>
-                <h2 className="text-2xl font-family-sec font-semibold">Nutrition Plans</h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">Based on your weight, height, and fitness goals, our nutrition plans are designed to fuel your body for performance and recovery. Track your calories, macros, and get daily meal suggestions.</p>
+                <h2 className="text-2xl font-family-sec font-semibold">
+                  Nutrition Plans
+                </h2>
+                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
+                  Based on your weight, height, and fitness goals, our nutrition
+                  plans are designed to fuel your body for performance and
+                  recovery. Track your calories, macros, and get daily meal
+                  suggestions.
+                </p>
               </div>
             </div>
           </div>
@@ -911,77 +939,108 @@ export default function Home() {
           </div>
         </div>
         <div>
-          <img src={workImg} alt="" className="max-w-[500px] object-contain shadow-[10px_10px_10px_0px_rgba(251,191,36,0.5)] rounded-3xl "  />
+          <img
+            src={workImg}
+            alt=""
+            className="max-w-[500px] object-contain shadow-[10px_10px_10px_0px_rgba(251,191,36,0.5)] rounded-3xl "
+          />
         </div>
       </div>
-<footer className="relative bg-black/95 backdrop-blur-3xl  text-white py-16">
-  
-  <div className="absolute inset-0 z-0 blur-md overflow-hidden">
-    <motion.div initial={{y:-30,x:-30}} animate={{y:50,x:50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-64 h-64 bg-gradient-to-r from-primary to-yellow-200/30 rounded-full opacity-40 animate-float top-10 left-10" ></motion.div>
-    <motion.div initial={{y:-30,x:30}} animate={{y:50,x:-50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-96 h-96 bg-gradient-to-r from-primary to-yellow-200/20 rounded-full opacity-15 animate-float-slow top-1/2 right-20"></motion.div>
-    <motion.div initial={{y:-30,x:-30}} animate={{y:50,x:50}} transition={{repeat: Infinity, duration: 3, repeatType: "reverse"}} className="absolute w-48 h-48 bg-gradient-to-r from-primary to-yellow-200/25 rounded-full opacity-25 animate-float-fast bottom-20 left-1/3"></motion.div>
-  </div>
+      <footer className="relative bg-black/95 backdrop-blur-3xl  text-white py-16">
+        <div className="absolute inset-0 z-0 blur-md overflow-hidden">
+          <motion.div
+            initial={{ y: -30, x: -30 }}
+            animate={{ y: 50, x: 50 }}
+            transition={{
+              repeat: Infinity,
+              duration: 3,
+              repeatType: "reverse",
+            }}
+            className="absolute w-64 h-64 bg-gradient-to-r from-primary to-yellow-200/30 rounded-full opacity-40 animate-float top-10 left-10"
+          ></motion.div>
+          <motion.div
+            initial={{ y: -30, x: 30 }}
+            animate={{ y: 50, x: -50 }}
+            transition={{
+              repeat: Infinity,
+              duration: 3,
+              repeatType: "reverse",
+            }}
+            className="absolute w-96 h-96 bg-gradient-to-r from-primary to-yellow-200/20 rounded-full opacity-15 animate-float-slow top-1/2 right-20"
+          ></motion.div>
+          <motion.div
+            initial={{ y: -30, x: -30 }}
+            animate={{ y: 50, x: 50 }}
+            transition={{
+              repeat: Infinity,
+              duration: 3,
+              repeatType: "reverse",
+            }}
+            className="absolute w-48 h-48 bg-gradient-to-r from-primary to-yellow-200/25 rounded-full opacity-25 animate-float-fast bottom-20 left-1/3"
+          ></motion.div>
+        </div>
 
-  
-  <div className="relative container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 z-10">
-    <div>
-      <h2 className="text-4xl font-bold mb-4 font-family-pri bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
-        Health Advisor
-      </h2>
-      <p className="text-sm font-family-sec text-gray-300 max-w-xs">
-        Your AI-powered fitness companion. Personalized workouts and nutrition plans — completely free.
-      </p>
-    </div>
+        <div className="relative container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12 z-10">
+          <div>
+            <h2 className="text-4xl font-bold mb-4 font-family-pri bg-gradient-to-r from-yellow-400 to-yellow-200 bg-clip-text text-transparent">
+              Health Advisor
+            </h2>
+            <p className="text-sm font-family-sec text-gray-300 max-w-xs">
+              Your AI-powered fitness companion. Personalized workouts and
+              nutrition plans — completely free.
+            </p>
+          </div>
 
-    <div className="font-family-sec">
-      <h3 className="text-lg font-semibold mb-4 text-primary">Quick Links</h3>
-      <ul className="space-y-3 text-sm">
-        {['Features', 'Dashboard', 'Tools', 'FAQs'].map((item) => (
-          <li key={item}>
-            <a
-              href={`#${item.toLowerCase()}`}
-              className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
-            >
-              {item}
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+          <div className="font-family-sec">
+            <h3 className="text-lg font-semibold mb-4 text-primary">
+              Quick Links
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {["Features", "Dashboard", "Tools", "FAQs"].map((item) => (
+                <li key={item}>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
+                  >
+                    {item}
+                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-    <div className="font-family-sec">
-      <h3 className="text-lg font-semibold mb-4 text-primary">Useful Tools</h3>
-      <ul className="space-y-3 text-sm">
-        {[
-          { text: 'BMI Calculator', href: '#bmi-calculator' },
-          { text: 'Water Intake Guide', href: '#water-intake' },
-          { text: 'Progress Tracker', href: '#progress-tracker' },
-        ].map((item) => (
-          <li key={item.text}>
-            <a
-              href={item.href}
-              className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
-            >
-              {item.text}
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </div>
+          <div className="font-family-sec">
+            <h3 className="text-lg font-semibold mb-4 text-primary">
+              Useful Tools
+            </h3>
+            <ul className="space-y-3 text-sm">
+              {[
+                { text: "BMI Calculator", href: "#bmi-calculator" },
+                { text: "Water Intake Guide", href: "#water-intake" },
+                { text: "Progress Tracker", href: "#progress-tracker" },
+              ].map((item) => (
+                <li key={item.text}>
+                  <a
+                    href={item.href}
+                    className="text-gray-300 hover:text-yellow-400 transition duration-300 relative group"
+                  >
+                    {item.text}
+                    <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
- 
-  <div className="relative border-t border-gray-700 mt-12 py-6 text-center text-xs z-10">
-    <p className="font-family-sec text-gray-300">
-      © {new Date().getFullYear()} Health Advisor Coach. All rights reserved.
-    </p>
-  </div>
-</footer>
-
-
- 
+        <div className="relative border-t border-gray-700 mt-12 py-6 text-center text-xs z-10">
+          <p className="font-family-sec text-gray-300">
+            © {new Date().getFullYear()} Health Advisor Coach. All rights
+            reserved.
+          </p>
+        </div>
+      </footer>
     </>
   );
 }
