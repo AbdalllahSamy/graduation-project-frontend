@@ -1,6 +1,9 @@
-import { useState } from 'react';
-import Calendar from 'react-calendar';
+import { axiosInstance } from '@/services/apisUrls/apisUrls';
+import { useEffect, useState } from 'react';
+// import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 import {
   CartesianGrid,
@@ -55,266 +58,321 @@ const bmiData = [
   { name: 'Sun', value: 21.8 },
 ];
 
-const bfpData = [
-  { name: 'Mon', value: 18.3 },
-  { name: 'Tue', value: 18.2 },
-  { name: 'Wed', value: 18.1 },
-  { name: 'Thu', value: 18.1 },
-  { name: 'Fri', value: 18.0 },
-  { name: 'Sat', value: 17.9 },
-  { name: 'Sun', value: 17.8 },
-];
-
 export default function Testt() {
+  //water
+  const goal = 8;
+  const [cups, setCups] = useState(() => {
+    const savedCups = localStorage.getItem('cups');
+    return savedCups ? parseInt(savedCups) : 0;
+  });
+
+  const handleDrink = () => {
+    if (cups < goal) {
+      const newCount = cups + 1;
+      setCups(newCount);
+      localStorage.setItem('cups', newCount.toString());
+    }
+  };
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem('track-date');
+    if (savedDate !== today) {
+      setCups(0);
+      localStorage.setItem('cups', '0');
+      localStorage.setItem('track-date', today);
+    }
+  }, []);
+
+  const percentage = (cups / goal) * 100;
+  //water
+
   const [date, setDate] = useState(new Date());
+  const [dataAnalysis, setDataAnalysis] = useState([]);
+  const [userAnalysis, setUserAnalysis] = useState([]);
+
+  const getAnalysis = async () => {
+    try {
+      let response = await axiosInstance.get('/analysis');
+      setDataAnalysis(response.data);
+      setUserAnalysis(response.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAnalysis();
+  }, []);
 
   const dietPlans = [
-    {
-      title: 'Breakfast',
-      desc: 'Oats, Banana, and Peanut Butter',
-      day: 'Mon',
-    },
+    { title: 'Breakfast', desc: 'Oats, Banana, and Peanut Butter', day: 'Mon' },
     {
       title: 'Lunch',
       desc: 'Grilled Chicken, Brown Rice, Veggies',
       day: 'Mon',
     },
-    {
-      title: 'Dinner',
-      desc: 'Salmon, Sweet Potato, Salad',
-      day: 'Mon',
-    },
+    { title: 'Dinner', desc: 'Salmon, Sweet Potato, Salad', day: 'Mon' },
   ];
 
-  const infoCards = [
-    { label: 'Height', value: '176 cm' },
-    { label: 'Weight', value: '67 kg' },
-    { label: 'Goal', value: 'Fat Loss' },
-  ];
+  const primaryColor = '#daac00';
+  const primaryStrokeColor = '#8f7517';
+  const bgDark = 'bg-[#121212]';
+  const cardDark = 'bg-[#1e1e1e]';
+  const textLight = 'text-gray-100';
+  const textMuted = 'text-gray-400';
 
   return (
-    <>
-      <div className="grid grid-cols-3 gap-6 p-4 sm:p-6 bg-[#f8fafc] min-h-screen">
-        {/* Left column */}
-        <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
-          {/* Stats Cards */}
+    <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
+      <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 col-span-4">
           {[
             {
+              key: 'bmr',
               title: 'Calories (To Burn)',
-              value: '1800 kcal/day',
-              color: 'text-orange-600',
-              stroke: '#f97316',
+              color: 'text-primary',
+              stroke: primaryStrokeColor,
               data: caloriesData,
+              format: (val) => `${val} kcal/day`,
             },
             {
+              key: 'water',
               title: 'Water Intake',
-              value: '2.5 L/day',
-              color: 'text-sky-600',
-              stroke: '#0ea5e9',
+              color: 'text-primary',
+              stroke: primaryStrokeColor,
               data: caloriesData,
+              format: (val) => `${val} L/day`,
             },
             {
+              key: 'protein',
               title: 'Protein Intake',
-              value: '105 g/day',
-              color: 'text-purple-600',
-              stroke: '#9333ea',
+              color: 'text-primary',
+              stroke: primaryStrokeColor,
               data: proteinData,
+              format: (val) => `${val} g/day`,
             },
             {
+              key: 'bmi',
               title: 'BMI',
-              value: '21.8',
-              color: 'text-emerald-600',
-              stroke: '#10b981',
+              color: 'text-primary',
+              stroke: primaryStrokeColor,
               data: bmiData,
-            },
-            {
-              title: 'Body Fat % (BFP)',
-              value: '17.8%',
-              color: 'text-rose-500',
-              stroke: '#f43f5e',
-              data: bfpData,
+              format: (val) => val,
             },
           ].map((item, idx) => (
-            <div key={idx} className="bg-white p-4 rounded-xl shadow">
-              <p className="text-gray-500 text-sm">{item.title}</p>
-              <p className={`text-2xl font-semibold ${item.color}`}>
-                {item.value}
+            <div
+              key={idx}
+              className="bg-[#1a1a1a] p-5 rounded-2xl shadow-md shadow-[#4d4c4c] flex flex-col justify-around"
+            >
+              <p className="font-bold  text-lg text-[#ededed] font-family-sec">
+                {item.title}
               </p>
-              <ResponsiveContainer width="100%" height={50}>
-                <LineChart data={item.data}>
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke={item.stroke}
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+              <p className={`text-2xl font-semibold ${item.color}`}>
+                {item.format(dataAnalysis?.[item.key] ?? 0)}
+              </p>
+              <div className="h-[30px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={item.data}>
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={item.stroke}
+                      strokeWidth={3}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
           ))}
+        </div>
 
-          {/* Activity Chart */}
-          <div className="bg-white p-4 rounded-xl shadow col-span-2 sm:col-span-2 xl:col-span-3">
-            <div className="flex justify-between items-center mb-4">
-              <p className="font-semibold text-gray-700">Activity Tracking</p>
-              <p className="text-sm text-gray-500">Weekly</p>
-            </div>
-            <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={activityData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#f97316"
-                  strokeWidth={3}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-            <div className="text-center text-sm text-gray-500 mt-2">
-              Avg Speed: 24 kmph
-            </div>
+        <div
+          className={`${cardDark} p-4 rounded-xl shadow col-span-2 sm:col-span-2 xl:col-span-3`}
+        >
+          <div className="flex justify-between items-center mb-4">
+            <p className="font-semibold text-gray-200">Activity Tracking</p>
+            <p className="text-sm text-gray-500">Weekly</p>
           </div>
-
-          {/* Running Card */}
-          <div className="bg-white p-4 rounded-xl shadow flex flex-col justify-between">
-            <div>
-              <img
-                src="https://i.imgur.com/RP3hklr.png"
-                alt="Runner"
-                className="w-full h-40 object-cover rounded-md mb-4"
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={activityData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" stroke="#ccc" />
+              <YAxis stroke="#ccc" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke={primaryColor}
+                strokeWidth={3}
+                dot={false}
               />
-              <p className="font-semibold text-gray-700">
-                Running with resistance band
-              </p>
-            </div>
-            <div className="mt-4 text-sm text-gray-500">
-              <p>12 km Today's distance</p>
-              <p>428 km Total distance covered</p>
-            </div>
-          </div>
-
-          {/* Diet Plan */}
-          <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {dietPlans.map((item, idx) => (
-              <div key={idx} className="bg-white p-4 rounded-xl shadow">
-                <p className="font-semibold text-orange-500 mb-2">
-                  {item.title}
-                </p>
-                <p className="text-sm text-gray-500 mb-2">{item.desc}</p>
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded-full">
-                  {item.day}
-                </span>
-              </div>
-            ))}
+            </LineChart>
+          </ResponsiveContainer>
+          <div className="text-center text-sm text-gray-400 mt-2">
+            Avg Speed: 24 kmph
           </div>
         </div>
 
-        {/* Right column */}
-        <div className="flex flex-col items-center space-y-6 xl:space-y-8 w-full h-full overflow-y-auto px-2">
-          {/* Header */}
-          <div className="flex items-center gap-4 w-full">
-            <img
-              src="https://i.imgur.com/TkIrScD.png"
-              alt="Lionel Messi"
-              className="w-14 h-14 rounded-full object-cover border-2"
-            />
-            <div className="flex-1">
-              <p className="font-semibold text-lg">Lionel Messi</p>
-              <p className="text-sm text-gray-500">@itsworks</p>
+        <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+          {dietPlans.map((item, idx) => (
+            <div key={idx} className={`${cardDark} p-4 rounded-xl shadow`}>
+              <p className="font-semibold text-[${primaryColor}] mb-2">
+                {item.title}
+              </p>
+              <p className="text-sm text-gray-300 mb-2">{item.desc}</p>
+              <span className="text-xs bg-gray-700 text-white px-2 py-1 rounded-full">
+                {item.day}
+              </span>
             </div>
-            <button className="text-2xl text-blue-600">⋮</button>
-          </div>
-
-          {/* Info Cards */}
-          <div className="flex w-full text-center text-sm font-medium border rounded-xl overflow-hidden">
-            {infoCards.map((item, idx) => (
-              <div
-                key={idx}
-                className={`w-1/3 bg-white px-4 py-3 border-l ${
-                  idx === 0 ? 'border-l-0' : ''
-                }`}
-              >
-                <p className="text-gray-500">{item.label}</p>
-                <p className="text-lg font-semibold">{item.value}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Calendar */}
-          <div className="w-full bg-white border border-blue-200 rounded-xl p-4 shadow-sm">
-            <p className="text-blue-800 font-semibold mb-2">December 2022</p>
-            <Calendar
-              value={date}
-              onChange={setDate}
-              defaultView="month"
-              tileClassName={({ date, view }) => {
-                const dates = {
-                  green: [17, 18, 19, 21],
-                  orange: [23],
-                  red: [25],
-                };
-                if (view === 'month') {
-                  if (
-                    dates.green.includes(date.getDate()) &&
-                    date.getMonth() === 11
-                  )
-                    return 'bg-green-400 text-white font-bold rounded-full';
-                  if (
-                    dates.orange.includes(date.getDate()) &&
-                    date.getMonth() === 11
-                  )
-                    return 'bg-orange-400 text-white font-bold rounded-full';
-                  if (
-                    dates.red.includes(date.getDate()) &&
-                    date.getMonth() === 11
-                  )
-                    return 'bg-red-400 text-white font-bold rounded-full';
-                }
-                return null;
-              }}
-            />
-          </div>
-
-          {/* Schedule List */}
-          <div className="w-full text-gray-800">
-            <div className="flex justify-between items-center mb-2">
-              <p className="font-semibold text-blue-800">Scheduled</p>
-              <button className="text-sm text-blue-500 hover:underline">
-                View All
-              </button>
-            </div>
-            {[1, 2, 3].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-xl p-4 mb-3 flex items-center gap-4 shadow-md border border-gray-100"
-              >
-                <img
-                  src="https://img.freepik.com/free-photo/group-people-gym-fitness_1303-23452.jpg"
-                  alt="Workout"
-                  className="w-16 h-16 object-cover rounded-lg"
-                />
-                <div>
-                  <span className="bg-pink-500 text-xs px-2 py-1 rounded text-white">
-                    Fitness
-                  </span>
-                  <p className="text-sm font-semibold mt-1 text-gray-800">
-                    Cardio Workshop
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Strengthens your muscles
-                  </p>
-                  <p className="text-xs text-blue-500">17-21 Dec</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-    </>
+
+      <div className="flex flex-col items-center space-y-6 xl:space-y-8 w-full h-full overflow-y-auto px-2">
+        <div className="flex items-center gap-4 w-full">
+          <img
+            src="https://i.imgur.com/TkIrScD.png"
+            alt="Lionel Messi"
+            className="w-14 h-14 rounded-full object-cover border-2 border-[${primaryColor}]"
+          />
+          <div className="flex-1">
+            <p className="font-bold  font-family-sec   text-gray-100 text-lg">
+              {userAnalysis.name || 'ziad yasser'}
+            </p>
+            <p className="text-sm text-gray-400">
+              {userAnalysis.email || 'ziad55@gmail.com'}
+            </p>
+          </div>
+          <button className="text-2xl text-[${primaryColor}]">⋮</button>
+        </div>
+
+        <div className="flex w-full text-center text-sm font-medium border border-gray-700 rounded-xl overflow-hidden">
+          {[
+            { label: 'Height', key: 'height', unit: 'cm' },
+            { label: 'Weight', key: 'weight', unit: 'kg' },
+            { label: 'Goal', key: 'fitnessGoal', unit: '' },
+          ].map((item, idx) => (
+            <div
+              key={idx}
+              className={`w-1/3 ${cardDark} px-4 py-3 border-l border-gray-600 ${
+                idx === 0 ? 'border-l-0' : ''
+              }`}
+            >
+              <p className="text-gray-100 font-family-sec font-semibold mb-1 text-lg">
+                {item.label}
+              </p>
+              <p className="text- text-gray-400">
+                {userAnalysis?.[item.key]
+                  ? `${userAnalysis[item.key]} ${item.unit}`
+                  : 'N/A'}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* water */}
+
+        <div className="  flex flex-col justify-center items-center  text-center">
+          <h1 className="text-3xl font-bold text-primary mb-2 font-family-pri">
+            Water Tracker
+          </h1>
+
+          <div className=" font-family-pri w-50">
+            <CircularProgressbar
+              value={percentage}
+              text={`${cups} / ${goal} cups`}
+              styles={buildStyles({
+                pathColor: primaryColor,
+                textColor:primaryColor,
+                trailColor: '#bfdbfe',
+                textSize: '16px',
+                width:'20px'
+              })}
+            />
+            <h2 className=" text-primary text-3xl my-2">{percentage}%</h2>
+          </div>
+
+          <button
+            onClick={handleDrink}
+            className="bg-primary  hover:bg-yellow-500 text-white py-2 px-4 rounded-full shadow-md transition font-family-sec font-semibold cursor-pointer text-sm"
+          >
+            Drink
+          </button>
+        </div>
+
+        {/* water */}
+
+        {/* 
+        <div className="w-full ${cardDark} border border-[${primaryColor}] rounded-xl p-4 shadow-sm">
+          <p className="text-[${primaryColor}] font-semibold mb-2">
+            December 2022
+          </p>
+          <Calendar
+            value={date}
+            onChange={setDate}
+            defaultView="month"
+            tileClassName={({ date, view }) => {
+              const dates = {
+                green: [17, 18, 19, 21],
+                orange: [23],
+                red: [25],
+              };
+              if (view === 'month') {
+                if (
+                  dates.green.includes(date.getDate()) &&
+                  date.getMonth() === 11
+                )
+                  return 'bg-green-600 text-white font-bold rounded-full';
+                if (
+                  dates.orange.includes(date.getDate()) &&
+                  date.getMonth() === 11
+                )
+                  return 'bg-orange-600 text-white font-bold rounded-full';
+                if (
+                  dates.red.includes(date.getDate()) &&
+                  date.getMonth() === 11
+                )
+                  return 'bg-red-600 text-white font-bold rounded-full';
+              }
+              return null;
+            }}
+          />
+        </div> */}
+
+        <div className="w-full text-white">
+          <div className="flex justify-between items-center mb-2">
+            <p className="font-semibold text-[${primaryColor}]">Scheduled</p>
+            <button className="text-sm text-[${primaryColor}] hover:underline">
+              View All
+            </button>
+          </div>
+          {[1, 2, 3].map((_, i) => (
+            <div
+              key={i}
+              className={`${cardDark} rounded-xl p-4 mb-3 flex items-center gap-4 shadow-md border border-gray-600`}
+            >
+              <img
+                src="https://img.freepik.com/free-photo/group-people-gym-fitness_1303-23452.jpg"
+                alt="Workout"
+                className="w-16 h-16 object-cover rounded-lg"
+              />
+              <div>
+                <span className="bg-pink-600 text-xs px-2 py-1 rounded text-white">
+                  Fitness
+                </span>
+                <p className="text-sm font-semibold mt-1 text-white">
+                  Cardio Workshop
+                </p>
+                <p className="text-xs text-gray-400">
+                  Strengthens your muscles
+                </p>
+                <p className="text-xs text-[${primaryColor}]">17-21 Dec</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
