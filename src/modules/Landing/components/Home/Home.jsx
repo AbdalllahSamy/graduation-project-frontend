@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaRobot, FaTimes } from "react-icons/fa";
-
+import logo from '../../../../assets/images/White.svg'
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +69,7 @@ export default function Home() {
                 <div className="flex flex-col lg:flex-row gap-12">
                   <div className="lg:w-1/2 w-full">
                     <div className="mb-6">
-                      <span className="text-primary uppercase text-sm">
+                      <span className="text-primary uppercase text-sm font-semibold ">
                         check your body
                       </span>
                       <h2 className="text-white text-3xl font-bold mt-2">
@@ -115,7 +115,7 @@ export default function Home() {
                   {/* BMI Form */}
                   <div className="lg:w-1/2 w-full">
                     <div className="mb-6">
-                      <span className="text-primary uppercase text-sm">
+                      <span className="text-primary uppercase text-sm font-semibold">
                         check your body
                       </span>
                       <h2 className="text-white text-3xl font-bold mt-2">
@@ -124,8 +124,9 @@ export default function Home() {
                     </div>
                     <div>
                       <p className="text-gray-400 mb-6">
-                        أدخل الطول بالكيلوغرام والوزن بالكيلوغرام لحساب مؤشر
-                        كتلة الجسم.
+                        Enter the length with kilograms and weight in kilograms to calculate the body mass index.
+
+
                       </p>
                       <form
                         className="space-y-4"
@@ -205,7 +206,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-primary uppercase text-sm">
+                <span className="text-primary uppercase text-sm font-semibold">
                   stay hydrated
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -260,7 +261,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-primary uppercase text-sm">
+                <span className="text-primary uppercase text-sm font-semibold">
                   build your body
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -330,7 +331,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-primary uppercase text-sm">
+                <span className="text-primary uppercase text-sm font-semibold">
                   know your body
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -367,16 +368,16 @@ export default function Home() {
                     if (gender === "male") {
                       bodyFat =
                         495 /
-                          (1.0324 -
-                            0.19077 * Math.log10(waist - neck) +
-                            0.15456 * Math.log10(height)) -
+                        (1.0324 -
+                          0.19077 * Math.log10(waist - neck) +
+                          0.15456 * Math.log10(height)) -
                         450;
                     } else {
                       bodyFat =
                         495 /
-                          (1.29579 -
-                            0.35004 * Math.log10(waist + hip - neck) +
-                            0.221 * Math.log10(height)) -
+                        (1.29579 -
+                          0.35004 * Math.log10(waist + hip - neck) +
+                          0.221 * Math.log10(height)) -
                         450;
                     }
                     setBfpResult(bodyFat.toFixed(2));
@@ -432,7 +433,7 @@ export default function Home() {
                   name="hip"
                   placeholder="Hip circumference (cm) - For females only"
                   className="w-full bg-transparent border border-[#363636] text-gray-300 placeholder-gray-400 px-4 py-3"
-                  // Not required, but needed for females
+                // Not required, but needed for females
                 />
                 <button
                   type="submit"
@@ -456,7 +457,7 @@ export default function Home() {
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
               <div className="text-center mb-8">
-                <span className="text-primary uppercase text-sm">
+                <span className="text-primary uppercase text-sm font-semibold">
                   burn it off
                 </span>
                 <h2 className="text-3xl font-bold mt-2">
@@ -595,15 +596,40 @@ export default function Home() {
         return null;
     }
   };
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.05,
+        staggerDirection: -1,
+      },
+    },
+  };
+  const containerVariants2 = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.012,
+        staggerDirection: 1,
+      },
+    },
+  };
+  const letterVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+  const headingText = "Welcome to Health Advisor";
+  const paragraphText =
+    "Your journey to a healthier life starts here. Explore our features and take the first step towards better health.";
 
   return (
     <>
       <nav className="bg-black/60 backdrop-blur-lg shadow-md border-b border-white/10 fixed top-0 left-0 w-full z-50">
         <div className=" mx-auto px-sm md:px-md lg:px-lg py-5 flex justify-between items-center">
-          <div className="text-white text-3xl md:text-4xl font-extrabold font-family-sec bg-gradient-to-r from-primary to-yellow-200 bg-clip-text text-transparent">
+          {/* <div className=" text-3xl md:text-4xl font-extrabold font-family-sec bg-gradient-to-r from-primary to-yellow-200 bg-clip-text text-transparent">
             Health Advisor
-          </div>
-
+          </div> */}
+          <img src={logo} alt="" className="w-32 h-16 object-contain" />
           <ul className="hidden md:flex space-x-10 text-white font-medium tracking-wide">
             {['Home', 'Services', 'About', 'Contact'].map((item) => (
               <li key={item}>
@@ -648,18 +674,35 @@ export default function Home() {
 
       <div className="hero h-screen flex flex-col justify-center items-center text-center ">
         <div className="hero-content flex flex-col justify-center items-center">
-          <h1 className="text-5xl font-bold font-family-pri text-white">
-            Welcome to Health Advisor
-          </h1>
-          <p className="py-6 font-family-sec text-white">
-            Your journey to a healthier life starts here. Explore our features
-            and take the first step towards better health.
-          </p>
-          <div>
+          <motion.h1
+            className="text-5xl font-bold font-family-pri text-white flex flex-wrap justify-center"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {headingText.split("").map((char, index) => (
+              <motion.span key={index} variants={letterVariants}>
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.h1>
+          <motion.div
+            className="py-6 font-family-sec text-white flex flex-wrap justify-center text-center"
+            variants={containerVariants2}
+            initial="hidden"
+            animate="visible"
+          >
+            {paragraphText.split("").map((char, index) => (
+              <motion.span key={index} variants={letterVariants} className="inline-block">
+                {char === " " ? "\u00A0" : char}
+              </motion.span>
+            ))}
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.5 }}>
             <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
               Get Started
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -676,7 +719,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="relative">
+          <motion.div className="relative" initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.2 }}>
             <Swiper
               modules={[Pagination, Autoplay]}
               pagination={{ el: '.custom-swiper-pagination', clickable: true }}
@@ -732,23 +775,23 @@ export default function Home() {
             </Swiper>
 
             <div className="custom-swiper-pagination mt-6 flex justify-center" />
-          </div>
+          </motion.div>
         </div>
       </section>
 
       <div className="user-dashboard px-sm md:px-md lg:px-lg py-20 bg-black text-white ">
-        <h1 className="text-4xl font-bold font-family-pri text-center mb-6">
+        <h1 className="text-4xl font-bold font-family-sec bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent text-center mb-6">
           User Dashboard Preview
         </h1>
         <div className="dashboard-preview flex justify-center items-center">
-          <div>
+          <motion.div initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.2 }}>
             <img
               src={userDash}
               alt="Dashboard Preview"
               className="w-full max-w-[400px] rounded-lg "
             />
-          </div>
-          <div className="dashboard-description ml-8 flex flex-col justify-start items-start">
+          </motion.div>
+          <motion.div className="dashboard-description ml-8 flex flex-col justify-start items-start" initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true, amount: 0.2 }}>
             <h2 className="text-2xl font-bold mb-4 text-primary">
               Track Your Progress
             </h2>
@@ -760,7 +803,7 @@ export default function Home() {
             <button className="btn btn-primary text-white font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
               Explore Dashboard
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
@@ -800,7 +843,7 @@ export default function Home() {
         id="health-tools"
         className="px-sm md:px-md lg:px-lg py-20  bg-black "
       >
-        <h1 className="text-3xl font-bold text-white mb-8 text-center">
+        <h1 className="text-4xl font-bold font-family-sec mb-8 text-center bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent">
           Health & Fitness Tools
         </h1>
         <div className="flex justify-center mb-8 gap-4 flex-wrap">
@@ -808,11 +851,10 @@ export default function Home() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${
-                activeTab === id
-                  ? "bg-primary border-primary text-white"
-                  : "border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white"
-              }`}
+              className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${activeTab === id
+                ? "bg-primary border-primary text-white"
+                : "border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white"
+                }`}
             >
               {label}
             </button>
@@ -841,9 +883,8 @@ export default function Home() {
                   {item.question}
                 </span>
                 <svg
-                  className={`w-6 h-6 text-primary transform transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
+                  className={`w-6 h-6 text-primary transform transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -875,78 +916,113 @@ export default function Home() {
 
       <div className="works flex justify-center items-center gap-16 px-sm md:px-md lg:px-lg py-y bg-black text-white">
         <div className="content flex flex-col items-start justify-start">
-          <h2 className="text-5xl font-bold font-family-pri bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent  mb-6">
+          <h2 className="text-4xl font-bold font-family-sec bg-gradient-to-r to-yellow-600 from-orange-200 bg-clip-text text-transparent  mb-6">
             How It Works
           </h2>
-          <div className="flex justify-center flex-col items-center">
-            <div className="flex justify-center items-center gap-8 mb-8">
-              <img
-                src={bodyImg}
-                alt=""
-                className="w-[100px] h-[100px] rounded-3xl"
-              />
-              <div>
-                <h2 className="text-2xl font-family-sec font-semibold">
-                  Body Training
-                </h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
-                  Personalized workout routines are designed to build strength
-                  and muscle, tailored to your fitness level and goals. Whether
-                  it's lifting, bodyweight exercises, or resistance training,
-                  we've got you covered.
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center gap-8 mb-8">
-              <img
-                src={cardioImg}
-                alt=""
-                className="w-[100px] h-[100px] rounded-3xl"
-              />
-              <div>
-                <h2 className="text-2xl font-family-sec font-semibold">
-                  Cardio Training
-                </h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
-                  Engage in heart-pumping cardio exercises, from running and
-                  cycling to high-intensity interval training (HIIT). Improve
-                  your cardiovascular health and endurance with our tailored
-                  programs.{" "}
-                </p>
-              </div>
-            </div>
-            <div className="flex justify-center items-center gap-8 mb-8">
-              <img
-                src={endImg}
-                alt=""
-                className="w-[100px] h-[100px] rounded-3xl"
-              />
-              <div>
-                <h2 className="text-2xl font-family-sec font-semibold">
-                  Nutrition Plans
-                </h2>
-                <p className="max-w-2xl font-family-sec text-sm text-gray-500">
-                  Based on your weight, height, and fitness goals, our nutrition
-                  plans are designed to fuel your body for performance and
-                  recovery. Track your calories, macros, and get daily meal
-                  suggestions.
-                </p>
-              </div>
-            </div>
-          </div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ staggerChildren: 0.4, delayChildren: 0.2 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.4,
+                  delayChildren: 0.2,
+                },
+              },
+            }}
+            className="flex justify-center flex-col items-center"
+          >
+            {[
+              {
+                img: bodyImg,
+                title: "Body Training",
+                text: "Personalized workout routines are designed to build strength and muscle, tailored to your fitness level and goals. Whether it's lifting, bodyweight exercises, or resistance training, we've got you covered.",
+              },
+              {
+                img: cardioImg,
+                title: "Cardio Training",
+                text: "Engage in heart-pumping cardio exercises, from running and cycling to high-intensity interval training (HIIT). Improve your cardiovascular health and endurance with our tailored programs.",
+              },
+              {
+                img: endImg,
+                title: "Nutrition Plans",
+                text: "Based on your weight, height, and fitness goals, our nutrition plans are designed to fuel your body for performance and recovery. Track your calories, macros, and get daily meal suggestions.",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, x: -100 },
+                  visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeInOut" } },
+                }}
+                className="flex justify-center items-center gap-8 mb-8"
+              >
+                <img
+                  src={item.img}
+                  alt=""
+                  className="w-[100px] h-[100px] rounded-3xl"
+                />
+                <div>
+                  <h2 className="text-2xl font-family-sec font-semibold">
+                    {item.title}
+                  </h2>
+                  <p className="max-w-2xl font-family-sec text-sm text-gray-500">
+                    {item.text}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
           <div>
             <button className="btn btn-primary text-black font-semibold font-family-sec px-8 py-3 rounded-full hover:bg-primary transition duration-300 bg-primary cursor-pointer">
               Get Started
             </button>
           </div>
         </div>
-        <div>
-          <img
-            src={workImg}
-            alt=""
-            className="max-w-[500px] object-contain shadow-[10px_10px_10px_0px_rgba(251,191,36,0.5)] rounded-3xl "
-          />
-        </div>
+        <motion.div
+  initial={{
+    opacity: 0,
+    scale: 0.8,
+  }}
+  whileInView={{
+    opacity: 1,
+    scale: 1,
+  }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{
+    duration: 0.8,
+    ease: 'easeInOut',
+    delay: 0.2,
+  }}
+  animate={{
+    boxShadow: [
+      '0px 0px 0px rgba(251,191,36,0)',
+      '10px 10px 20px rgba(251,191,36,0.5)',
+      '0px 0px 0px rgba(251,191,36,0)',
+    ],
+  }}
+  transition={{
+    boxShadow: {
+      duration: 2,
+      repeat: Infinity,
+      ease: 'easeInOut',
+    },
+  }}
+  className="inline-block rounded-3xl"
+>
+  <img
+    src={workImg}
+    alt=""
+    className="max-w-[500px] object-contain rounded-3xl"
+  />
+</motion.div>
+
+
+
       </div>
       <footer className="relative bg-black/95 backdrop-blur-3xl  text-white py-16">
         <div className="absolute inset-0 z-0 blur-md overflow-hidden">
@@ -1043,7 +1119,7 @@ export default function Home() {
           </p>
         </div>
       </footer>
-       {/* Chat Box */}
+
       {isOpen && (
         <div className="fixed bottom-20 right-6 w-80 h-96 bg-white border rounded-xl shadow-xl flex flex-col overflow-hidden z-50">
           <div className="bg-primary text-white px-4 py-2 font-semibold flex justify-between items-center">
@@ -1067,7 +1143,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Floating Button */}
+
       <button
         className="fixed bottom-6 right-6 bg-primary hover:bg-yellow-500 text-white p-4 rounded-full shadow-lg z-50"
         onClick={() => setIsOpen(!isOpen)}
