@@ -16,6 +16,7 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleIndex = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -603,7 +604,7 @@ export default function Home() {
           </div>
 
           <ul className="hidden md:flex space-x-10 text-white font-medium tracking-wide">
-            {["Home", "Services", "About", "Contact"].map((item) => (
+            {['Home', 'Services', 'About', 'Contact'].map((item) => (
               <li key={item}>
                 <a
                   href={`#${item.toLowerCase()}`}
@@ -677,7 +678,7 @@ export default function Home() {
           <div className="relative">
             <Swiper
               modules={[Pagination, Autoplay]}
-              pagination={{ el: ".custom-swiper-pagination", clickable: true }}
+              pagination={{ el: '.custom-swiper-pagination', clickable: true }}
               autoplay={{
                 delay: 3000,
                 disableOnInteraction: false,
@@ -694,28 +695,28 @@ export default function Home() {
             >
               {[
                 {
-                  title: "Personalized Coaching",
-                  text: "Get tailored fitness plans and one-on-one coaching to meet your unique health goals.",
+                  title: 'Personalized Coaching',
+                  text: 'Get tailored fitness plans and one-on-one coaching to meet your unique health goals.',
                 },
                 {
-                  title: "Nutrition Guidance",
-                  text: "Receive expert nutritional advice to complement your fitness routine and enhance your results.",
+                  title: 'Nutrition Guidance',
+                  text: 'Receive expert nutritional advice to complement your fitness routine and enhance your results.',
                 },
                 {
-                  title: "Progress Tracking",
-                  text: "Monitor your progress with our advanced tracking tools and stay motivated on your journey.",
+                  title: 'Progress Tracking',
+                  text: 'Monitor your progress with our advanced tracking tools and stay motivated on your journey.',
                 },
                 {
-                  title: "Community Support",
-                  text: "Connect with like-minded fitness enthusiasts and share your journey for extra motivation.",
+                  title: 'Community Support',
+                  text: 'Connect with like-minded fitness enthusiasts and share your journey for extra motivation.',
                 },
                 {
-                  title: "Flexible Scheduling",
-                  text: "Plan your workouts around your lifestyle with our flexible session scheduling.",
+                  title: 'Flexible Scheduling',
+                  text: 'Plan your workouts around your lifestyle with our flexible session scheduling.',
                 },
                 {
-                  title: "Expert Webinars",
-                  text: "Attend live webinars with health experts covering fitness, nutrition, and wellness tips.",
+                  title: 'Expert Webinars',
+                  text: 'Attend live webinars with health experts covering fitness, nutrition, and wellness tips.',
                 },
               ].map((item, idx) => (
                 <SwiperSlide key={idx} className="flex">
