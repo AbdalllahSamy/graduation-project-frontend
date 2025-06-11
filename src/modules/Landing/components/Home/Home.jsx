@@ -1,17 +1,19 @@
-import { useState } from 'react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Autoplay, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import bodyImg from '../../../../assets/images/body.jpg';
-import cardioImg from '../../../../assets/images/cardio.jpg';
-import endImg from '../../../../assets/images/nut.jpg';
-import userDash from '../../../../assets/images/userDash.png';
-import workImg from '../../../../assets/images/workImg.png';
+import React from "react";
+import heroImg from "../../../../assets/images/Hero.png";
+import workImg from "../../../../assets/images/workImg.png";
+import cardioImg from "../../../../assets/images/cardio.jpg";
+import bodyImg from "../../../../assets/images/body.jpg";
+import endImg from "../../../../assets/images/nut.jpg";
+import { useState } from "react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import userDash from "../../../../assets/images/userDash.png";
+import "swiper/css";
+import "swiper/css/pagination";
 
-import { motion } from 'framer-motion';
-import { FaRobot, FaTimes } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaRobot, FaTimes } from "react-icons/fa";
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -21,7 +23,7 @@ export default function Home() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const [activeTab, setActiveTab] = useState('bmi');
+  const [activeTab, setActiveTab] = useState("bmi");
 
   // States for results of each calculator
   const [bmiResult, setBmiResult] = useState(null);
@@ -31,25 +33,25 @@ export default function Home() {
   const [caloriesResult, setCaloriesResult] = useState(null);
 
   const tabs = [
-    { id: 'bmi', label: 'BMI BODY MASS' },
-    { id: 'water', label: 'WATER INTAKE' },
-    { id: 'protein', label: 'PROTEIN INTAKE' },
-    { id: 'bfp', label: 'BFP BODY FAT' },
-    { id: 'calories', label: 'CALORIES TO BURN' }, // التاب الجديد
+    { id: "bmi", label: "BMI BODY MASS" },
+    { id: "water", label: "WATER INTAKE" },
+    { id: "protein", label: "PROTEIN INTAKE" },
+    { id: "bfp", label: "BFP BODY FAT" },
+    { id: "calories", label: "CALORIES TO BURN" }, // التاب الجديد
   ];
 
   const quizData = [
     {
-      question: 'What is the capital of France?',
-      answer: 'The capital of France is Paris.',
+      question: "What is the capital of France?",
+      answer: "The capital of France is Paris.",
     },
     {
-      question: 'Which planet is known as the Red Planet?',
-      answer: 'Mars is known as the Red Planet.',
+      question: "Which planet is known as the Red Planet?",
+      answer: "Mars is known as the Red Planet.",
     },
     {
-      question: 'What is the largest mammal?',
-      answer: 'The blue whale is the largest mammal.',
+      question: "What is the largest mammal?",
+      answer: "The blue whale is the largest mammal.",
     },
     {
       question: "Who wrote 'Romeo and Juliet'?",
@@ -59,7 +61,7 @@ export default function Home() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'bmi':
+      case "bmi":
         return (
           <div className="mt-20 mx-14">
             <section className="bg-black py-16">
@@ -88,14 +90,14 @@ export default function Home() {
                         </thead>
                         <tbody>
                           {[
-                            ['Below 18.5', 'Underweight'],
-                            ['18.5 - 24.9', 'Healthy'],
-                            ['25.0 - 29.9', 'Overweight'],
-                            ['30.0 - and Above', 'Obese'],
+                            ["Below 18.5", "Underweight"],
+                            ["18.5 - 24.9", "Healthy"],
+                            ["25.0 - 29.9", "Overweight"],
+                            ["30.0 - and Above", "Obese"],
                           ].map(([bmi, status], idx) => (
                             <tr
                               key={idx}
-                              className={idx % 2 === 1 ? 'bg-[#111111]' : ''}
+                              className={idx % 2 === 1 ? "bg-[#111111]" : ""}
                             >
                               <td className="px-6 py-4 border-r border-[#363636]">
                                 {bmi}
@@ -142,16 +144,16 @@ export default function Home() {
                               weightKg /
                               (heightM * heightM)
                             ).toFixed(2);
-                            let status = '';
-                            if (bmi < 18.5) status = 'Underweight';
-                            else if (bmi < 25) status = 'Healthy';
-                            else if (bmi < 30) status = 'Overweight';
-                            else status = 'Obese';
+                            let status = "";
+                            if (bmi < 18.5) status = "Underweight";
+                            else if (bmi < 25) status = "Healthy";
+                            else if (bmi < 30) status = "Overweight";
+                            else status = "Obese";
 
                             setBmiResult({ bmi, status });
                           } else {
                             setBmiResult(null);
-                            alert('Please enter valid height and weight.');
+                            alert("Please enter valid height and weight.");
                           }
                         }}
                       >
@@ -198,7 +200,7 @@ export default function Home() {
           </div>
         );
 
-      case 'water':
+      case "water":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -225,7 +227,7 @@ export default function Home() {
                     setWaterResult(liters);
                   } else {
                     setWaterResult(null);
-                    alert('Please enter a valid weight.');
+                    alert("Please enter a valid weight.");
                   }
                 }}
               >
@@ -245,7 +247,7 @@ export default function Home() {
               </form>
               {waterResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You should drink approximately{' '}
+                  You should drink approximately{" "}
                   <strong>{waterResult} liters</strong> of water per day.
                 </p>
               )}
@@ -253,7 +255,7 @@ export default function Home() {
           </div>
         );
 
-      case 'protein':
+      case "protein":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -276,16 +278,16 @@ export default function Home() {
                   const weight = parseFloat(e.target.weight.value);
                   const activity = e.target.activity.value;
                   let multiplier = 1;
-                  if (activity === 'low') multiplier = 0.8;
-                  else if (activity === 'moderate') multiplier = 1.2;
-                  else if (activity === 'high') multiplier = 1.6;
+                  if (activity === "low") multiplier = 0.8;
+                  else if (activity === "moderate") multiplier = 1.2;
+                  else if (activity === "high") multiplier = 1.6;
 
                   if (!isNaN(weight) && weight > 0) {
                     const protein = (weight * multiplier).toFixed(1);
                     setProteinResult(protein);
                   } else {
                     setProteinResult(null);
-                    alert('Please enter a valid weight.');
+                    alert("Please enter a valid weight.");
                   }
                 }}
               >
@@ -315,7 +317,7 @@ export default function Home() {
               </form>
               {proteinResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  You need approximately <strong>{proteinResult} grams</strong>{' '}
+                  You need approximately <strong>{proteinResult} grams</strong>{" "}
                   of protein per day.
                 </p>
               )}
@@ -323,7 +325,7 @@ export default function Home() {
           </div>
         );
 
-      case 'bfp':
+      case "bfp":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -348,7 +350,7 @@ export default function Home() {
                   const neck = parseFloat(e.target.neck.value);
                   const height = parseFloat(e.target.height.value);
                   const hip =
-                    gender === 'female' ? parseFloat(e.target.hip.value) : 0;
+                    gender === "female" ? parseFloat(e.target.hip.value) : 0;
 
                   if (
                     !isNaN(waist) &&
@@ -357,12 +359,12 @@ export default function Home() {
                     neck > 0 &&
                     !isNaN(height) &&
                     height > 0 &&
-                    (gender === 'male' ||
-                      (gender === 'female' && !isNaN(hip) && hip > 0))
+                    (gender === "male" ||
+                      (gender === "female" && !isNaN(hip) && hip > 0))
                   ) {
                     // Using U.S. Navy Method formula (simplified)
                     let bodyFat = 0;
-                    if (gender === 'male') {
+                    if (gender === "male") {
                       bodyFat =
                         495 /
                           (1.0324 -
@@ -380,7 +382,7 @@ export default function Home() {
                     setBfpResult(bodyFat.toFixed(2));
                   } else {
                     setBfpResult(null);
-                    alert('Please enter valid measurements.');
+                    alert("Please enter valid measurements.");
                   }
                 }}
               >
@@ -441,7 +443,7 @@ export default function Home() {
               </form>
               {bfpResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated body fat percentage is{' '}
+                  Your estimated body fat percentage is{" "}
                   <strong>{bfpResult}%</strong>.
                 </p>
               )}
@@ -449,7 +451,7 @@ export default function Home() {
           </div>
         );
 
-      case 'calories':
+      case "calories":
         return (
           <div className="mt-20 mx-14 text-white">
             <section className="bg-[#151515] py-16 px-6 rounded-lg shadow-lg max-w-2xl mx-auto">
@@ -476,7 +478,7 @@ export default function Home() {
                   const activity = e.target.activity.value;
 
                   if (
-                    (gender === 'male' || gender === 'female') &&
+                    (gender === "male" || gender === "female") &&
                     !isNaN(weight) &&
                     weight > 0 &&
                     !isNaN(height) &&
@@ -486,7 +488,7 @@ export default function Home() {
                   ) {
                     // Calculate BMR using Mifflin-St Jeor Equation
                     let bmr = 0;
-                    if (gender === 'male') {
+                    if (gender === "male") {
                       bmr = 10 * weight + 6.25 * height - 5 * age + 5;
                     } else {
                       bmr = 10 * weight + 6.25 * height - 5 * age - 161;
@@ -508,7 +510,7 @@ export default function Home() {
                     setCaloriesResult(caloriesBurned);
                   } else {
                     setCaloriesResult(null);
-                    alert('Please enter valid inputs.');
+                    alert("Please enter valid inputs.");
                   }
                 }}
               >
@@ -581,7 +583,7 @@ export default function Home() {
               </form>
               {caloriesResult !== null && (
                 <p className="mt-6 text-white bg-[#222] p-4 rounded text-center">
-                  Your estimated daily calories burned:{' '}
+                  Your estimated daily calories burned:{" "}
                   <strong>{caloriesResult} kcal</strong>.
                 </p>
               )}
@@ -767,15 +769,15 @@ export default function Home() {
           className="absolute inset-0 h-full w-full"
           style={{
             backgroundImage:
-              'linear-gradient(270deg, #daac00, #b08f00,  #1a1a10, #000000,#daac00)',
-            backgroundSize: '400% 400%',
+              "linear-gradient(270deg, #daac00, #b08f00,  #1a1a10, #000000,#daac00)",
+            backgroundSize: "400% 400%",
           }}
           animate={{
-            backgroundPosition: ['0% 100%', '100% 100%', '0% 100%'],
+            backgroundPosition: ["0% 100%", "100% 100%", "0% 100%"],
           }}
           transition={{
             duration: 20,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             repeat: Infinity,
           }}
         />
@@ -808,8 +810,8 @@ export default function Home() {
               onClick={() => setActiveTab(id)}
               className={`px-5 py-3 rounded-md font-semibold border-2 cursor-pointer ${
                 activeTab === id
-                  ? 'bg-primary border-primary text-white'
-                  : 'border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white'
+                  ? "bg-primary border-primary text-white"
+                  : "border-gray-600 text-gray-400 hover:bg-prfrom-primary hover:border-yellow-bg-prfrom-primary hover:text-white"
               }`}
             >
               {label}
@@ -840,7 +842,7 @@ export default function Home() {
                 </span>
                 <svg
                   className={`w-6 h-6 text-primary transform transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
+                    openIndex === index ? "rotate-180" : ""
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -858,9 +860,9 @@ export default function Home() {
               {openIndex === index && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
+                  animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
                   className="px-6 py-4 bg-[#1a1a1a] text-gray-300 font-family-sec text-base"
                 >
                   {item.answer}
@@ -909,7 +911,7 @@ export default function Home() {
                   Engage in heart-pumping cardio exercises, from running and
                   cycling to high-intensity interval training (HIIT). Improve
                   your cardiovascular health and endurance with our tailored
-                  programs.{' '}
+                  programs.{" "}
                 </p>
               </div>
             </div>
@@ -954,7 +956,7 @@ export default function Home() {
             transition={{
               repeat: Infinity,
               duration: 3,
-              repeatType: 'reverse',
+              repeatType: "reverse",
             }}
             className="absolute w-64 h-64 bg-gradient-to-r from-primary to-yellow-200/30 rounded-full opacity-40 animate-float top-10 left-10"
           ></motion.div>
@@ -964,7 +966,7 @@ export default function Home() {
             transition={{
               repeat: Infinity,
               duration: 3,
-              repeatType: 'reverse',
+              repeatType: "reverse",
             }}
             className="absolute w-96 h-96 bg-gradient-to-r from-primary to-yellow-200/20 rounded-full opacity-15 animate-float-slow top-1/2 right-20"
           ></motion.div>
@@ -974,7 +976,7 @@ export default function Home() {
             transition={{
               repeat: Infinity,
               duration: 3,
-              repeatType: 'reverse',
+              repeatType: "reverse",
             }}
             className="absolute w-48 h-48 bg-gradient-to-r from-primary to-yellow-200/25 rounded-full opacity-25 animate-float-fast bottom-20 left-1/3"
           ></motion.div>
@@ -996,7 +998,7 @@ export default function Home() {
               Quick Links
             </h3>
             <ul className="space-y-3 text-sm">
-              {['Features', 'Dashboard', 'Tools', 'FAQs'].map((item) => (
+              {["Features", "Dashboard", "Tools", "FAQs"].map((item) => (
                 <li key={item}>
                   <a
                     href={`#${item.toLowerCase()}`}
@@ -1016,9 +1018,9 @@ export default function Home() {
             </h3>
             <ul className="space-y-3 text-sm">
               {[
-                { text: 'BMI Calculator', href: '#bmi-calculator' },
-                { text: 'Water Intake Guide', href: '#water-intake' },
-                { text: 'Progress Tracker', href: '#progress-tracker' },
+                { text: "BMI Calculator", href: "#bmi-calculator" },
+                { text: "Water Intake Guide", href: "#water-intake" },
+                { text: "Progress Tracker", href: "#progress-tracker" },
               ].map((item) => (
                 <li key={item.text}>
                   <a
@@ -1041,8 +1043,7 @@ export default function Home() {
           </p>
         </div>
       </footer>
-
-      {/* Chat Box */}
+       {/* Chat Box */}
       {isOpen && (
         <div className="fixed bottom-20 right-6 w-80 h-96 bg-white border rounded-xl shadow-xl flex flex-col overflow-hidden z-50">
           <div className="bg-primary text-white px-4 py-2 font-semibold flex justify-between items-center">
