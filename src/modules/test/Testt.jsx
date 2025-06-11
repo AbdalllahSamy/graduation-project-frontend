@@ -68,8 +68,6 @@ const bfpData = [
 export default function Testt() {
   const [date, setDate] = useState(new Date());
 
-
-  
   return (
     <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 p-6 bg-[#f8fafc]">
       {/* Left column */}
@@ -218,7 +216,7 @@ export default function Testt() {
             <p className="font-semibold text-lg ">Lionel Messi</p>
             <p className="text-sm text-gray-500">@itsworks</p>
           </div>
-          <button className="text-2xl ">⋮</button>
+          <button className="text-2xl text-blue-600">⋮</button>
         </div>
 
         {/* Info Cards */}
@@ -233,9 +231,7 @@ export default function Testt() {
               className="bg-white shadow-md rounded-xl px-4 py-3 flex-1 mx-1 border"
             >
               <p className="text-gray-500">{item.label}</p>
-              <p className="text-lg font-semibold">
-                {item.value}
-              </p>
+              <p className="text-lg font-semibold">{item.value}</p>
             </div>
           ))}
         </div>
