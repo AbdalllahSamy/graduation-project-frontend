@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaRobot, FaTimes } from "react-icons/fa";
 
 export default function Home() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -1042,6 +1043,38 @@ export default function Home() {
           </p>
         </div>
       </footer>
+       {/* Chat Box */}
+      {isOpen && (
+        <div className="fixed bottom-20 right-6 w-80 h-96 bg-white border rounded-xl shadow-xl flex flex-col overflow-hidden z-50">
+          <div className="bg-primary text-white px-4 py-2 font-semibold flex justify-between items-center">
+            <span className='font-family-sec'>AI Coach</span>
+            <button onClick={() => setIsOpen(false)}>
+              <FaTimes />
+            </button>
+          </div>
+          <div className="flex-1 p-3 overflow-y-auto text-sm text-gray-700 space-y-2">
+            <div className="bg-gray-100 p-2 rounded-md w-fit font-family-sec">
+              Hi, how can I help you today?
+            </div>
+          </div>
+          <div className=" p-3  ">
+            <input
+              type="text"
+              placeholder="Type a message..."
+              className="w-full border rounded-sm px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary font-family-sec"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Floating Button */}
+      <button
+        className="fixed bottom-6 right-6 bg-primary hover:bg-yellow-500 text-white p-4 rounded-full shadow-lg z-50"
+        onClick={() => setIsOpen(!isOpen)}
+        title="Chat with us"
+      >
+        <FaRobot size={20} />
+      </button>
     </>
   );
 }
