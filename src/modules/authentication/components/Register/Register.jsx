@@ -1,9 +1,9 @@
 import AuthButton from '@/components/ui/AuthButton';
 import CustomProgressBar from '@/components/ui/CustomProgressBar';
 import Input from '@/components/ui/Input';
-import { Auth, AuthAxiosInstance } from '@/services/apisUrls/apisUrls';
+import { Auth, AuthAxiosInstance, axiosInstance } from '@/services/apisUrls/apisUrls';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa';
 import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4.png';
 import beginner from './../../../../assets/images/beg.png';
@@ -11,12 +11,46 @@ import intermediate from './../../../../assets/images/inter.jpg';
 import advanced from './../../../../assets/images/prof.jpg';
 import { GiBodyHeight } from "react-icons/gi";
 import { GiWeight } from "react-icons/gi";
+import { AuthContext } from '@/context/Authcontext/Authcontext';
 
 export default function Register() {
+  const [token,setToken] = useState('');
   const [page, setPage] = React.useState(1);
+  const [formData, setFormData] = useState({
+    sex: '',
+    age: 0,
+    height: 0,
+    weight: 0,
+    hyperTension: 'No',
+    diabetes: 'No',
+    level: '',
+    fitness_goal: '',
+    fitness_type: 'Muscular Fitness',
+  });
   useEffect(() => {
     console.log(page);
-  }, [page]);
+    console.log('Form Data:', formData);
+  }, [page, formData]);
+  // const { token, setToken } = React.useContext(AuthContext);
+useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken || '');
+    if (storedToken) {
+      console.log('Stored Token:', storedToken);
+    }
+  }, []);
+  const sendAnswers = async () => {
+      console.log('Token:', token); // Check token presence
+
+    try {
+      const res = await axiosInstance.post('/answer-questions', formData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   const handleNext = () => {
     setPage((prev) => {
       const nextPage = prev + 1;
@@ -28,9 +62,9 @@ export default function Register() {
     <div className="w-full flex justify-center gap-3">
       <div className="flex flex-col gap-3 w-[60%] ">
         {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
-        {page === 2 && <RegisterSecondPage setPage={setPage} page={page} />}
-        {page === 3 && <RegisterThirdPage setPage={setPage} page={page} />}
-        {page === 4 && <RegisterFourthPage setPage={setPage} page={page} />}
+        {page === 3 && <RegisterSecondPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} />}
+        {page === 2 && <RegisterThirdPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} />}
+        {page === 4 && <RegisterFourthPage setPage={setPage} page={page} formData={formData} setFormData={setFormData} sendAnswers={sendAnswers} />}
       </div>
     </div>
   );
@@ -43,16 +77,19 @@ export function RegisterFirstPage({ setPage, page }) {
     watch,
   } = useForm();
   const password = watch('password');
+  // const { token, setToken } = React.useContext(AuthContext);
   const registerUser = async (data) => {
     console.log('Form Data:', data);
     // setPage(page + 1);
     try {
       const res = await AuthAxiosInstance.post(Auth.register, {
         ...data,
-        role: 'Trainee',
-        isAgree: true,
+
       });
+      console.log('Response:', res);
       setPage(page + 1);
+      const resToken = res.data.token;
+      localStorage.setItem('token', resToken);
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -72,13 +109,13 @@ export function RegisterFirstPage({ setPage, page }) {
             <Input
               label="First Name"
               className="w-full"
-              {...register('firstName', { required: 'First Name is required' })}
+              {...register('name', { required: 'First Name is required' })}
             />
             {errors.firstName && (
               <p className="text-red-500 text-sm">{errors.firstName.message}</p>
             )}
           </div>
-          <div className="flex flex-col">
+          {/* <div className="flex flex-col">
             <Input
               label="Last Name"
               className="w-full"
@@ -87,7 +124,7 @@ export function RegisterFirstPage({ setPage, page }) {
             {errors.lastName && (
               <p className="text-red-500 text-sm">{errors.lastName.message}</p>
             )}
-          </div>
+          </div> */}
           <div className="col-span-2">
             <Input
               className="w-full"
@@ -99,7 +136,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
-          <div className="flex flex-col col-span-2 w-full">
+          {/* <div className="flex flex-col col-span-2 w-full">
             <Input
               label="Phone Number"
               className="w-full"
@@ -112,7 +149,7 @@ export function RegisterFirstPage({ setPage, page }) {
                 {errors.phoneNumber.message}
               </p>
             )}
-          </div>
+          </div> */}
           <div className="col-span-2">
             <Input
               className="w-full"
@@ -141,7 +178,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
           </div>
-          <div className="col-span-2">
+          {/* <div className="col-span-2">
             <Input
               className="w-full"
               label="Confirm Password"
@@ -171,9 +208,9 @@ export function RegisterFirstPage({ setPage, page }) {
                 {errors.confirmPassword.message}
               </p>
             )}
-          </div>
+          </div> */}
 
-          <div className="col-span-2">
+          {/* <div className="col-span-2">
             <Input
               className="w-full"
               label="Username"
@@ -183,12 +220,12 @@ export function RegisterFirstPage({ setPage, page }) {
             {errors.username && (
               <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
-          </div>
+          </div> */}
           <div className="flex justify-center col-span-2">
             <AuthButton
               title="Next"
               type="submit"
-              onclick={() => setPage(page + 1)}
+            // onclick={() => setPage(page + 1)}
             />
           </div>
         </form>
@@ -196,11 +233,11 @@ export function RegisterFirstPage({ setPage, page }) {
     </>
   );
 }
-export function RegisterSecondPage({ setPage, page }) {
+export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   const goals = [
-    { id: 'lose', label: 'LOSS\nWEIGHT' },
-    { id: 'fitness', label: 'General\nfitness' },
-    { id: 'muscle', label: 'Muscle\nGain' },
+    { id: 'lose', label: 'LOSS\nWEIGHT', goal: 'weight_loss' },
+    { id: 'fitness', label: 'General\nfitness', goal: 'general_fitness' },
+    { id: 'muscle', label: 'Muscle\nGain', goal: 'muscle_gain' },
     { id: 'other', label: 'other' },
   ];
   const [selectedGoal, setSelectedGoal] = useState(null);
@@ -209,7 +246,7 @@ export function RegisterSecondPage({ setPage, page }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={50} />
+        <CustomProgressBar progress={75} />
       </div>
       <div>
         <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">What is your goal?</h2>
@@ -219,7 +256,13 @@ export function RegisterSecondPage({ setPage, page }) {
         {goals.map((goal) => (
           <div
             key={goal.id}
-            onClick={() => setSelectedGoal(goal.id)}
+            onClick={() => {
+              setSelectedGoal(goal.id)
+              setFormData((prev) => ({
+                ...prev,
+                fitness_goal: goal.goal || customGoal,
+              }));
+            }}
             className={`relative cursor-pointer ${selectedGoal === goal.id
               ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
               : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
@@ -283,15 +326,14 @@ export function RegisterThirdPage({ setPage, page }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
-    { id: 1, label: 'Beginner', image: beginner },
+    { id: 1, label: 'Normal', image: beginner },
     { id: 2, label: 'Intermediate', image: intermediate },
-    { id: 3, label: 'Advanced', image: advanced },
   ];
 
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={75} />
+        <CustomProgressBar progress={50} />
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
@@ -325,60 +367,93 @@ export function RegisterThirdPage({ setPage, page }) {
       </div>
 
 
+
       <div className="flex justify-between w-full my-5">
-        <AuthButton title="Prev" onclick={() => setPage((prev) => prev - 1)} />
-        <AuthButton title="Next" onclick={() => setPage((prev) => prev + 1)} />
-      </div>
-       <div className="flex justify-between w-full my-5">
         <AuthButton
           title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
-         <AuthButton
+        <AuthButton
           title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
-        /> 
+        />
       </div>
     </>
   );
 }
-export function RegisterFourthPage({ setPage, page }) {
+export function RegisterFourthPage({ setPage, page, formData, setFormData, sendAnswers }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+
   return (
     <>
       <div className="flex justify-center">
         <CustomProgressBar progress={100} />
       </div>
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2 ">Body Information</h2>
-      <form className="flex flex-col gap-6 ">
+      <form className="flex flex-col gap-6 " onSubmit={formData && handleSubmit(sendAnswers)}>
         {/* Height */}
         <div className="flex items-center gap-3">
           <GiBodyHeight className=" text-lg" />
 
-          <input
-            type="number"
+
+          <Input
+            label={'Height'}
+
             placeholder="Height (cm)"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+            {...register("height", {
+              required: "Height is required",
+              onChange: (e) => setFormData((prev) => ({ ...prev, height: e.target.value })),
+            })}
+
           />
+          {errors.height && (
+            <p className="text-red-500 text-sm">{errors.height.message}</p>
+          )}
         </div>
 
         {/* Weight */}
         <div className="flex items-center gap-3">
           <GiWeight className=" text-lg" />
-          <input
-            type="number"
+
+          <Input
+            label={'Weight'}
+
             placeholder="Weight (kg)"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+            {...register("weight", {
+              required: "Weight is required",
+              onChange: (e) => setFormData((prev) => ({ ...prev, weight: e.target.value })),
+            })}
           />
+          {errors.weight && (
+            <p className="text-red-500 text-sm">{errors.weight.message}</p>
+          )}
         </div>
 
         {/* Age */}
         <div className="flex items-center gap-3">
           <FaBirthdayCake className="text-lg" />
-          <input
+
+
+          <Input
+            label={'Age'}
             type="number"
             placeholder="Age"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+            {...register("age", {
+              required: "Age is required",
+              onChange: (e) => setFormData((prev) => ({ ...prev, age: e.target.value })),
+            })}
           />
+          {errors.age && (
+            <p className="text-red-500 text-sm">{errors.age.message}</p>
+          )}
         </div>
 
         {/* Gender */}
@@ -392,9 +467,13 @@ export function RegisterFourthPage({ setPage, page }) {
             <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-indigo-50 transition">
               <input
                 type="radio"
-                name="gender"
+                name="sex"
                 value="male"
-                className="accent-indigo-600"
+                className="accent-primary"
+                onChange={(e) => setFormData((prev) => ({
+                  ...prev,
+                  sex: e.target.value
+                }))}
               />
               <span className="text-sm text-gray-700">Male</span>
             </label>
@@ -402,12 +481,55 @@ export function RegisterFourthPage({ setPage, page }) {
             <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-indigo-50 transition">
               <input
                 type="radio"
-                name="gender"
+                name="sex"
                 value="female"
-                className="accent-indigo-600"
+                className="accent-primary"
+                onChange={(e) => setFormData((prev) => ({
+                  ...prev,
+                  sex: e.target.value
+
+                }))
+                }
               />
               <span className="text-sm text-gray-700">Female</span>
             </label>
+          </div>
+        </div>
+        <div className='flex flex-col gap-3 '>
+          <h3 className='text-nowrap'>Do you have any medical conditions?</h3>
+          <div className='flex justify-between'>
+            <p>Hypertension</p>
+            <div className='flex gap-3 '>
+              <div className='flex gap-3'>
+                <label htmlFor="hypertension">Yes</label>
+                <input type="radio" name="hypertension" value="yes" className='accent-primary w-5 h-5 border-white'
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      hypertension: e.target.value,
+                    }))
+                  }
+
+                />
+              </div>
+              <div className='flex gap-3'>
+                <label htmlFor="hypertension">No</label>
+                <input type="radio" name="hypertension" value="no" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, hypertension: e.target.value }))} />
+              </div>
+            </div>
+          </div>
+          <div className='flex justify-between'>
+            <p>Diabetes</p>
+            <div className='flex gap-3 '>
+              <div className='flex gap-3'>
+                <label htmlFor="diabetes">Yes</label>
+                <input type="radio" name="diabetes" value="yes" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, diabetes: e.target.value }))} />
+              </div>
+              <div className='flex gap-3'>
+                <label htmlFor="diabetes">No</label>
+                <input type="radio" name="diabetes" value="no" className='accent-primary w-5 h-5 border-white' onChange={(e) => setFormData((prev) => ({ ...prev, diabetes: e.target.value }))} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -416,7 +538,7 @@ export function RegisterFourthPage({ setPage, page }) {
             title={'prev'}
             onclick={() => setPage((prev) => prev - 1)}
           />
-          <AuthButton title={'Submit'} />
+          <AuthButton title={'Submit'} type={'submit'} />
         </div>
       </form>
 

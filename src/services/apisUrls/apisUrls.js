@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const baseURL = 'http://health-advisor.runasp.net/api';
+export const baseURL = 'https://health-advisor.llearn2earn.com/api';
 
 export const axiosInstance = axios.create({
   baseURL:baseURL,
@@ -23,6 +23,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 export const Auth = {
-  login: `/Auth/login`,
-  register: `/Auth/register`,
+  login: `/login`,
+  register: `/register`,
 };
