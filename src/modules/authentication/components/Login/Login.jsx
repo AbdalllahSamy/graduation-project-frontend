@@ -58,7 +58,7 @@ export default function Login() {
         <img src={google} alt="" />
         <p className='font-family-sec'>Continue With Google</p>
       </div> */}
-      <div className="py-5 w-[50%] flex flex-col  gap-5 mx-auto mt-[20px]">
+      <div className="py-5 md:w-[50%] w-[90%] flex flex-col  gap-5 mx-auto mt-[20px]">
         <GoogleOAuthProvider clientId="619608490846-m2rtc2bj47moa3ucfpnh5e2bt45pti6c.apps.googleusercontent.com">
           <GoogleLogin
             onSuccess={(credentialResponse) => {
@@ -82,7 +82,7 @@ export default function Login() {
         <form
           action=""
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-5"
+          className="flex flex-col gap-5 "
         >
           <div className="flex flex-col">
             <Input

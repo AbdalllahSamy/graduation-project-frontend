@@ -1046,7 +1046,7 @@ export default function Home() {
       {isOpen && (
         <div className="fixed bottom-20 right-6 w-80 h-96 bg-white border rounded-xl shadow-xl flex flex-col overflow-hidden z-50">
           <div className="bg-primary text-white px-4 py-2 font-semibold flex justify-between items-center">
-            <span className='font-family-sec'>AI Coach</span>
+            <span className="font-family-sec">AI Coach</span>
             <button onClick={() => setIsOpen(false)}>
               <FaTimes />
             </button>
