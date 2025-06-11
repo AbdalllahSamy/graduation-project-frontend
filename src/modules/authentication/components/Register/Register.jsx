@@ -11,6 +11,9 @@ import { useForm } from 'react-hook-form';
 import { FaBirthdayCake, FaTransgenderAlt } from 'react-icons/fa';
 import { GiBodyHeight, GiWeight } from 'react-icons/gi';
 import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4.png';
+import musclar from './../../../../assets/images/muscle.png';
+import cardio from './../../../../assets/images/cardio.png';
+import flex from './../../../../assets/images/flex.png';
 import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
 
@@ -616,6 +619,60 @@ export function RegisterFourthPage({
           <AuthButton title={'Submit'} type={'submit'} />
         </div>
       </form>
+    </>
+  );
+}
+export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
+  const [selectedFitness, setSelectedFitness] = useState(formData.fitness_type || null);
+
+  const fitnessTypes = [
+    { id: 'muscular', label: 'Muscular Fitness', image: musclar },
+    { id: 'cardio', label: 'Cardio Fitness', image: cardio },
+    { id: 'flexibility', label: 'Flexibility', image: flex },
+  ];
+
+  const handleSelect = (type) => {
+    setSelectedFitness(type.label);
+    setFormData((prev) => ({ ...prev, fitness_type: type.label }));
+  };
+
+  return (
+    <>
+      <div className="flex justify-center">
+        <CustomProgressBar progress={100} />
+      </div>
+      <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
+        What is your fitness type?
+      </h2>
+
+      <div className="grid grid-cols-1 gap-8 mt-4 justify-center">
+        {fitnessTypes.map((type) => {
+          const isSelected = selectedFitness === type.label;
+          return (
+            <div
+              key={type.id}
+              onClick={() => handleSelect(type)}
+              className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
+              ${isSelected ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500' : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'}`}
+            >
+              <img
+                src={type.image}
+                alt={type.label}
+                className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
+                ${isSelected ? 'opacity-70' : 'opacity-100 group-hover:opacity-40'}`}
+              />
+              <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
+                {type.label}
+              </h3>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="flex justify-between w-full mt-6">
+        <AuthButton title={'Prev'} onclick={() => setPage((prev) => prev - 1)} />
+        <AuthButton title={'Next'} onclick={() => setPage((prev) => prev + 1)} />
+      </div>
     </>
   );
 }
