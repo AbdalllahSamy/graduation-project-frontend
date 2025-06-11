@@ -82,8 +82,17 @@ export default function Register() {
             setFormData={setFormData}
           />
         )}
-        {page === 4 && (
+        {page === 5 && (
           <RegisterFourthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+            sendAnswers={sendAnswers}
+          />
+        )}
+        {page === 4 && (
+          <RegisterFifthPage
             setPage={setPage}
             page={page}
             formData={formData}
@@ -124,7 +133,7 @@ export function RegisterFirstPage({ setPage, page }) {
     <>
       <div className="flex flex-col gap-8 justify-center  h-[400px]">
         <div className="flex justify-center">
-          <CustomProgressBar progress={25} />
+          <CustomProgressBar progress={0} />
         </div>
         <form
           onSubmit={handleSubmit(registerUser)}
@@ -271,7 +280,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={75} />
+        <CustomProgressBar progress={50} />
       </div>
       <div>
         <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">
@@ -360,7 +369,7 @@ export function RegisterThirdPage({ setPage, page }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={50} />
+        <CustomProgressBar progress={25} />
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
@@ -639,7 +648,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={100} />
+        <CustomProgressBar progress={75} />
       </div>
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
         What is your fitness type?
