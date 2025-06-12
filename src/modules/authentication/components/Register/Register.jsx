@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router-dom';
 // import hardTraining from './../../../../assets/images/hard training.png'
 import portrait from './../../../../assets/images/portrait-smiling-sports-man-doing-exercises-with-barbell.jpg';
 import { IoMdTime } from 'react-icons/io';
-import { all } from 'axios';
+import axios, { all } from 'axios';
 
 export default function Register() {
   const nav = useNavigate();
@@ -62,7 +62,7 @@ export default function Register() {
     try {
       const payload = {
         sex: formData.sex,
-        age:Number(formData.age),
+        age: Number(formData.age),
         height: Number(formData.height),
         weight: Number(formData.weight),
         hypertension: formData.hypertension,
@@ -80,7 +80,10 @@ export default function Register() {
       };
 
       const res = await axiosInstance.post('/answer-questions', payload, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          
+        },
       });
 
       console.log(res);
