@@ -16,6 +16,9 @@ import Test from './modules/test/Test';
 import Testt from './modules/test/Testt';
 import WaterTracker from './modules/test/WaterTracker';
 import Home from './modules/Landing/components/Home/Home';
+import Weeks from './modules/test/Weeks';
+import NearGyms from './modules/dashboard/components/Dashboard/NearGyms';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const routes = createBrowserRouter([
@@ -35,7 +38,6 @@ function App() {
       element: <AuthLayout />,
       // errorElement: <NotFound />,
       children: [
-
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: 'verify', element: <Verify /> },
@@ -58,6 +60,8 @@ function App() {
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
         { path: 'testt', element: <Testt /> },
+        { path: 'weeks', element: <Weeks /> },
+        { path: 'near-gyms', element: <NearGyms /> },
       ],
     },
   ]);

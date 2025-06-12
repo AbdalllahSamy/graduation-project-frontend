@@ -7,7 +7,7 @@
 
 @theme {
   /* --color-primary: #FFC263; */
-  --color-primary: #daac00;
+    --color-primary: #daac00;
   --font-family-pri: "Bebas Neue", sans-serif;
   --font-family-sec: 'Montserrat', sans-serif;
   --spacing-lg: 7rem;
@@ -40,4 +40,13 @@
 .custom-swiper-pagination .swiper-pagination-bullet-active {
   opacity: 1;
   background-color: #daac00;
+}
+
+.css-dip3t8 {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 3;
+  background-color: black !important;
 }

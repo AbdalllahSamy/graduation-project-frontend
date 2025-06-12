@@ -14,6 +14,7 @@ import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4
 import musclar from './../../../../assets/images/muscle.png';
 import cardio from './../../../../assets/images/cardio.png';
 import flex from './../../../../assets/images/flex.png';
+import level1 from './../../../../assets/images/level-1.png';
 import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
 import { useNavigate } from 'react-router-dom';
