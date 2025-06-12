@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/White.svg';
 import { GiSportMedal } from 'react-icons/gi';
 
@@ -53,15 +53,15 @@ export default function SideBar() {
           Dashboard
         </div>
 
-        <MenuItem icon={<House />}> Home </MenuItem>
-        <MenuItem icon={<SquareChartGantt />}> Analysis </MenuItem>
+        <MenuItem icon={<House />} component={<Link to="/home" />}>
+          Home
+        </MenuItem>
+        <MenuItem icon={<SquareChartGantt />}  component={<Link to="/dashboard" />}> Analysis </MenuItem>
 
         {/* Another Section */}
         <div
           className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${
-            isCollapsed
-              ? 'text-sm text-[#999]'
-              : 'text-lg text-[#fefefe]'
+            isCollapsed ? 'text-sm text-[#999]' : 'text-lg text-[#fefefe]'
           }`}
         >
           Plan
