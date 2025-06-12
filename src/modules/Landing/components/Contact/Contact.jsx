@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { axiosInstance } from '@/services/apisUrls/apisUrls';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -11,21 +14,16 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // هنا حط اللينك بتاع الـ API بتاعك
-      const response = await fetch('YOUR_API_ENDPOINT', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        alert('Message sent successfully!');
+      const response = await axiosInstance.post('/contact', formData);
+      if (response.status === 200 || response.status === 201) {
+        toast.success('✅ Message sent successfully!');
         setFormData({ name: '', email: '', message: '' });
       } else {
-        alert('Something went wrong.');
+        toast.error('❌ Something went wrong.');
       }
     } catch (error) {
       console.error(error);
-      alert('Failed to send message.');
+      toast.error('🚫 Failed to send message.');
     }
   };
 
@@ -84,6 +82,9 @@ export default function Contact() {
           Send Message
         </button>
       </form>
+
+      {/* Toast container لازم يتحط داخل الـ component */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar theme="dark" />
     </motion.div>
   );
 }
