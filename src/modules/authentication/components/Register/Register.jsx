@@ -32,7 +32,7 @@ export default function Register() {
     age: 0,
     height: 0,
     weight: 0,
-    hyperTension: 'No',
+    hypertension: 'No',
     diabetes: 'No',
     level: '',
     fitness_goal: '',
@@ -62,10 +62,10 @@ export default function Register() {
     try {
       const payload = {
         sex: formData.sex,
-        age: formData.age,
-        height: formData.height,
-        weight: formData.weight,
-        hyperTension: formData.hyperTension,
+        age:Number(formData.age),
+        height: Number(formData.height),
+        weight: Number(formData.weight),
+        hypertension: formData.hypertension,
         diabetes: formData.diabetes,
         level: formData.level,
         fitness_goal: formData.fitness_goal,
@@ -125,7 +125,7 @@ export default function Register() {
           />
         )}
         {(selectedFitness === 'gym_and_other_sports' && page === 8) ||
-        (selectedFitness === 'gym_only' && page === 6) ? (
+          (selectedFitness === 'gym_only' && page === 6) ? (
           <RegisterFourthPage
             setPage={setPage}
             page={page}
@@ -323,7 +323,7 @@ export function RegisterFirstPage({ setPage, page }) {
             <AuthButton
               title="Next"
               type="submit"
-              // onclick={() => setPage(page + 1)}
+            // onclick={() => setPage(page + 1)}
             />
           </div>
         </form>
@@ -362,11 +362,10 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
             <div
               key={level.id}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${
-          isSelected
-            ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-            : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-        }`}
+        ${isSelected
+                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+                }`}
               onClick={() => {
                 setSelectedLevel(level.id);
                 setSelectedFitness(level.fitness);
@@ -402,9 +401,9 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
 }
 export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   const goals = [
-    { id: 'lose', label: 'LOSS\nWEIGHT', goal: 'weight_loss' },
-    { id: 'fitness', label: 'General\nfitness', goal: 'general_fitness' },
-    { id: 'muscle', label: 'Muscle\nGain', goal: 'muscle_gain' },
+    { id: 'lose', label: 'LOSS\nWEIGHT', goal: 'Weight Loss' },
+    { id: 'fitness', label: 'Weight\nLoss', goal: 'Weight Gain' },
+    { id: 'muscle', label: 'Muscle\nGain', goal: 'Muscle Gain' },
     { id: 'other', label: 'other' },
   ];
   const [selectedGoal, setSelectedGoal] = useState(null);
@@ -431,11 +430,10 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
                 fitness_goal: goal.goal || customGoal,
               }));
             }}
-            className={`relative cursor-pointer ${
-              selectedGoal === goal.id
-                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
-            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            className={`relative cursor-pointer ${selectedGoal === goal.id
+              ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+              : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
+              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -518,11 +516,10 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
             <div
               key={level.id}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${
-          isSelected
-            ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-            : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-        }`}
+        ${isSelected
+                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+                }`}
               onClick={() => {
                 setSelectedLevel(level.id);
                 setFormData((prev) => ({ ...prev, level: level.label }));
@@ -651,7 +648,7 @@ export function RegisterFourthPage({
               <input
                 type="radio"
                 name="sex"
-                value="male"
+                value="Male"
                 className="accent-primary"
                 onChange={(e) =>
                   setFormData((prev) => ({
@@ -667,7 +664,7 @@ export function RegisterFourthPage({
               <input
                 type="radio"
                 name="sex"
-                value="female"
+                value="Female"
                 className="accent-primary"
                 onChange={(e) =>
                   setFormData((prev) => ({
@@ -692,7 +689,7 @@ export function RegisterFourthPage({
                 <input
                   type="radio"
                   name="hypertension"
-                  value="yes"
+                  value="Yes"
                   className="accent-primary w-5 h-5 border-white"
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -707,7 +704,7 @@ export function RegisterFourthPage({
                 <input
                   type="radio"
                   name="hypertension"
-                  value="no"
+                  value="No"
                   className="accent-primary w-5 h-5 border-white"
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -727,7 +724,7 @@ export function RegisterFourthPage({
                 <input
                   type="radio"
                   name="diabetes"
-                  value="yes"
+                  value="Yes"
                   className="accent-primary w-5 h-5 border-white"
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -742,7 +739,7 @@ export function RegisterFourthPage({
                 <input
                   type="radio"
                   name="diabetes"
-                  value="no"
+                  value="No"
                   className="accent-primary w-5 h-5 border-white"
                   onChange={(e) =>
                     setFormData((prev) => ({
@@ -775,7 +772,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
   const fitnessTypes = [
     { id: 'muscular', label: 'Muscular Fitness', image: musclar },
     { id: 'cardio', label: 'Cardio Fitness', image: cardio },
-    { id: 'flexibility', label: 'Flexibility', image: flex },
+    // { id: 'flexibility', label: 'Flexibility', image: flex },
   ];
 
   const handleSelect = (type) => {
@@ -798,23 +795,27 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
           return (
             <div
               key={type.id}
-              onClick={() => handleSelect(type)}
+              onClick={() => {
+                handleSelect(type)
+                setFormData((prev) => ({
+                  ...prev,
+                  fitness_type: type.label
+                }))
+              }}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-              ${
-                isSelected
+              ${isSelected
                   ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
                   : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-              }`}
+                }`}
             >
               <img
                 src={type.image}
                 alt={type.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-                ${
-                  isSelected
+                ${isSelected
                     ? 'opacity-70'
                     : 'opacity-100 group-hover:opacity-40'
-                }`}
+                  }`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {type.label}
@@ -822,7 +823,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
             </div>
           );
         })}
-      </div>
+      </div >
 
       <div className="flex justify-between w-full mt-6">
         <AuthButton
@@ -894,11 +895,10 @@ export function DietPage({ setPage, page, formData, setFormData }) {
               setFormData((prev) => ({ ...prev, diet: diet.id }));
             }}
             className={`relative  border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-            ${
-              selectedDiet === diet.id
+            ${selectedDiet === diet.id
                 ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
                 : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-            }`}
+              }`}
           >
             <h3 className="font-family-pri text-[43px] leading-10 text-white text-center z-10">
               {diet.label}
@@ -916,10 +916,9 @@ export function DietPage({ setPage, page, formData, setFormData }) {
           <label
             key={item}
             className={`cursor-pointer px-4 py-2 rounded-full border transition-all duration-300
-              ${
-                selectedAllergies.includes(item)
-                  ? 'bg-primary text-white border-primary'
-                  : 'bg-white border-gray-400'
+              ${selectedAllergies.includes(item)
+                ? 'bg-primary text-white border-primary'
+                : 'bg-white border-gray-400'
               }`}
           >
             <input

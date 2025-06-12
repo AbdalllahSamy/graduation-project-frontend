@@ -55,15 +55,19 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
-        { path: 'dashboard', element: <Dashboard /> },
+        { index:true ,element: <Testt /> },
+        { path: 'dashboard', element: <Testt /> },
+        { path: ':id', element: <Dashboard /> },
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
-        { path: 'testt', element: <Testt /> },
         { path: 'weeks', element: <Weeks /> },
         { path: 'near-gyms', element: <NearGyms /> },
       ],
     },
+    // {
+    //   path:"/dashboard/:id",
+    //   element:<Dashboard/>
+    // }
   ]);
 
   return (
