@@ -14,7 +14,6 @@ import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4
 import musclar from './../../../../assets/images/muscle.png';
 import cardio from './../../../../assets/images/cardio.png';
 import flex from './../../../../assets/images/flex.png';
-import level1 from './../../../../assets/images/level-1.png';
 import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +26,7 @@ export default function Register() {
   const nav = useNavigate();
   const [token, setToken] = useState('');
   const [page, setPage] = React.useState(1);
-  const [formData, setFormData] = useState({
+   const [formData, setFormData] = useState({
     sex: '',
     age: 0,
     height: 0,
@@ -42,6 +41,7 @@ export default function Register() {
     days_per_week: 0,
     workout_duration_minutes: 0,
     has_gym_access: false,
+    fitness_level: 'intermediate',
   });
   const [selectedFitness, setSelectedFitness] = useState('');
   useEffect(() => {
@@ -56,53 +56,102 @@ export default function Register() {
       console.log('Stored Token:', storedToken);
     }
   }, []);
-  const sendAnswers = async () => {
-    console.log('Token:', token);
+//   const sendAnswers = async () => {
+//     console.log('Token:', token);
 
   
-     try {
-  const payload = {
-    sex: "male",
-    age: Number(formData.age),
-    height: Number(formData.height),
-    weight: Number(formData.weight),
-    // hypertension: formData.hypertension,
-    // diabetes: formData.diabetes,
-    // level: formData.level,
-    fitness_goal:"weight_loss",
-    // fitness_type: formData.fitness_type,
+//      try {
+//   const payload = {
+//     sex: "male",
+//     age: Number(formData.age),
+//     height: Number(formData.height),
+//     weight: Number(formData.weight),
+//     // hypertension: formData.hypertension,
+//     // diabetes: formData.diabetes,
+//     // level: formData.level,
+//     fitness_goal:"weight_loss",
+//     // fitness_type: formData.fitness_type,
 
-    ...(selectedFitness === "gym_only" && {
-      selected_model: "gym_only",
-    }),
+//     ...(selectedFitness === "gym_only" && {
+//       selected_model: "gym_only",
+//     }),
 
-    ...(selectedFitness === "gym_and_other_sports" && {
-      has_gym_access: true,
-      home_equipment: [""],
-      health_conditions: [],
-      selected_model:"gym_and_other_sports",
-      diet_preference: formData.diet,
-      allergies: formData.allergies,
-      fitness_level:"intermediate",
-      days_per_week: Number(formData.days_per_week),
-      workout_duration_minutes: Number(formData.workout_duration_minutes),
-      preferred_language: "english",
-    }),
-  };
+//     ...(selectedFitness === "gym_and_other_sports" && {
+//       has_gym_access: true,
+//       home_equipment: [""],
+//       health_conditions: [],
+//       selected_model:"gym_and_other_sports",
+//       diet_preference: formData.diet,
+//       allergies: formData.allergies,
+//       fitness_level:"intermediate",
+//       days_per_week: Number(formData.days_per_week),
+//       workout_duration_minutes: Number(formData.workout_duration_minutes),
+//       preferred_language: "english",
+//     }),
+//   };
 
-const res = await axiosInstance.post('/answer-questions', payload, {
-  headers: {
-    Authorization: `Bearer ${token}`,
+// const res = await axiosInstance.post('/answer-questions', payload, {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
 
-  },
-});
+//   },
+// });
 
-console.log(res);
-nav('/dashboard');
-    } catch (err) {
-  console.log(err);
-}
-  };
+// console.log(res);
+// nav('/dashboard');
+//     } catch (err) {
+//   console.log(err);
+// }
+//   }; 
+ const sendAnswers = async () => {
+  console.log('Token:', token);
+
+  try {
+    let payload = {};
+
+    if (selectedFitness === 'gym_only') {
+      payload = {
+        sex: formData.sex,
+        age: Number(formData.age),
+        height: Number(formData.height),
+        weight: Number(formData.weight),
+        fitness_goal: formData.fitness_goal || "weight_loss",
+        selected_model: "gym_only",
+        has_gym_access: false,
+        hypertension:formData.hypertension||"No",
+        diabetes: formData.diabetes || "No",
+        fitness_type: formData.fitness_type || "Muscular Fitness",
+
+      };
+    } else if (selectedFitness === 'gym_and_other_sports') {
+      payload = {
+        sex: formData.sex,
+        age: Number(formData.age),
+        height: Number(formData.height),
+        weight: Number(formData.weight),
+        fitness_goal:formData.fitness_goal || "weight_loss",
+        has_gym_access: true,
+        selected_model: "gym_and_other_sports",
+        diet_preference: formData.diet,
+        allergies: formData.allergies,
+        fitness_level: formData.fitness_level||"intermediate",
+        days_per_week: Number(formData.days_per_week),
+        workout_duration_minutes: Number(formData.workout_duration_minutes),
+        preferred_language: "english",
+      };
+    }
+
+    const res = await axiosInstance.post('/answer-questions', payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log('Response:', res.data);
+  } catch (error) {
+    console.error('Error submitting answers:', error);
+  }
+};
 
 const handleNext = () => {
   setPage((prev) => {
@@ -507,8 +556,9 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
-    { id: 1, label: 'Normal', image: beginner },
-    { id: 2, label: 'Intermediate', image: intermediate },
+    { id: 1, label: 'normal', image: beginner },
+    { id: 2, label: 'intermediate', image: intermediate },
+    { id: 2, label: 'hard', image: intermediate },
   ];
 
   return (
@@ -536,7 +586,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
                 }`}
               onClick={() => {
                 setSelectedLevel(level.id);
-                setFormData((prev) => ({ ...prev, level: level.label }));
+                setFormData((prev) => ({ ...prev, fitness_level: level.label }));
               }}
             >
               <img
