@@ -50,3 +50,6 @@
   z-index: 3;
   background-color: black !important;
 }
+.img-container:hover >div{
+  display: block;
+}

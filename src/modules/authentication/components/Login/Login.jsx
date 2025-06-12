@@ -1,28 +1,16 @@
-import { jwtDecode } from "jwt-decode";
-import { useContext } from "react";
-import { useForm } from "react-hook-form";
-import { data, Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Eye, EyeOff } from 'lucide-react';
+import { useContext, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import { AuthContext } from "@/context/Authcontext/Authcontext";
-import {
-  Auth,
-  AuthAxiosInstance,
-  axiosInstance,
-} from "@/services/apisUrls/apisUrls";
-import {
-  EMAIL_VALIDATION,
-  GetRequiredMessage,
-} from "@/services/validation/validation";
-import { Key, User, UserPlus } from "lucide-react";
-import AuthButton from "@/components/ui/AuthButton";
-import google from "../../../../assets/images/google 1.png";
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import Input from "@/components/ui/Input";
-import { FaSpinner } from "react-icons/fa";
+import Input from '@/components/ui/Input';
+import { AuthContext } from '@/context/Authcontext/Authcontext';
+import { Auth, AuthAxiosInstance } from '@/services/apisUrls/apisUrls';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   let { saveLoginData } = useContext(AuthContext);
   const navigate = useNavigate();
   let {
@@ -33,14 +21,16 @@ export default function Login() {
   const onSubmit = async (data) => {
     try {
       const response = await AuthAxiosInstance.post(Auth.login, data);
-      toast.success("Login Successfully");
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem('token', response.data.token);
       console.log(response.data.token);
       saveLoginData();
-      navigate("/dashboard");
+      navigate('/dashboard');
+      toast.success('Login Successfully');
       console.log(response);
     } catch (error) {
-    toast.error("Login failed");
+      toast.error(
+        error.response?.data?.error || 'Login failed. Please try again.',
+      );
       console.log(error);
     }
   };
@@ -65,7 +55,7 @@ export default function Login() {
               console.log(credentialResponse);
             }}
             onError={() => {
-              console.log("Login Failed");
+              console.log('Login Failed');
             }}
           />
         </GoogleOAuthProvider>
@@ -89,12 +79,12 @@ export default function Login() {
               type="email"
               label="Email"
               placeholder="Please enter your email"
-              className={"w-full"}
-              {...register("email", {
-                required: "Email is required",
+              className={'w-full'}
+              {...register('email', {
+                required: 'Email is required',
                 pattern: {
                   value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                  message: "Email is not valid",
+                  message: 'Email is not valid',
                 },
               })}
             />
@@ -104,44 +94,44 @@ export default function Login() {
               </span>
             )}
           </div>
-          <div className="flex flex-col  mt-1">
+          <div className="flex flex-col mt-1 relative">
             <Input
               label="Password"
-              type="password"
-              className={"w-full"}
-              {...register("password", {
-                required: "Password is required",
-                // pattern: {
-                //   value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/,
-                //   message: "Password must contain at least one letter and one number",
-                // }
+              type={showPassword ? 'text' : 'password'}
+              className="w-full pr-10"
+              {...register('password', {
+                required: 'Password is required',
               })}
               error={errors.password}
             />
+
+            {/* Toggle Password Visibility Button */}
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3  top-3 text-gray-400 hover:text-gray-500"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+
             {errors?.password && (
               <span className="text-red-500 mt-2">
                 {errors?.password?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-3 items-center mt-1">
+          {/* <div className="flex gap-3 items-center mt-1">
             <input type="checkbox" />
             <p>Remember me</p>
-          </div>
+          </div> */}
           <div className="w-[100%] mt-2">
             <button
               disabled={isSubmitting}
               type="submit"
-              title={"Login"}
+              title={'Login'}
               className="w-[100%] font-family-sec bg-black rounded-[30px] text-white px-10 py-2 cursor-pointer disabled:bg-gray-400 hover:transform hover:scale-105 transition-all duration-300"
             >
-              {isSubmitting ? (
-              <>
-                Submiting ...
-              </>
-            ) : (
-              'Login'
-            )}
+              {isSubmitting ? <>Submiting ...</> : 'Login'}
             </button>
           </div>
         </form>

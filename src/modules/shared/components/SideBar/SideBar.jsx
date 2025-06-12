@@ -1,14 +1,17 @@
 import {
+  BicepsFlexed,
   ChevronLeft,
   ChevronRight,
   House,
   LogOut,
   SquareChartGantt,
+  TrainIcon,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/White.svg';
+import { GiSportMedal } from 'react-icons/gi';
 
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -63,6 +66,7 @@ export default function SideBar() {
         >
           Plan
         </div>
+        
 
         <MenuItem icon={<House />}> Gym Plan </MenuItem>
 
@@ -81,6 +85,18 @@ export default function SideBar() {
         >
           LogOut
         </MenuItem>
+
+        <div
+          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${
+            isCollapsed
+              ? 'text-sm text-[#999]'
+              : 'text-lg text-[#fefefe]'
+          }`}
+        >
+          User Guide
+        </div>
+                <MenuItem icon={<BicepsFlexed />} onClick={()=>{navigate('exercises')}}> Exercises </MenuItem>
+
       </Menu>
     </Sidebar>
   );
