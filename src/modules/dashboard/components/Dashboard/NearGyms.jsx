@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { useEffect, useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 function NearGyms() {
   const [userLocation, setUserLocation] = useState(null);
@@ -29,7 +29,7 @@ function NearGyms() {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 0,
-      }
+      },
     );
   };
 
@@ -72,7 +72,7 @@ function NearGyms() {
         const response = await axios.post(
           'https://overpass-api.de/api/interpreter',
           query,
-          { headers: { 'Content-Type': 'text/plain' } }
+          { headers: { 'Content-Type': 'text/plain' } },
         );
         setGyms(response.data.elements || []);
       } catch (error) {
@@ -85,16 +85,21 @@ function NearGyms() {
 
   return (
     <div className="bg-[#121212] min-h-screen text-[#ededed] flex flex-col px-7 py-5">
-      <h2 className="font-family-sec text-4xl font-semibold mb-5">Nearby Gyms</h2>
+      <h2 className="font-family-sec text-4xl font-semibold mb-5">
+        Nearby Gyms
+      </h2>
 
       {loadingLocation ? (
-        <p className="text-lg text-yellow-400 mb-4">Detecting your location...</p>
+        <p className="text-lg text-yellow-400 mb-4">
+          Detecting your location...
+        </p>
       ) : (
         <>
           <p className="text-sm mb-2 text-blue-400">{locationSource}</p>
           {userLocation && (
             <p className="text-green-400 text-sm mb-4">
-              Your location: {userLocation[0].toFixed(5)}, {userLocation[1].toFixed(5)}
+              Your location: {userLocation[0].toFixed(5)},{' '}
+              {userLocation[1].toFixed(5)}
             </p>
           )}
         </>
@@ -140,14 +145,17 @@ function NearGyms() {
               key={idx}
               position={[gym.lat, gym.lon]}
               icon={L.icon({
-                iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
+                iconUrl:
+                  'https://cdn-icons-png.flaticon.com/512/684/684908.png',
                 iconSize: [25, 25],
                 iconAnchor: [12, 25],
               })}
             >
               <Popup>
                 <strong>{gym.tags?.name || 'Unnamed Gym'}</strong>
-                {gym.tags?.operator && <div>Operated by: {gym.tags.operator}</div>}
+                {gym.tags?.operator && (
+                  <div>Operated by: {gym.tags.operator}</div>
+                )}
               </Popup>
             </Marker>
           ))}
