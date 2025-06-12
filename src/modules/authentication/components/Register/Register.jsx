@@ -14,7 +14,6 @@ import actor1 from './../../../../assets/images/6dbde96d619fa2275584886db44d81a4
 import musclar from './../../../../assets/images/muscle.png';
 import cardio from './../../../../assets/images/cardio.png';
 import flex from './../../../../assets/images/flex.png';
-import level1 from './../../../../assets/images/level-1.png';
 import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
 import { useNavigate } from 'react-router-dom';
@@ -37,12 +36,20 @@ export default function Register() {
     level: '',
     fitness_goal: '',
     fitness_type: 'Muscular Fitness',
-    diet_preference: 'Normal Diet',
-    allergies: [],
-    days_per_week: 0,
-    workout_duration_minutes: 0,
-    has_gym_access: "No"
   });
+  const [formDataApi,setFormDataApi] = useState({
+    sex:""
+    age:0,
+    height:0,
+    weight:0,
+    fitness_level:"",
+    fitness_goal:"",
+    diet_preference:"",
+    allergies:[],
+    days_per_week:0,
+    workout_duration_minutes:0,
+    has_gym_access:"No"
+  })
   const [selectedFitness, setSelectedFitness] = useState("")
   useEffect(() => {
     console.log(page);
