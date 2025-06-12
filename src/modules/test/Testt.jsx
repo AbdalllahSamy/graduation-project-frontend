@@ -84,6 +84,7 @@ export default function Testt() {
   const [date, setDate] = useState(new Date());
   const [dataAnalysis, setDataAnalysis] = useState([]);
   const [userAnalysis, setUserAnalysis] = useState([]);
+  const [weeeks, setWeeks] = useState([]);
 
   const getAnalysis = async () => {
     try {
@@ -97,6 +98,21 @@ export default function Testt() {
 
   useEffect(() => {
     getAnalysis();
+  }, []);
+  const getWeeks = async () => {
+    try {
+      const res = await axiosInstance.get('/weeks-plans');
+      setWeeks(res.data); 
+      console.log('weeks', res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getWeeks();
   }, []);
 
   const dietPlans = [
@@ -263,7 +279,7 @@ export default function Testt() {
           {[
             { label: 'Height', key: 'height', unit: 'cm' },
             { label: 'Weight', key: 'weight', unit: 'kg' },
-            { label: 'Goal', key: 'fitnessGoal', unit: '' },
+            { label: 'Goal', key: 'fitness_goal', unit: '' },
           ].map((item, idx) => (
             <div
               key={idx}

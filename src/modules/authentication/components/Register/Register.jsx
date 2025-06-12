@@ -19,12 +19,12 @@ import beginner from './../../../../assets/images/beg.png';
 import intermediate from './../../../../assets/images/inter.jpg';
 import { useNavigate } from 'react-router-dom';
 // import hardTraining from './../../../../assets/images/hard training.png'
-import portrait from './../../../../assets/images/portrait-smiling-sports-man-doing-exercises-with-barbell.jpg'
-import { IoMdTime } from "react-icons/io";
+import portrait from './../../../../assets/images/portrait-smiling-sports-man-doing-exercises-with-barbell.jpg';
+import { IoMdTime } from 'react-icons/io';
 import { all } from 'axios';
 
 export default function Register() {
-  const nav = useNavigate()
+  const nav = useNavigate();
   const [token, setToken] = useState('');
   const [page, setPage] = React.useState(1);
   const [formData, setFormData] = useState({
@@ -41,9 +41,9 @@ export default function Register() {
     allergies: [],
     days_per_week: 0,
     workout_duration_minutes: 0,
-    has_gym_access: "No"
+    has_gym_access: 'No',
   });
-  const [selectedFitness, setSelectedFitness] = useState("")
+  const [selectedFitness, setSelectedFitness] = useState('');
   useEffect(() => {
     console.log(page);
     console.log('Form Data:', formData);
@@ -56,109 +56,111 @@ export default function Register() {
       console.log('Stored Token:', storedToken);
     }
   }, []);
-const sendAnswers = async () => {
-  console.log('Token:', token);
+  const sendAnswers = async () => {
+    console.log('Token:', token);
 
-  try {
-    const payload = {
-      sex: formData.sex,
-      age: formData.age,
-      height: formData.height,
-      weight: formData.weight,
-      hyperTension: formData.hyperTension,
-      diabetes: formData.diabetes,
-      level: formData.level,
-      fitness_goal: formData.fitness_goal,
-      fitness_type: formData.fitness_type,
-      ...(selectedFitness === "gym_and_other_sports" && {
-        has_gym_access: "Yes",
-        diet_preference: formData.diet,
-        allergies: formData.allergies,
-        days_per_week: formData.days_per_week,
-        workout_duration_minutes: formData.workout_duration_minutes,
-      }),
-    };
+    try {
+      const payload = {
+        sex: formData.sex,
+        age: formData.age,
+        height: formData.height,
+        weight: formData.weight,
+        hyperTension: formData.hyperTension,
+        diabetes: formData.diabetes,
+        level: formData.level,
+        fitness_goal: formData.fitness_goal,
+        fitness_type: formData.fitness_type,
+        ...(selectedFitness === 'gym_and_other_sports' && {
+          has_gym_access: 'Yes',
+          diet_preference: formData.diet,
+          allergies: formData.allergies,
+          days_per_week: formData.days_per_week,
+          workout_duration_minutes: formData.workout_duration_minutes,
+        }),
+      };
 
-    const res = await axiosInstance.post('/answer-questions', payload, {
-      headers: { Authorization: `Bearer ${token}` },
+      const res = await axiosInstance.post('/answer-questions', payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log(res);
+      nav('/dashboard');
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleNext = () => {
+    setPage((prev) => {
+      const nextPage = prev + 1;
+      console.log('Setting page to:', nextPage);
+      return nextPage;
     });
-
-    console.log(res);
-    nav('/dashboard');
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const handleNext = () => {
-  setPage((prev) => {
-    const nextPage = prev + 1;
-    console.log('Setting page to:', nextPage);
-    return nextPage;
-  });
-};
-return (
-  <div className="w-full flex justify-center gap-3">
-    <div className="flex flex-col gap-3 w-[60%] ">
-      {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
-      {page === 2 && <ModelRegisterPage setPage={setPage} page={page} setSelectedFitness={setSelectedFitness} />}
-      {page === 4 && (
-        <RegisterSecondPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {page === 3 && (
-        <RegisterThirdPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {selectedFitness === "gym_and_other_sports" && page === 8 || selectedFitness === "gym_only" && page === 6 && (
-        <RegisterFourthPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-          sendAnswers={sendAnswers}
-        />
-      )}
-      {page === 5 && (
-        <RegisterFifthPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-
-        />
-      )}
-      {
-        selectedFitness === "gym_and_other_sports" && page === 6 && (
+  };
+  return (
+    <div className="w-full flex justify-center gap-3">
+      <div className="flex flex-col gap-3 w-[60%] ">
+        {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
+        {page === 2 && (
+          <ModelRegisterPage
+            setPage={setPage}
+            page={page}
+            setSelectedFitness={setSelectedFitness}
+          />
+        )}
+        {page === 4 && (
+          <RegisterSecondPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {page === 3 && (
+          <RegisterThirdPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {(selectedFitness === 'gym_and_other_sports' && page === 8) ||
+        (selectedFitness === 'gym_only' && page === 6) ? (
+          <RegisterFourthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+            sendAnswers={sendAnswers}
+          />
+        ) : null}
+        {page === 5 && (
+          <RegisterFifthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {selectedFitness === 'gym_and_other_sports' && page === 6 && (
           <DietPage
             setPage={setPage}
             page={page}
             formData={formData}
             setFormData={setFormData}
           />
-        )
-      }
-      {
-        selectedFitness === "gym_and_other_sports" && page === 7 && (
+        )}
+        {selectedFitness === 'gym_and_other_sports' && page === 7 && (
           <DurationPage
             setPage={setPage}
             page={page}
             formData={formData}
             setFormData={setFormData}
           />
-        )
-      }
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
 export function RegisterFirstPage({ setPage, page }) {
   const {
@@ -202,7 +204,9 @@ export function RegisterFirstPage({ setPage, page }) {
               {...register('first_name', { required: 'Name is required' })}
             />
             {errors.first_name && (
-              <p className="text-red-500 text-sm">{errors.first_name.message}</p>
+              <p className="text-red-500 text-sm">
+                {errors.first_name.message}
+              </p>
             )}
           </div>
           <div className="flex flex-col col-span-2">
@@ -220,7 +224,13 @@ export function RegisterFirstPage({ setPage, page }) {
               className="w-full"
               label="Email"
               type="email"
-              {...register('email', { required: 'Email is required' })}
+              {...register('email', {
+                required: 'Email is required',
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Please enter a valid email address',
+                },
+              })}
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -235,9 +245,7 @@ export function RegisterFirstPage({ setPage, page }) {
               })}
             />
             {errors.phone && (
-              <p className="text-red-500 text-sm">
-                {errors.phone.message}
-              </p>
+              <p className="text-red-500 text-sm">{errors.phone.message}</p>
             )}
           </div>
           <div className="col-span-2">
@@ -315,7 +323,7 @@ export function RegisterFirstPage({ setPage, page }) {
             <AuthButton
               title="Next"
               type="submit"
-              onclick={() => setPage(page + 1)}
+              // onclick={() => setPage(page + 1)}
             />
           </div>
         </form>
@@ -327,8 +335,13 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
-    { id: 1, label: 'Gym training only', image: beginner, fitness: "gym_only" },
-    { id: 2, label: 'Gym training and other sports', image: portrait, fitness: "gym_and_other_sports" },
+    { id: 1, label: 'Gym training only', image: beginner, fitness: 'gym_only' },
+    {
+      id: 2,
+      label: 'Gym training and other sports',
+      image: portrait,
+      fitness: 'gym_and_other_sports',
+    },
   ];
   return (
     <>
@@ -348,15 +361,15 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
           return (
             <div
               key={level.id}
-
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${isSelected
-                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-                }`}
+        ${
+          isSelected
+            ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+            : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+        }`}
               onClick={() => {
-                setSelectedLevel(level.id)
-                setSelectedFitness(level.fitness)
+                setSelectedLevel(level.id);
+                setSelectedFitness(level.fitness);
               }}
             >
               <img
@@ -418,10 +431,11 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
                 fitness_goal: goal.goal || customGoal,
               }));
             }}
-            className={`relative cursor-pointer ${selectedGoal === goal.id
-              ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-              : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
-              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            className={`relative cursor-pointer ${
+              selectedGoal === goal.id
+                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
+            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -503,14 +517,14 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
           return (
             <div
               key={level.id}
-
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${isSelected
-                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-                }`}
+        ${
+          isSelected
+            ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+            : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+        }`}
               onClick={() => {
-                setSelectedLevel(level.id)
+                setSelectedLevel(level.id);
                 setFormData((prev) => ({ ...prev, level: level.label }));
               }}
             >
@@ -754,7 +768,9 @@ export function RegisterFourthPage({
   );
 }
 export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
-  const [selectedFitness, setSelectedFitness] = useState(formData.fitness_type || null);
+  const [selectedFitness, setSelectedFitness] = useState(
+    formData.fitness_type || null,
+  );
 
   const fitnessTypes = [
     { id: 'muscular', label: 'Muscular Fitness', image: musclar },
@@ -784,13 +800,21 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
               key={type.id}
               onClick={() => handleSelect(type)}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-              ${isSelected ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500' : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'}`}
+              ${
+                isSelected
+                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+              }`}
             >
               <img
                 src={type.image}
                 alt={type.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-                ${isSelected ? 'opacity-70' : 'opacity-100 group-hover:opacity-40'}`}
+                ${
+                  isSelected
+                    ? 'opacity-70'
+                    : 'opacity-100 group-hover:opacity-40'
+                }`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {type.label}
@@ -801,15 +825,23 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
       </div>
 
       <div className="flex justify-between w-full mt-6">
-        <AuthButton title={'Prev'} onclick={() => setPage((prev) => prev - 1)} />
-        <AuthButton title={'Next'} onclick={() => setPage((prev) => prev + 1)} />
+        <AuthButton
+          title={'Prev'}
+          onclick={() => setPage((prev) => prev - 1)}
+        />
+        <AuthButton
+          title={'Next'}
+          onclick={() => setPage((prev) => prev + 1)}
+        />
       </div>
     </>
   );
 }
 export function DietPage({ setPage, page, formData, setFormData }) {
   const [selectedDiet, setSelectedDiet] = useState(formData.diet || null);
-  const [selectedAllergies, setSelectedAllergies] = useState(formData.allergies || []);
+  const [selectedAllergies, setSelectedAllergies] = useState(
+    formData.allergies || [],
+  );
   const [otherAllergy, setOtherAllergy] = useState(formData.otherAllergy || '');
 
   const diets = [
@@ -856,14 +888,17 @@ export function DietPage({ setPage, page, formData, setFormData }) {
       <div className="grid grid-cols-2 gap-8 mt-4 justify-center">
         {diets.map((diet) => (
           <div
-
             key={diet.id}
             onClick={() => {
-              setSelectedDiet(diet.id)
+              setSelectedDiet(diet.id);
               setFormData((prev) => ({ ...prev, diet: diet.id }));
             }}
             className={`relative  border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-            ${selectedDiet === diet.id ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500' : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'}`}
+            ${
+              selectedDiet === diet.id
+                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
+                : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
+            }`}
           >
             <h3 className="font-family-pri text-[43px] leading-10 text-white text-center z-10">
               {diet.label}
@@ -881,9 +916,11 @@ export function DietPage({ setPage, page, formData, setFormData }) {
           <label
             key={item}
             className={`cursor-pointer px-4 py-2 rounded-full border transition-all duration-300
-              ${selectedAllergies.includes(item)
-                ? 'bg-primary text-white border-primary'
-                : 'bg-white border-gray-400'}`}
+              ${
+                selectedAllergies.includes(item)
+                  ? 'bg-primary text-white border-primary'
+                  : 'bg-white border-gray-400'
+              }`}
           >
             <input
               type="checkbox"
@@ -908,17 +945,24 @@ export function DietPage({ setPage, page, formData, setFormData }) {
       </div>
 
       <div className="flex justify-between w-full mt-6">
-        <AuthButton title={'Prev'} onclick={() => setPage((prev) => prev - 1)} />
-        <AuthButton title={'Next'} onclick={() => setPage((prev) => prev + 1)} />
+        <AuthButton
+          title={'Prev'}
+          onclick={() => setPage((prev) => prev - 1)}
+        />
+        <AuthButton
+          title={'Next'}
+          onclick={() => setPage((prev) => prev + 1)}
+        />
       </div>
     </>
   );
 }
 
-
 export function DurationPage({ setPage, page, formData, setFormData }) {
   const [daysPerWeek, setDaysPerWeek] = useState(formData.daysPerWeek || 3);
-  const [durationMinutes, setDurationMinutes] = useState(formData.durationMinutes || '');
+  const [durationMinutes, setDurationMinutes] = useState(
+    formData.durationMinutes || '',
+  );
 
   const handleSubmit = () => {
     setFormData({
@@ -942,7 +986,9 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
       <div className="px-10 mt-6 space-y-6">
         {/* Days per Week Range */}
         <div>
-          <label className="block font-semibold text-lg mb-2">Workout Days per Week: {daysPerWeek}</label>
+          <label className="block font-semibold text-lg mb-2">
+            Workout Days per Week: {daysPerWeek}
+          </label>
           <input
             type="range"
             min={3}
@@ -950,8 +996,11 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
             step={1}
             value={daysPerWeek}
             onChange={(e) => {
-              setDaysPerWeek(Number(e.target.value))
-              setFormData((prev) => ({ ...prev, days_per_week: Number(e.target.value) }));
+              setDaysPerWeek(Number(e.target.value));
+              setFormData((prev) => ({
+                ...prev,
+                days_per_week: Number(e.target.value),
+              }));
             }}
             className="w-full accent-primary"
           />
@@ -972,16 +1021,25 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
             className="w-full"
             value={durationMinutes}
             onChange={(e) => {
-              setDurationMinutes(e.target.value)
-              setFormData((prev) => ({ ...prev, workout_duration_minutes: e.target.value }));
+              setDurationMinutes(e.target.value);
+              setFormData((prev) => ({
+                ...prev,
+                workout_duration_minutes: e.target.value,
+              }));
             }}
           />
         </div>
       </div>
 
-      <div className="flex justify-between w-full mt-6 px-10">
-        <AuthButton title="Prev" onclick={() => setPage((prev) => prev - 1)} />
-        <AuthButton title="Submit" onclick={handleSubmit} />
+      <div className="flex justify-center md:justify-between w-full my-5 gap-5">
+        <AuthButton
+          title={'prev'}
+          onclick={() => setPage((prev) => prev - 1)}
+        />
+        <AuthButton
+          title={'Next'}
+          onclick={() => setPage((prev) => prev + 1)}
+        />
       </div>
     </>
   );
