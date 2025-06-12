@@ -4,14 +4,18 @@ import meal1 from "./../../../../assets/images/pre-prepared-food-showcasing-read
 import meal2 from "./../../../../assets/images/pre-prepared-food-showcasing-ready-eat-delicious-meals-go.jpg";
 import { FaStar } from "react-icons/fa";
 import CustomDialog from "@/components/ui/CustomDialog";
+import { useParams } from "react-router-dom";
+import { axiosInstance } from "@/services/apisUrls/apisUrls";
 
 export default function Dashboard() {
+  const { id } = useParams()
   const [selectedDay, setSelectedDay] = useState(1);
   const [completedTrainingsByDay, setCompletedTrainingsByDay] = useState({});
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [doneMeals, setDoneMeals] = useState([]);
-
+  const [apiMeals, setApiMeals] = useState(null)
+  const [apiExcerises, setAPiExcerises] = useState(null)
   const days = Array.from({ length: 5 }).map((_, i) => ({
     id: i,
     day: `Day ${i + 1}`,
@@ -77,6 +81,43 @@ export default function Dashboard() {
   // );
   // const trainingProgress = (totalCompletedTrainings / totalTrainings) * 100;
 
+  const getPlan = async () => {
+    try {
+      const res = await axiosInstance.get(`/weeks-plans/${id}`)
+      console.log(res, 'res')
+      setAPiExcerises(res.data.data.plan.Exercises)
+      setApiMeals(res.data.data.plan.Diet)
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
+  useEffect(() => {
+    getPlan()
+  }, [id])
+  const formatedDiet = {}
+  apiMeals && apiMeals?.split(';').forEach(element => {
+    const [key, value] =
+      element.split(':');
+    if (key && value) {
+      formatedDiet[key.trim()] =
+        value.replace(/[()]/g, "").split(",").map(element => element.trim());
+    }
+
+  });
+  const dietArray=Object.entries(formatedDiet)?.map(([key,value])=>({
+    category:key,
+    items:value
+  }))
+  const formatedExresices = apiExcerises && apiExcerises?.replace(/and /gi, ", ").split(',').map(e => e.trim())
+  useEffect(() => {
+    if (formatedDiet||formatedExresices) {
+      console.log(formatedDiet);
+      console.log(formatedExresices)
+      console.log(dietArray)
+    }
+  }, [formatedDiet,formatedExresices,dietArray])
   return (
     <div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-950">
       <div className="flex flex-col w-full lg:w-[75%] p-8">
@@ -95,13 +136,12 @@ export default function Dashboard() {
                   onClick={() => !isFuture && setSelectedDay(day.id)}
                   disabled={isFuture}
                   className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ease-in-out
-                ${
-                  selectedDay === day.id
-                    ? "bg-gradient-to-r from-primary to-black text-white transform scale-105 border-2 border-white"
-                    : isFuture
-                    ? "bg-black/10 text-gray-500 cursor-not-allowed"
-                    : "bg-black/10 text-gray-300 hover:bg-primary hover:text-white cursor-pointer shadow-md hover:scale-105 border-2 border-white"
-                }
+                ${selectedDay === day.id
+                      ? "bg-gradient-to-r from-primary to-black text-white transform scale-105 border-2 border-white"
+                      : isFuture
+                        ? "bg-black/10 text-gray-500 cursor-not-allowed"
+                        : "bg-black/10 text-gray-300 hover:bg-primary hover:text-white cursor-pointer shadow-md hover:scale-105 border-2 border-white"
+                    }
               `}
                 >
                   {day.day}
@@ -118,30 +158,28 @@ export default function Dashboard() {
             <div
               className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-500 ease-in-out"
               style={{
-                width: `${
-                  (completedForDay.length / currentDayTrainings.length) * 100
-                }%`,
+                width: `${(completedForDay.length / currentDayTrainings.length) * 100
+                  }%`,
               }}
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
-          {currentDayData.trainings.map((training) => {
+          {formatedExresices?.map((training) => {
             const isDone = completedForDay.includes(training.id);
 
             return (
               <div
                 key={training.id}
-                className={`relative flex font-family-sec flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${
-                  isDone
-                    ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-                    : "bg-black/10 backdrop-blur-md backdrop-brightness-125 border border-white/20 text-gray-300  hover:scale-[1.05]   hover:shadow-xl hover:bg-white/20 hover:text-white "
-                }`}
+                className={`relative flex font-family-sec flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${isDone
+                  ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+                  : "bg-black/10 backdrop-blur-md backdrop-brightness-125 border border-white/20 text-gray-300  hover:scale-[1.05]   hover:shadow-xl hover:bg-white/20 hover:text-white "
+                  }`}
               >
                 <div className="flex justify-between items-center flex-col gap-8">
                   <img
-                    src={training.img}
+                    src={img1}
                     alt={training.name}
                     className="w-20 h-20 rounded-md object-cover shadow-lg"
                   />
@@ -149,18 +187,17 @@ export default function Dashboard() {
                   <button
                     onClick={() => toggleTrainingDone(selectedDay, training.id)}
                     className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ease-in-out cursor-pointer
-                  ${
-                    isDone
-                      ? "bg-white text-green-600"
-                      : "bg-gradient-to-r from-primary to-black text-white hover:bg-primary/80 border-2 border-white hover:scale-105"
-                  }`}
+                  ${isDone
+                        ? "bg-white text-green-600"
+                        : "bg-gradient-to-r from-primary to-black text-white hover:bg-primary/80 border-2 border-white hover:scale-105"
+                      }`}
                   >
                     {isDone ? "Done ✅" : "Mark as Done"}
                   </button>
                 </div>
                 <div className="flex flex-col items-center text-center gap-2">
                   <p className="text-xl font-semibold uppercase text-center">
-                    {training.name}
+                    {training||"stretch"}
                   </p>
                   <p className="text-md text-gray-500">
                     {" "}
@@ -203,11 +240,10 @@ export default function Dashboard() {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <FaStar
                       key={star}
-                      className={`cursor-pointer text-4xl ${
-                        (hoverRating || rating) >= star
-                          ? "text-yellow-500"
-                          : "text-gray-300"
-                      }`}
+                      className={`cursor-pointer text-4xl ${(hoverRating || rating) >= star
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                        }`}
                       onClick={() => setRating(star)}
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
@@ -223,19 +259,18 @@ export default function Dashboard() {
 
       <div className="bg-black/10 shadow-xl w-full lg:w-[25%] p-6 border-l-1 border-white flex flex-col font-family-sec">
         <h2 className="text-4xl font-family-pri font-bold text-center mb-6 text-white">
-           Daily Meals
+          Daily Meals
         </h2>
         <div className="flex flex-col gap-8">
-          {meals.map((meal) => {
+          {dietArray?.map((meal) => {
             const isDone = doneMeals.includes(meal.id);
             return (
               <div
                 key={meal.id}
-                className={`relative rounded-xl p-8 shadow-lg transition-all duration-300 transform ${
-                  isDone
-                    ? "border-green-500 border   scale-[1.02] text-black"
-                    : "bg-black/10 hover:bg-white/10 border-1 border-white"
-                }`}
+                className={`relative rounded-xl p-8 shadow-lg transition-all duration-300 transform ${isDone
+                  ? "border-green-500 border   scale-[1.02] text-black"
+                  : "bg-black/10 hover:bg-white/10 border-1 border-white"
+                  }`}
               >
                 <img
                   src={meal.img}
@@ -247,7 +282,7 @@ export default function Dashboard() {
                 </h3>
                 <p className="text-sm text-gray-400">{meal.description}</p>
                 <p className="text-sm text-gray-500 mt-2">
-                   Calories: {meal.calories}
+                  Calories: {meal.calories}
                 </p>
 
                 {!isDone && (
