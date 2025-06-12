@@ -19,6 +19,8 @@ import Home from './modules/Landing/components/Home/Home';
 import Weeks from './modules/test/Weeks';
 import NearGyms from './modules/dashboard/components/Dashboard/NearGyms';
 import 'leaflet/dist/leaflet.css';
+import Contact from './modules/Landing/components/Contact/Contact';
+import About from './modules/Landing/components/About/About';
 
 function App() {
   const routes = createBrowserRouter([
@@ -61,6 +63,8 @@ function App() {
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
         { path: 'weeks', element: <Weeks /> },
+        { path: 'contact', element: <Contact /> },
+        { path: 'about', element: <About /> },
         { path: 'near-gyms', element: <NearGyms /> },
       ],
     },
