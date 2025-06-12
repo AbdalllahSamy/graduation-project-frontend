@@ -5,14 +5,14 @@ import 'react-calendar/dist/Calendar.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
-import week from '../../assets/images/week.png';
-const weeksData = [
-  { weekNumber: 1, image: week },
-  { weekNumber: 2, image: week },
-  { weekNumber: 3, image: week },
-  { weekNumber: 4, image: week },
-  { weekNumber: 5, image: week },
-];
+import weekimg from '../../assets/images/week.png';
+// const weeksData = [
+//   { weekNumber: 1, image: week },
+//   { weekNumber: 2, image: week },
+//   { weekNumber: 3, image: week },
+//   { weekNumber: 4, image: week },
+//   { weekNumber: 5, image: week },
+// ];
 
 import { Line, LineChart, ResponsiveContainer } from 'recharts';
 
@@ -49,8 +49,8 @@ const bmiData = [
 export default function Testt() {
   //weeks
   const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('/dashboard');
+  const handleClick = (id) => {
+    navigate(`/dashboard/${id}`);
   };
 
   //water
@@ -84,6 +84,7 @@ export default function Testt() {
   const [date, setDate] = useState(new Date());
   const [dataAnalysis, setDataAnalysis] = useState([]);
   const [userAnalysis, setUserAnalysis] = useState([]);
+  const [weeks, setWeeks] = useState([]);
 
   const getAnalysis = async () => {
     try {
@@ -97,6 +98,21 @@ export default function Testt() {
 
   useEffect(() => {
     getAnalysis();
+  }, []);
+  const getWeeks = async () => {
+    try {
+      const res = await axiosInstance.get('/weeks-plans');
+      setWeeks(res.data.data); 
+      console.log('weeks', res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getWeeks();
   }, []);
 
   const dietPlans = [
@@ -118,7 +134,7 @@ export default function Testt() {
 
   return (
     <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
-      <div className="col-span-2 grid grid-cols-4 gap-4 sm:gap-6">
+      <div className="col-span-2 flex flex-col gap-4 sm:gap-6 ">
         <div className="grid grid-cols-4 gap-4 col-span-4 ">
           {[
             {
@@ -185,34 +201,34 @@ export default function Testt() {
 
         <div className="col-span-4">
           <div className="weeks-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {weeksData.map((week) => (
+            {weeks&& weeks.length>0&& weeks.map((week,i) => (
               <div
-                key={week.weekNumber}
+                key={i+1}
                 className="weeks-card bg-[#1e1e1e] text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer transform hover:scale-105"
               >
                 <img
-                  src={week.image}
-                  alt={`Week ${week.weekNumber}`}
+                  src={weekimg}
+                  alt={`Week ${i+1}`}
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
                 <h2 className="text-center text-xl font-bold mb-4 text-white">
-                  Week {week.weekNumber}
+                  Week {i+1 }
                 </h2>
 
                 {/* Progress bar */}
                 <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
                   <div
                     className="h-2 rounded-full"
-                    style={{
-                      width: `${week.progress}%`,
-                      backgroundColor: '#daac00',
-                    }}
+                    // style={{
+                    //   width: `${week.progress}%`,
+                    //   backgroundColor: '#daac00',
+                    // }}
                   ></div>
                 </div>
 
                 {/* View Button */}
                 <button
-                  onClick={() => handleClick()}
+                  onClick={() => handleClick(week.id)}
                   className="w-full bg-[#daac00] text-black p-3 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300"
                 >
                   View Week Plan
@@ -263,7 +279,7 @@ export default function Testt() {
           {[
             { label: 'Height', key: 'height', unit: 'cm' },
             { label: 'Weight', key: 'weight', unit: 'kg' },
-            { label: 'Goal', key: 'fitnessGoal', unit: '' },
+            { label: 'Goal', key: 'fitness_goal', unit: '' },
           ].map((item, idx) => (
             <div
               key={idx}

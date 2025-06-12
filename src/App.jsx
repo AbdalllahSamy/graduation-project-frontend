@@ -19,6 +19,8 @@ import Home from './modules/Landing/components/Home/Home';
 import Weeks from './modules/test/Weeks';
 import NearGyms from './modules/dashboard/components/Dashboard/NearGyms';
 import 'leaflet/dist/leaflet.css';
+import Contact from './modules/Landing/components/Contact/Contact';
+import About from './modules/Landing/components/About/About';
 
 function App() {
   const routes = createBrowserRouter([
@@ -55,15 +57,21 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
-        { path: 'dashboard', element: <Dashboard /> },
+        { index:true ,element: <Testt /> },
+        { path: 'dashboard', element: <Testt /> },
+        { path: ':id', element: <Dashboard /> },
         { path: 'test', element: <Test /> },
         { path: 'water', element: <WaterTracker /> },
-        { path: 'testt', element: <Testt /> },
         { path: 'weeks', element: <Weeks /> },
+        { path: 'contact', element: <Contact /> },
+        { path: 'about', element: <About /> },
         { path: 'near-gyms', element: <NearGyms /> },
       ],
     },
+    // {
+    //   path:"/dashboard/:id",
+    //   element:<Dashboard/>
+    // }
   ]);
 
   return (
