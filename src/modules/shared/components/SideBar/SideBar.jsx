@@ -53,7 +53,7 @@ export default function SideBar() {
           Dashboard
         </div>
 
-        <MenuItem icon={<House />} component={<Link to="/home" />}>
+        <MenuItem icon={<House />} component={<Link to="/dashboard/weeks" />}>
           Home
         </MenuItem>
         <MenuItem icon={<SquareChartGantt />}  component={<Link to="/dashboard" />}> Analysis </MenuItem>
