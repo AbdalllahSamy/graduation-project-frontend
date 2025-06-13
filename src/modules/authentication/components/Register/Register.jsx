@@ -272,7 +272,7 @@ export function RegisterFirstPage({ setPage, page }) {
   };
   return (
     <>
-      <div className="flex flex-col gap-8 justify-center  h-[400px]">
+      <div className="flex flex-col gap-8 justify-center  h-[400px] mt-14">
         <div className="flex justify-center">
           <CustomProgressBar progress={0} />
         </div>
@@ -402,7 +402,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div> */}
-          <div className="flex justify-center col-span-2 mt-4">
+          <div className="flex justify-center col-span-2 mt-4 ">
             <AuthButton
               title="Next"
               type="submit"
@@ -460,7 +460,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
                 
-          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
+          ${isSelected ? "opacity-20" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10 ">
                 {level.label}
@@ -538,7 +538,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
             </div>
 
             <div className="flex items-center">
-              <h2 className="font-family-pri text-[43px] leading-10 whitespace-pre-line ">
+              <h2 className="font-family-pri text-[43px] leading-10 whitespace-pre-line text-black z-30">
                 {goal.label}
               </h2>
             </div>
@@ -613,7 +613,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
                 src={level.image}
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
+          ${isSelected ? "opacity-20" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {level.label}
@@ -723,7 +723,7 @@ export function RegisterFourthPage({
         {/* Gender */}
 
         <div className="flex justify-between">
-          <label className="text-sm font-medium text-gray-700 mb-2 flex  items-center gap-2">
+          <label className="text-sm font-medium text-white mb-2 flex  items-center gap-2">
             <FaTransgenderAlt className=" text-lg" />
             Gender
           </label>
@@ -741,7 +741,7 @@ export function RegisterFourthPage({
                   }))
                 }
               />
-              <span className="text-sm text-gray-700">Male</span>
+              <span className="text-sm text-white">Male</span>
             </label>
 
             <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-indigo-50 transition">
@@ -757,12 +757,12 @@ export function RegisterFourthPage({
                   }))
                 }
               />
-              <span className="text-sm text-gray-700">Female</span>
+              <span className="text-sm text-white">Female</span>
             </label>
           </div>
         </div>
         <div className="flex flex-col gap-2 mt-4 ">
-          <h3 className="md:text-lg text-sm font-bold text-yellow-800 mb-2 md:mb-0 ">
+          <h3 className="md:text-lg text-sm font-bold text-yellow-600 mb-2 md:mb-0 ">
             Do you have any medical conditions?
           </h3>
           <div className="flex justify-between gap-5 md-gap-0">
@@ -837,7 +837,7 @@ export function RegisterFourthPage({
           </div>
         </div>
 
-        <div className="flex justify-between w-full gap-5 md:gap-0">
+        <div className="flex justify-between w-full gap-5 md:gap-0 mb-5">
           <AuthButton
             title={"prev"}
             onclick={() => setPage((prev) => prev - 1)}
@@ -899,7 +899,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
                 ${
                   isSelected
-                    ? "opacity-70"
+                    ? "opacity-20"
                     : "opacity-100 group-hover:opacity-40"
                 }`}
               />
@@ -983,11 +983,11 @@ export function DietPage({ setPage, page, formData, setFormData }) {
             className={`relative  border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
             ${
               selectedDiet === diet.id
-                ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+                ? "bg-yellow-200"
                 : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
             }`}
           >
-            <h3 className="font-family-pri text-[43px] leading-10 text-white text-center z-10">
+            <h3 className="font-family-pri text-[43px] leading-10 text-black text-center z-10">
               {diet.label}
             </h3>
           </div>
@@ -1006,7 +1006,7 @@ export function DietPage({ setPage, page, formData, setFormData }) {
               ${
                 selectedAllergies.includes(item)
                   ? "bg-primary text-white border-primary"
-                  : "bg-white border-gray-400"
+                  : "bg-black border-gray-400"
               }`}
           >
             <input
@@ -1070,7 +1070,7 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
         What is your time preference?
       </h2>
 
-      <div className="px-10 mt-6 space-y-6">
+      <div className="px-10 mt-6 space-y-6 h-90">
         {/* Days per Week Range */}
         <div>
           <label className="block font-semibold text-lg mb-2">
@@ -1118,7 +1118,7 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
         </div>
       </div>
 
-      <div className="flex justify-center md:justify-between w-full my-5 gap-5">
+      <div className="flex justify-center md:justify-between w-full  gap-5">
         <AuthButton
           title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}

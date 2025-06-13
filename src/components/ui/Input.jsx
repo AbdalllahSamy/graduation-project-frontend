@@ -38,7 +38,7 @@ const Input = forwardRef(
           placeholder={isActive ? placeholder : ''}
           disabled={disabled}
           className={`
-            h-10 rounded-md border px-4 py-2 text-gray-900
+            h-10 rounded-md border px-4 py-2 text-white
             transition-all duration-200 ease-in-out
             focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary
             ${error ? 'border-red-500 focus:ring-red-500/50 focus:border-red-500' : 'border-gray-300'}
@@ -49,7 +49,7 @@ const Input = forwardRef(
         <label
           className={`
             absolute left-4 pointer-events-none transition-all duration-200 ease-in-out
-            ${isActive ? '-top-2 text-xs bg-white px-1 text-gray-600' : 'top-2.5 text-sm text-gray-500'}
+            ${isActive ? '-top-2 text-xs bg-dark   text-gray-100' : 'top-2.5 text-sm text-gray-400'}
             ${error && isActive ? 'text-red-500' : ''}
             ${disabled ? 'text-gray-400' : ''}
             ${labelClassName}
