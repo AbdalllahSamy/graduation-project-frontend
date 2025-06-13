@@ -26,7 +26,7 @@ export default function Register() {
   const nav = useNavigate();
   const [token, setToken] = useState('');
   const [page, setPage] = React.useState(1);
-   const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState({
     sex: '',
     age: 0,
     height: 0,
@@ -56,174 +56,194 @@ export default function Register() {
       console.log('Stored Token:', storedToken);
     }
   }, []);
-//   const sendAnswers = async () => {
-//     console.log('Token:', token);
+  //   const sendAnswers = async () => {
+  //     console.log('Token:', token);
 
-  
-//      try {
-//   const payload = {
-//     sex: "male",
-//     age: Number(formData.age),
-//     height: Number(formData.height),
-//     weight: Number(formData.weight),
-//     // hypertension: formData.hypertension,
-//     // diabetes: formData.diabetes,
-//     // level: formData.level,
-//     fitness_goal:"weight_loss",
-//     // fitness_type: formData.fitness_type,
 
-//     ...(selectedFitness === "gym_only" && {
-//       selected_model: "gym_only",
-//     }),
+  //      try {
+  //   const payload = {
+  //     sex: "male",
+  //     age: Number(formData.age),
+  //     height: Number(formData.height),
+  //     weight: Number(formData.weight),
+  //     // hypertension: formData.hypertension,
+  //     // diabetes: formData.diabetes,
+  //     // level: formData.level,
+  //     fitness_goal:"weight_loss",
+  //     // fitness_type: formData.fitness_type,
 
-//     ...(selectedFitness === "gym_and_other_sports" && {
-//       has_gym_access: true,
-//       home_equipment: [""],
-//       health_conditions: [],
-//       selected_model:"gym_and_other_sports",
-//       diet_preference: formData.diet,
-//       allergies: formData.allergies,
-//       fitness_level:"intermediate",
-//       days_per_week: Number(formData.days_per_week),
-//       workout_duration_minutes: Number(formData.workout_duration_minutes),
-//       preferred_language: "english",
-//     }),
-//   };
+  //     ...(selectedFitness === "gym_only" && {
+  //       selected_model: "gym_only",
+  //     }),
 
-// const res = await axiosInstance.post('/answer-questions', payload, {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
+  //     ...(selectedFitness === "gym_and_other_sports" && {
+  //       has_gym_access: true,
+  //       home_equipment: [""],
+  //       health_conditions: [],
+  //       selected_model:"gym_and_other_sports",
+  //       diet_preference: formData.diet,
+  //       allergies: formData.allergies,
+  //       fitness_level:"intermediate",
+  //       days_per_week: Number(formData.days_per_week),
+  //       workout_duration_minutes: Number(formData.workout_duration_minutes),
+  //       preferred_language: "english",
+  //     }),
+  //   };
 
-//   },
-// });
+  // const res = await axiosInstance.post('/answer-questions', payload, {
+  //   headers: {
+  //     Authorization: `Bearer ${token}`,
 
-// console.log(res);
-// nav('/dashboard');
-//     } catch (err) {
-//   console.log(err);
-// }
-//   }; 
- const sendAnswers = async () => {
-  console.log('Token:', token);
+  //   },
+  // });
 
-  try {
-    let payload = {};
+  // console.log(res);
+  // nav('/dashboard');
+  //     } catch (err) {
+  //   console.log(err);
+  // }
+  //   }; 
+  useEffect(() => {
+    localStorage.setItem("going_to_gym",(selectedFitness));
+  }, [selectedFitness]);
+  const sendAnswers = async () => {
+    console.log('Token:', token);
 
-    if (selectedFitness === 'gym_only') {
-      payload = {
-        sex: formData.sex,
-        age: Number(formData.age),
-        height: Number(formData.height),
-        weight: Number(formData.weight),
-        fitness_goal: formData.fitness_goal || "weight_loss",
-        selected_model: "gym_only",
-        has_gym_access: false,
-        hypertension:formData.hypertension||"No",
-        diabetes: formData.diabetes || "No",
-        fitness_type: formData.fitness_type || "Muscular Fitness",
+    try {
+      let payload = {};
 
-      };
-    } else if (selectedFitness === 'gym_and_other_sports') {
-      payload = {
-        sex: formData.sex,
-        age: Number(formData.age),
-        height: Number(formData.height),
-        weight: Number(formData.weight),
-        fitness_goal:formData.fitness_goal || "weight_loss",
-        has_gym_access: true,
-        selected_model: "gym_and_other_sports",
-        diet_preference: formData.diet,
-        allergies: formData.allergies,
-        fitness_level: formData.fitness_level||"intermediate",
-        days_per_week: Number(formData.days_per_week),
-        workout_duration_minutes: Number(formData.workout_duration_minutes),
-        preferred_language: "english",
-      };
+      if (selectedFitness === 'gym_only') {
+        const heightInMeters = formData.height;
+        const weight = formData.weight;
+
+        const bmi = weight / (heightInMeters * heightInMeters);
+        let level = "";
+
+        if (bmi < 18.5) {
+          level = "underweight";
+        } else if (bmi < 25) {
+          level = "normal";
+        } else if (bmi < 30) {
+          level = "overweight";
+        } else {
+          level = "obese";
+        }
+        payload = {
+          sex: formData.sex,
+          age: Number(formData.age),
+          height: Number(formData.height),
+          weight: Number(formData.weight),
+          fitness_goal: formData.fitness_goal || "weight_loss",
+          selected_model: "gym_only",
+          has_gym_access: false,
+          hypertension: formData.hypertension || "No",
+          diabetes: formData.diabetes || "No",
+          fitness_type: formData.fitness_type || "Muscular Fitness",
+          level: level
+
+        };
+      } else if (selectedFitness === 'gym_and_other_sports') {
+        payload = {
+          sex: formData.sex.toLocaleLowerCase(),
+          age: Number(formData.age),
+          height: Number(formData.height),
+          weight: Number(formData.weight),
+          fitness_goal: formData.fitness_goal || "weight_loss",
+          has_gym_access: true,
+          selected_model: "gym_and_other_sports",
+          diet_preference: formData.diet,
+          allergies: formData.allergies,
+          fitness_level: formData.fitness_level || "intermediate",
+          days_per_week: Number(formData.days_per_week),
+          workout_duration_minutes: Number(formData.workout_duration_minutes),
+          preferred_language: "english",
+        };
+      }
+
+      const res = await axiosInstance.post('/answer-questions', payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log('Response:', res.data);
+      nav('/dashboard')
+    } catch (error) {
+      console.error('Error submitting answers:', error);
     }
+  };
 
-    const res = await axiosInstance.post('/answer-questions', payload, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const handleNext = () => {
+    setPage((prev) => {
+      const nextPage = prev + 1;
+      console.log('Setting page to:', nextPage);
+      return nextPage;
     });
-
-    console.log('Response:', res.data);
-  } catch (error) {
-    console.error('Error submitting answers:', error);
-  }
-};
-
-const handleNext = () => {
-  setPage((prev) => {
-    const nextPage = prev + 1;
-    console.log('Setting page to:', nextPage);
-    return nextPage;
-  });
-};
-return (
-  <div className="w-full flex justify-center gap-3">
-    <div className="flex flex-col gap-3 w-[60%] ">
-      {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
-      {page === 2 && (
-        <ModelRegisterPage
-          setPage={setPage}
-          page={page}
-          setSelectedFitness={setSelectedFitness}
-        />
-      )}
-      {page === 4 && (
-        <RegisterSecondPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {page === 3 && (
-        <RegisterThirdPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {(selectedFitness === 'gym_and_other_sports' && page === 8) ||
-        (selectedFitness === 'gym_only' && page === 6) ? (
-        <RegisterFourthPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-          sendAnswers={sendAnswers}
-        />
-      ) : null}
-      {page === 5 && (
-        <RegisterFifthPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {selectedFitness === 'gym_and_other_sports' && page === 6 && (
-        <DietPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
-      {selectedFitness === 'gym_and_other_sports' && page === 7 && (
-        <DurationPage
-          setPage={setPage}
-          page={page}
-          formData={formData}
-          setFormData={setFormData}
-        />
-      )}
+  };
+  return (
+    <div className="w-full flex justify-center gap-3">
+      <div className="flex flex-col gap-3 w-[60%] ">
+        {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
+        {page === 2 && (
+          <ModelRegisterPage
+            setPage={setPage}
+            page={page}
+            setSelectedFitness={setSelectedFitness}
+          />
+        )}
+        {page === 4 && (
+          <RegisterSecondPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {page === 3 && (
+          <RegisterThirdPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {(selectedFitness === 'gym_and_other_sports' && page === 8) ||
+          (selectedFitness === 'gym_only' && page === 6) ? (
+          <RegisterFourthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+            sendAnswers={sendAnswers}
+          />
+        ) : null}
+        {page === 5 && (
+          <RegisterFifthPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {selectedFitness === 'gym_and_other_sports' && page === 6 && (
+          <DietPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+        {selectedFitness === 'gym_and_other_sports' && page === 7 && (
+          <DurationPage
+            setPage={setPage}
+            page={page}
+            formData={formData}
+            setFormData={setFormData}
+          />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
 export function RegisterFirstPage({ setPage, page }) {
   const {
@@ -449,11 +469,8 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
         })}
       </div>
 
-      <div className="flex justify-center md:justify-between w-full my-5 gap-5">
-        <AuthButton
-          title={'prev'}
-          onclick={() => setPage((prev) => prev - 1)}
-        />
+      <div className="flex justify-end w-full my-5 gap-5">
+
         <AuthButton
           title={'Next'}
           onclick={() => setPage((prev) => prev + 1)}
@@ -558,7 +575,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
   const trainingLevels = [
     { id: 1, label: 'normal', image: beginner },
     { id: 2, label: 'intermediate', image: intermediate },
-    { id: 2, label: 'hard', image: intermediate },
+    { id: 3, label: 'hard', image: intermediate },
   ];
 
   return (

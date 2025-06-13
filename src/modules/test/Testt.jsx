@@ -6,14 +6,9 @@ import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useNavigate } from 'react-router-dom';
 import weekimg from '../../assets/images/week.png';
-// const weeksData = [
-//   { weekNumber: 1, image: week },
-//   { weekNumber: 2, image: week },
-//   { weekNumber: 3, image: week },
-//   { weekNumber: 4, image: week },
-//   { weekNumber: 5, image: week },
-// ];
 
+
+import Spinner from '@/components/ui/Spinner';
 import { Line, LineChart, ResponsiveContainer } from 'recharts';
 
 const caloriesData = [
@@ -47,6 +42,13 @@ const bmiData = [
 ];
 
 export default function Testt() {
+  const [loading, setLoading] = useState(false)
+  const [userType, setUserType] = useState(null)
+  const [plan, setPlan] = useState(null)
+  // useEffect(() => {
+  //   const type = localStorage.getItem('going_to_gym')
+  //   setUserType(type)
+  // }, [])
   //weeks
   const navigate = useNavigate();
   const handleClick = (id) => {
@@ -87,22 +89,34 @@ export default function Testt() {
   const [weeks, setWeeks] = useState([]);
 
   const getAnalysis = async () => {
+    setLoading(true)
     try {
       let response = await axiosInstance.get('/analysis');
       setDataAnalysis(response.data);
       setUserAnalysis(response.data.user);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   };
 
   useEffect(() => {
     getAnalysis();
   }, []);
+  useEffect(() => {
+
+    console.log(userType, 'userType');
+  }, [userType])
+
   const getWeeks = async () => {
     try {
       const res = await axiosInstance.get('/weeks-plans');
-      setWeeks(res.data.data); 
+      const lastType = res.data.data.length > 0 ? res.data.data[res.data.data.length - 1].type : "";
+      const lastplan = res.data.data.length > 0 && res.data.data[res.data.data.length - 1].plan;
+      setWeeks(res.data.data);
+      setUserType(lastType)
+      setPlan(lastplan)
       console.log('weeks', res.data);
     } catch (err) {
       console.error(err);
@@ -132,8 +146,15 @@ export default function Testt() {
   const textLight = 'text-gray-100';
   const textMuted = 'text-gray-400';
 
+  if (loading) {
+    return (
+      <div className='h-screen w-full flex justify-center items-center bg-black'>
+        <Spinner />
+      </div>
+    )
+  }
   return (
-    <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
+    <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen `}>
       <div className="col-span-2 flex flex-col gap-4 sm:gap-6 ">
         <div className="grid grid-cols-4 gap-4 col-span-4 ">
           {[
@@ -198,46 +219,73 @@ export default function Testt() {
         </div>
 
         {/* weeks */}
+        {
+          userType === "not_gym_only" && (
 
-        <div className="col-span-4">
-          <div className="weeks-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {weeks&& weeks.length>0&& weeks.map((week,i) => (
-              <div
-                key={i+1}
-                className="weeks-card bg-[#1e1e1e] text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer transform hover:scale-105"
-              >
-                <img
-                  src={weekimg}
-                  alt={`Week ${i+1}`}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-                <h2 className="text-center text-xl font-bold mb-4 text-white">
-                  Week {i+1 }
-                </h2>
 
-                {/* Progress bar */}
-                <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
+            <div className="col-span-4">
+              <div className="weeks-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                {weeks && weeks.length > 0 && weeks.map((week, i) => (
                   <div
-                    className="h-2 rounded-full"
-                    // style={{
-                    //   width: `${week.progress}%`,
-                    //   backgroundColor: '#daac00',
-                    // }}
-                  ></div>
-                </div>
+                    key={i + 1}
+                    className="weeks-card bg-[#1e1e1e] text-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer transform hover:scale-105"
+                  >
+                    <img
+                      src={weekimg}
+                      alt={`Week ${i + 1}`}
+                      className="w-full h-48 object-cover rounded-lg mb-4"
+                    />
+                    <h2 className="text-center text-xl font-bold mb-4 text-white">
+                      Week {i + 1}
+                    </h2>
 
-                {/* View Button */}
-                <button
-                  onClick={() => handleClick(week.id)}
-                  className="w-full bg-[#daac00] text-black p-3 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300"
-                >
-                  View Week Plan
-                </button>
+                    {/* Progress bar */}
+                    <div className="w-full bg-gray-700 rounded-full h-2 mb-4">
+                      <div
+                        className="h-2 rounded-full"
+                      // style={{
+                      //   width: `${week.progress}%`,
+                      //   backgroundColor: '#daac00',
+                      // }}
+                      ></div>
+                    </div>
+
+                    {/* View Button */}
+                    <button
+                      onClick={() => handleClick(week.id)}
+                      className="w-full bg-[#daac00] text-black p-3 rounded-lg font-semibold hover:bg-yellow-500 transition-all duration-300"
+                    >
+                      View Week Plan
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
 
+        {userType === 'gym_only' && plan && (
+          <div className="col-span-4 max-w-4xl p-6 bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg space-y-6">
+            <h2 className="text-2xl font-bold text-white">Your General Plan</h2>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="p-4 border rounded-xl bg-gray-50">
+                <h3 className="font-semibold text-yellow-600 mb-2">Diet</h3>
+                <p className="text-gray-700 whitespace-pre-line">{plan.Diet}</p>
+              </div>
+              <div className="p-4 border rounded-xl bg-gray-50">
+                <h3 className="font-semibold text-yellow-600 mb-2">Equipment</h3>
+                <p className="text-gray-700">{plan.Equipment}</p>
+              </div>
+              <div className="p-4 border rounded-xl bg-gray-50">
+                <h3 className="font-semibold text-yellow-600 mb-2">Exercises</h3>
+                <p className="text-gray-700">{plan.Exercises}</p>
+              </div>
+              <div className="p-4 border rounded-xl bg-gray-50 md:col-span-2">
+                <h3 className="font-semibold text-yellow-600 mb-2">Recommendation</h3>
+                <p className="text-gray-700 whitespace-pre-line">{plan.Recommendation}</p>
+              </div>
+            </div>
+          </div>
+        )}
         {/* weeks */}
 
         {/* <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -283,9 +331,8 @@ export default function Testt() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className={`w-1/3 ${cardDark} px-4 py-3 border-l border-yellow-500 ${
-                idx === 0 ? 'border-l-0' : ''
-              }`}
+              className={`w-1/3 ${cardDark} px-4 py-3 border-l border-yellow-500 ${idx === 0 ? 'border-l-0' : ''
+                }`}
             >
               <p className="text-gray-100 font-family-sec font-semibold mb-1 text-lg">
                 {item.label}
