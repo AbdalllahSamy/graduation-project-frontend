@@ -42,7 +42,7 @@ export default function Community() {
   return (
     <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
       <div className="col-span-2 flex flex-col gap-4 sm:gap-6">
-        {/* إنشاء بوست جديد */}
+        {/* إنشاء بوست جديد */}git
         <div className="p-4 border border-[#8f7517] pb-10 bg-[#1e1e1e] rounded-xl">
           <div className="flex mb-8 gap-3">
             <img

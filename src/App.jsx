@@ -22,6 +22,8 @@ import Test from './modules/test/Test';
 import Testt from './modules/test/Testt';
 import WaterTracker from './modules/test/WaterTracker';
 import Weeks from './modules/test/Weeks';
+import 'leaflet/dist/leaflet.css';
+import Exercises from './modules/dashboard/components/Dashboard/exercises';
 
 function App() {
   const routes = createBrowserRouter([
@@ -68,6 +70,7 @@ function App() {
         { path: 'about', element: <About /> },
         { path: 'community', element: <Community /> },
         { path: 'near-gyms', element: <NearGyms /> },
+        { path: 'exercises', element: <Exercises /> },
       ],
     },
     // {

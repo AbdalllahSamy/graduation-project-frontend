@@ -47,6 +47,7 @@ const bmiData = [
 ];
 
 export default function Testt() {
+  const [water,setWater] = useState(0);
   //weeks
   const navigate = useNavigate();
   const handleClick = (id) => {
@@ -80,7 +81,8 @@ export default function Testt() {
 
   const percentage = (cups / goal) * 100;
   //water
-
+const litresToCups = (litres) => Math.ceil(litres * 4.22675);
+//litresToCups function converts litres to cups, where 1 litre = 4.22675 cups
   const [date, setDate] = useState(new Date());
   const [dataAnalysis, setDataAnalysis] = useState([]);
   const [userAnalysis, setUserAnalysis] = useState([]);
@@ -89,6 +91,7 @@ export default function Testt() {
   const getAnalysis = async () => {
     try {
       let response = await axiosInstance.get('/analysis');
+      setWater(response.data.water);
       setDataAnalysis(response.data);
       setUserAnalysis(response.data.user);
     } catch (error) {
@@ -277,7 +280,7 @@ export default function Testt() {
 
         <div className="flex w-full text-center text-sm font-medium  rounded-xl  overflow-hidden">
           {[
-            { label: 'Height', key: 'height', unit: 'cm' },
+            { label: 'Height', key: 'height', unit: 'm' },
             { label: 'Weight', key: 'weight', unit: 'kg' },
             { label: 'Goal', key: 'fitness_goal', unit: '' },
           ].map((item, idx) => (
@@ -308,7 +311,7 @@ export default function Testt() {
           <div className=" font-family-pri w-50">
             <CircularProgressbar
               value={percentage}
-              text={`${cups} / ${goal} cups`}
+              text={`${cups} / ${litresToCups(water)} cups`}
               styles={buildStyles({
                 pathColor: primaryColor,
                 textColor: primaryColor,
