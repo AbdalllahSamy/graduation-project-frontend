@@ -103,7 +103,7 @@ export default function Community() {
                 {/* عرض الصورة فقط لو موجودة */}
                 {post.image && (
                   <div>
-                    <img src={post.image} className="rounded-2xl" alt="Post" />
+                    <img src={"http://127.0.0.1:8002/storage/" + post.image} className="rounded-2xl" alt="Post" />
                   </div>
                 )}
 

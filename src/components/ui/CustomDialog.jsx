@@ -10,9 +10,19 @@ import {
 
 function CustomDialog({ children, title = 'zzz',btnClassName,contentClassName,dialogClassName,btnStyle }) {
   return (
-    <Dialog className={dialogClassName}>
-      <DialogTrigger  onClick= {(e) => e.stopPropagation()} className={btnClassName} style={{btnStyle}}>{title}</DialogTrigger>
-      <DialogContent className={contentClassName}>{children}</DialogContent>
+   <Dialog>
+      <DialogTrigger
+        onClick={(e) => e.stopPropagation()}
+        className={btnClassName}
+        style={btnStyle}
+      >
+        {title}
+      </DialogTrigger>
+      <DialogContent
+        className={`max-w-[90vw] sm:max-w-[30rem] ${contentClassName} ${dialogClassName}`}
+      >
+        {children}
+      </DialogContent>
     </Dialog>
   );
 }

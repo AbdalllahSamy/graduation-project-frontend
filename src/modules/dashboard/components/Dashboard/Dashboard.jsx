@@ -40,6 +40,7 @@ export default function Dashboard() {
     }
     return currentDayValue;
   });
+  const [day,setDay]=useState(null)
 
   const getPlan = async () => {
     try {
@@ -54,6 +55,11 @@ export default function Dashboard() {
     getPlan();
   }, [id]);
 
+useEffect(() => {
+
+  console.log(day,'current day');
+  
+}, [day]);
   // Save selectedDay to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('selectedDay', selectedDay);
@@ -92,46 +98,48 @@ export default function Dashboard() {
 
   const mealsByCategory = plan
     ? plan.diet_recommendation
-        .split(";")
-        .map((category, catIndex) => {
-          const [key, value] = category.split(":").map((s) => s.trim());
-          if (!key || !value) return null;
-          const items = value
-            .replace(/[()]/g, "")
-            .split(",")
-            .map((item) => item.trim())
-            .filter((item) => item);
-          return {
-            category: key,
-            items: items.map((item, itemIndex) => ({
-              id: `${catIndex}-${itemIndex}`,
-              img: itemIndex % 2 === 0 ? vegetables : meal2,
-              name: item,
-              description: `A nutritious ${item.toLowerCase()} from ${key.toLowerCase()}`,
-              calories: key.includes("Juice")
-                ? 150
-                : key.includes("Vegetables")
+      .split(";")
+      .map((category, catIndex) => {
+        const [key, value] = category.split(":").map((s) => s.trim());
+        if (!key || !value) return null;
+        const items = value
+          .replace(/[()]/g, "")
+          .split(",")
+          .map((item) => item.trim())
+          .filter((item) => item);
+        return {
+          category: key,
+          items: items.map((item, itemIndex) => ({
+            id: `${catIndex}-${itemIndex}`,
+            img: itemIndex % 2 === 0 ? vegetables : meal2,
+            name: item,
+            description: `A nutritious ${item.toLowerCase()} from ${key.toLowerCase()}`,
+            calories: key.includes("Juice")
+              ? 150
+              : key.includes("Vegetables")
                 ? 100
                 : 300,
-            })),
-          };
-        })
-        .filter(Boolean)
+          })),
+        };
+      })
+      .filter(Boolean)
     : [];
 
   const days = plan
     ? plan.weekly_workout_plan.map((day, index) => ({
-        id: index,
-        day: day.day,
-        muscle: day.muscle_group,
-        trainings: day.exercises.map((exercise, i) => ({
-          id: i,
-          img: img1,
-          name: exercise.name,
-          sets: parseInt(exercise.reps.split("x")[0]) || 3,
-          reps: parseInt(exercise.reps.split("x")[1]) || 10,
-        })),
-      }))
+      id: index,
+      day: day.day,
+      day_id:day.id,
+      muscle: day.muscle_group,
+      trainings: day.exercises.map((exercise, i) => ({
+        id: i,
+        img: img1,
+        name: exercise.name,
+       
+        sets: parseInt(exercise.reps.split("x")[0]) || 3,
+        reps: parseInt(exercise.reps.split("x")[1]) || 10,
+      })),
+    }))
     : [];
 
   const toggleTrainingDone = (dayId, trainingId) => {
@@ -163,9 +171,20 @@ export default function Dashboard() {
     Vegetables: vegetables,
     ProteinIntake: protin,
   };
+  const sendFeedBack = async (day_id) => {
+    try {
+      const res =await axiosInstance.post(`weekly-plan/${id}/day/${day_id}/feedback`,{
+        rate:rating
+      })
+      console.log(res);
+      
+    } catch (err) {
+      console.log(err);
 
+    }
+  }
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-950">
+    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-950 overflow-hidden">
       <div className="flex flex-col w-full lg:w-[75%] p-8">
         {/* Title & Days */}
         <h1 className="text-5xl font-extrabold mb-6 text-white text-center font-family-pri">
@@ -178,15 +197,18 @@ export default function Dashboard() {
             return (
               <button
                 key={day.id}
-                onClick={() => !isFuture && setSelectedDay(day.id)}
+                onClick={() => {
+                  !isFuture && setSelectedDay(day.id)
+                  setDay(day.day_id)
+                  
+                }}
                 disabled={isFuture}
-                className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ease-in-out ${
-                  selectedDay === day.id
-                    ? "bg-gradient-to-r from-primary to-black text-white scale-105 border-2 border-white"
-                    : isFuture
+                className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ease-in-out ${selectedDay === day.id
+                  ? "bg-gradient-to-r from-primary to-black text-white scale-105 border-2 border-white"
+                  : isFuture
                     ? "bg-black/10 text-gray-500 cursor-not-allowed"
                     : "bg-black/10 text-gray-300 hover:bg-primary hover:text-white border-2 border-white shadow-md hover:scale-105"
-                }`}
+                  }`}
               >
                 {day.day}
               </button>
@@ -203,27 +225,25 @@ export default function Dashboard() {
           <div
             className="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full"
             style={{
-              width: `${
-                currentDayTrainings.length
-                  ? (completedForDay.length / currentDayTrainings.length) * 100
-                  : 0
-              }%`,
+              width: `${currentDayTrainings.length
+                ? (completedForDay.length / currentDayTrainings.length) * 100
+                : 0
+                }%`,
             }}
           />
         </div>
 
         {/* Trainings List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6 overflow-y-scroll hide-scrollbar">
           {currentDayTrainings.map((training) => {
             const isDone = completedForDay.includes(training.id);
             return (
               <div
                 key={training.id}
-                className={`relative flex flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${
-                  isDone
-                    ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-                    : "bg-black/10 text-gray-300 border border-white/20 backdrop-blur-md"
-                }`}
+                className={`relative flex flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${isDone
+                  ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+                  : "bg-black/10 text-gray-300 border border-white/20 backdrop-blur-md"
+                  }`}
               >
                 <div className="flex flex-col items-center gap-4">
                   <img
@@ -233,11 +253,10 @@ export default function Dashboard() {
                   />
                   <button
                     onClick={() => toggleTrainingDone(selectedDay, training.id)}
-                    className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
-                      isDone
-                        ? "bg-white text-green-600"
-                        : "bg-gradient-to-r from-primary to-black text-white border-2 border-white"
-                    }`}
+                    className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${isDone
+                      ? "bg-white text-green-600"
+                      : "bg-gradient-to-r from-primary to-black text-white border-2 border-white"
+                      }`}
                   >
                     {isDone ? "Done ✅" : "Mark as Done"}
                   </button>
@@ -264,14 +283,14 @@ export default function Dashboard() {
 
         {/* Rating Dialog */}
         {allTrainingsDone && (
-          <div className="flex justify-center mt-8">
+          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-blue-100/40 backdrop-blur-md z-10 ">
             <CustomDialog
-              dialogClassName="relative z-[999999]"
+              dialogClassName="w-full max-w-[40rem]"
               title="Rate"
               btnClassName="bg-black text-white px-8 py-3 rounded-full font-semibold text-lg cursor-pointer hover:bg-gray-800"
-              contentClassName="bg-white text-black"
+              contentClassName="bg-white text-black w-[30rem] overflow-hidden"
             >
-              <div className="flex flex-col items-center space-y-6 p-8">
+              <div className="flex flex-col items-center space-y-6 p-8 w-full ">
                 <p className="text-lg font-semibold">
                   How was your full workout for {currentDayData.day}?
                 </p>
@@ -279,12 +298,14 @@ export default function Dashboard() {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <FaStar
                       key={star}
-                      className={`cursor-pointer text-4xl ${
-                        (hoverRating || rating) >= star
-                          ? "text-yellow-500"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => setRating(star)}
+                      className={`cursor-pointer text-4xl ${(hoverRating || rating) >= star
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                        }`}
+                      onClick={() => {
+                        setRating(star)
+                        rating && sendFeedBack(day)
+                      }}
                       onMouseEnter={() => setHoverRating(star)}
                       onMouseLeave={() => setHoverRating(0)}
                     />
@@ -298,7 +319,7 @@ export default function Dashboard() {
       </div>
 
       {/* Meals Sidebar */}
-      <div className="bg-black/10 shadow-xl w-full lg:w-[25%] p-6 border-l border-white font-family-sec">
+      <div className="bg-black/10 shadow-xl w-full lg:w-[25%] p-6 border-l border-white font-family-sec overflow-y-scroll hide-scrollbar">
         <h2 className="text-4xl font-family-pri font-bold text-center mb-6 text-white">
           Daily Meals
         </h2>
@@ -313,11 +334,10 @@ export default function Dashboard() {
                   prev === category.category ? null : category.category
                 )
               }
-              className={`px-6 py-2 rounded-full font-semibold text-sm border-2 transition-all duration-300 ${
-                selectedCategory === category.category
-                  ? "bg-primary text-white border-white"
-                  : "bg-black/20 text-gray-300 border-gray-500 hover:bg-primary hover:text-white"
-              }`}
+              className={`px-6 py-2 rounded-full font-semibold text-sm border-2 transition-all duration-300 ${selectedCategory === category.category
+                ? "bg-primary text-white border-white"
+                : "bg-black/20 text-gray-300 border-gray-500 hover:bg-primary hover:text-white"
+                }`}
             >
               {category.category}
             </button>
@@ -339,11 +359,10 @@ export default function Dashboard() {
                 return (
                   <div
                     key={meal.id}
-                    className={`relative rounded-xl p-6 transition-all duration-300 ${
-                      isDone
-                        ? "border-green-500 border scale-[1.02] bg-white text-black"
-                        : "bg-black/10 hover:bg-white/10 text-white border border-white"
-                    }`}
+                    className={`relative rounded-xl p-6 transition-all duration-300 ${isDone
+                      ? "border-green-500 border scale-[1.02] bg-white text-black"
+                      : "bg-black/10 hover:bg-white/10 text-white border border-white"
+                      }`}
                   >
                     <img
                       src={
