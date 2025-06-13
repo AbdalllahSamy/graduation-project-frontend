@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const baseURL = 'https://health-advisor.llearn2earn.com/api';
-// export const baseURL = 'http://127.0.0.1:8001/api';
+// export const baseURL = 'https://health-advisor.llearn2earn.com/api';
+export const baseURL = 'http://127.0.0.1:8001/api';
 
 export const axiosInstance = axios.create({
   baseURL: baseURL,
