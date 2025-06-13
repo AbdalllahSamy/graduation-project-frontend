@@ -42,7 +42,7 @@ export default function Community() {
   return (
     <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen`}>
       <div className="col-span-2 flex flex-col gap-4 sm:gap-6">
-        {/* إنشاء بوست جديد */}git
+        {/* إنشاء بوست جديد */}
         <div className="p-4 border border-[#8f7517] pb-10 bg-[#1e1e1e] rounded-xl">
           <div className="flex mb-8 gap-3">
             <img
@@ -78,7 +78,7 @@ export default function Community() {
             >
               <div className="flex items-center mb-3">
                 <i className="fa-solid fa-user text-[#daac00] text-xl mr-2"></i>
-                <span className="text-sm text-gray-400">New Post</span>
+                <span className="text-md font-family-pri text-gray-400">New Post</span>
               </div>
 
               <div className="flex items-center">
@@ -87,18 +87,19 @@ export default function Community() {
                   className="w-9 h-9 rounded-full"
                   alt="User Avatar"
                 />
-                <div className="ml-2 font-medium flex flex-shrink-0 items-center">
-                  <p>
+                <div className="ml-3 text-sm flex flex-shrink-0 items-center">
+                  <p className='font-family-sec'>
                     {post?.user?.name}
-                    <span className="text-gray-400 ml-1 text-sm leading-5">
+                    <span className="text-gray-400 ml-1 text-[12    px] leading-5">
                       . {post?.user?.email}
                     </span>
                   </p>
                 </div>
               </div>
 
-              <div className="pl-12 pr-4 font-medium w-auto mt-2 space-y-4">
-                <p>{post.title}</p>
+              <div className="pl-12 pr-4 text-xl w-auto mt-2 space-y-4 ">
+                <p className="break-words text-wrap">{post.title}</p>
+
                 {/* عرض الصورة فقط لو موجودة */}
                 {post.image && (
                   <div>
