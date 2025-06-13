@@ -22,7 +22,6 @@ import Test from './modules/test/Test';
 import Testt from './modules/test/Testt';
 import WaterTracker from './modules/test/WaterTracker';
 import Weeks from './modules/test/Weeks';
-import NearGyms from './modules/dashboard/components/Dashboard/NearGyms';
 import 'leaflet/dist/leaflet.css';
 import Exercises from './modules/dashboard/components/Dashboard/exercises';
 
