@@ -1,6 +1,6 @@
-import AuthButton from '@/components/ui/AuthButton';
-import CustomProgressBar from '@/components/ui/CustomProgressBar';
-import Input from '@/components/ui/Input';
+import AuthButton from "@/components/ui/AuthButton";
+import CustomProgressBar from "@/components/ui/CustomProgressBar";
+import Input from "@/components/ui/Input";
 import {
   Auth,
   AuthAxiosInstance,
@@ -24,36 +24,36 @@ import axios, { all } from 'axios';
 
 export default function Register() {
   const nav = useNavigate();
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
   const [page, setPage] = React.useState(1);
   const [formData, setFormData] = useState({
     sex: '',
     age: 0,
     height: 0,
     weight: 0,
-    hypertension: 'No',
-    diabetes: 'No',
-    level: '',
-    fitness_goal: '',
-    fitness_type: 'Muscular Fitness',
-    diet_preference: 'Normal Diet',
+    hypertension: "No",
+    diabetes: "No",
+    level: "",
+    fitness_goal: "",
+    fitness_type: "Muscular Fitness",
+    diet_preference: "Normal Diet",
     allergies: [],
     days_per_week: 0,
     workout_duration_minutes: 0,
     has_gym_access: false,
     fitness_level: 'intermediate',
   });
-  const [selectedFitness, setSelectedFitness] = useState('');
+  const [selectedFitness, setSelectedFitness] = useState("");
   useEffect(() => {
     console.log(page);
-    console.log('Form Data:', formData);
+    console.log("Form Data:", formData);
   }, [page, formData]);
   // const { token, setToken } = React.useContext(AuthContext);
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken || '');
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken || "");
     if (storedToken) {
-      console.log('Stored Token:', storedToken);
+      console.log("Stored Token:", storedToken);
     }
   }, []);
   //   const sendAnswers = async () => {
@@ -103,9 +103,9 @@ export default function Register() {
   //   console.log(err);
   // }
   //   }; 
-  useEffect(() => {
-    localStorage.setItem("going_to_gym",(selectedFitness));
-  }, [selectedFitness]);
+  // useEffect(() => {
+  //   localStorage.setItem("going_to_gym",(selectedFitness));
+  // }, [selectedFitness]);
   const sendAnswers = async () => {
     console.log('Token:', token);
 
@@ -252,19 +252,19 @@ export function RegisterFirstPage({ setPage, page }) {
     formState: { errors },
     watch,
   } = useForm();
-  const password = watch('password');
+  const password = watch("password");
   // const { token, setToken } = React.useContext(AuthContext);
   const registerUser = async (data) => {
-    console.log('Form Data:', data);
+    console.log("Form Data:", data);
     // setPage(page + 1);
     try {
       const res = await AuthAxiosInstance.post(Auth.register, {
         ...data,
       });
-      console.log('Response:', res);
+      console.log("Response:", res);
       setPage(page + 1);
       const resToken = res.data.token;
-      localStorage.setItem('token', resToken);
+      localStorage.setItem("token", resToken);
       console.log(res);
     } catch (err) {
       console.log(err);
@@ -284,7 +284,7 @@ export function RegisterFirstPage({ setPage, page }) {
             <Input
               className="w-full "
               label="First Name"
-              {...register('first_name', { required: 'Name is required' })}
+              {...register("first_name", { required: "Name is required" })}
             />
             {errors.first_name && (
               <p className="text-red-500 text-sm">
@@ -296,7 +296,7 @@ export function RegisterFirstPage({ setPage, page }) {
             <Input
               label="Last Name"
               className="w-full"
-              {...register('last_name', { required: 'Last Name is required' })}
+              {...register("last_name", { required: "Last Name is required" })}
             />
             {errors.last_name && (
               <p className="text-red-500 text-sm">{errors.last_name.message}</p>
@@ -307,11 +307,11 @@ export function RegisterFirstPage({ setPage, page }) {
               className="w-full"
               label="Email"
               type="email"
-              {...register('email', {
-                required: 'Email is required',
+              {...register("email", {
+                required: "Email is required",
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: 'Please enter a valid email address',
+                  message: "Please enter a valid email address",
                 },
               })}
             />
@@ -323,8 +323,8 @@ export function RegisterFirstPage({ setPage, page }) {
             <Input
               label="Phone Number"
               className="w-full"
-              {...register('phone', {
-                required: 'Phone Number is required',
+              {...register("phone", {
+                required: "Phone Number is required",
               })}
             />
             {errors.phone && (
@@ -336,22 +336,22 @@ export function RegisterFirstPage({ setPage, page }) {
               className="w-full"
               label="Password"
               type="password"
-              {...register('password', {
-                required: 'Password is required',
+              {...register("password", {
+                required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: 'Password must be at least 6 characters',
+                  message: "Password must be at least 6 characters",
                 },
                 validate: {
                   hasUppercase: (value) =>
                     /[A-Z]/.test(value) ||
-                    'Password must have at least one uppercase letter',
+                    "Password must have at least one uppercase letter",
                   hasLowercase: (value) =>
                     /[a-z]/.test(value) ||
-                    'Password must have at least one lowercase letter',
+                    "Password must have at least one lowercase letter",
                   hasNonAlphanumeric: (value) =>
                     /[^a-zA-Z0-9]/.test(value) ||
-                    'Password must have at least one non-alphanumeric character',
+                    "Password must have at least one non-alphanumeric character",
                 },
               })}
             />
@@ -364,24 +364,24 @@ export function RegisterFirstPage({ setPage, page }) {
               className="w-full"
               label="Confirm Password"
               type="password"
-              {...register('confirm_password', {
-                required: 'Confirm Password is required',
+              {...register("confirm_password", {
+                required: "Confirm Password is required",
                 minLength: {
                   value: 6,
-                  message: 'Password must be at least 6 characters',
+                  message: "Password must be at least 6 characters",
                 },
                 validate: (value) =>
-                  value === password || 'Passwords do not match',
+                  value === password || "Passwords do not match",
 
                 hasUppercase: (value) =>
                   /[A-Z]/.test(value) ||
-                  'Password must have at least one uppercase letter',
+                  "Password must have at least one uppercase letter",
                 hasLowercase: (value) =>
                   /[a-z]/.test(value) ||
-                  'Password must have at least one lowercase letter',
+                  "Password must have at least one lowercase letter",
                 hasNonAlphanumeric: (value) =>
                   /[^a-zA-Z0-9]/.test(value) ||
-                  'Password must have at least one non-alphanumeric character',
+                  "Password must have at least one non-alphanumeric character",
               })}
             />
             {errors.confirm_password && (
@@ -406,7 +406,7 @@ export function RegisterFirstPage({ setPage, page }) {
             <AuthButton
               title="Next"
               type="submit"
-            // onclick={() => setPage(page + 1)}
+              // onclick={() => setPage(page + 1)}
             />
           </div>
         </form>
@@ -418,12 +418,12 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
-    { id: 1, label: 'Gym training only', image: beginner, fitness: 'gym_only' },
+    { id: 1, label: "Gym training only", image: beginner, fitness: "gym_only" },
     {
       id: 2,
-      label: 'Gym training and other sports',
+      label: "Gym training and other sports",
       image: portrait,
-      fitness: 'gym_and_other_sports',
+      fitness: "gym_and_other_sports",
     },
   ];
   return (
@@ -445,10 +445,11 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
             <div
               key={level.id}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${isSelected
-                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-                }`}
+        ${
+          isSelected
+            ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+            : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
+        }`}
               onClick={() => {
                 setSelectedLevel(level.id);
                 setSelectedFitness(level.fitness);
@@ -459,7 +460,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
                 
-          ${isSelected ? 'opacity-70' : 'opacity-100 group-hover:opacity-40'}`}
+          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10 ">
                 {level.label}
@@ -472,7 +473,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
       <div className="flex justify-end w-full my-5 gap-5">
 
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
@@ -481,13 +482,13 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
 }
 export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   const goals = [
-    { id: 'lose', label: 'LOSS\nWEIGHT', goal: 'Weight Loss' },
-    { id: 'fitness', label: 'Weight\nLoss', goal: 'Weight Gain' },
-    { id: 'muscle', label: 'Muscle\nGain', goal: 'Muscle Gain' },
-    { id: 'other', label: 'other' },
+    { id: "lose", label: "LOSS\nWEIGHT", goal: "Weight Loss" },
+    { id: "fitness", label: "Weight\nLoss", goal: "Weight Gain" },
+    { id: "muscle", label: "Muscle\nGain", goal: "Muscle Gain" },
+    { id: "other", label: "other" },
   ];
   const [selectedGoal, setSelectedGoal] = useState(null);
-  const [customGoal, setCustomGoal] = useState('');
+  const [customGoal, setCustomGoal] = useState("");
 
   return (
     <>
@@ -510,10 +511,11 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
                 fitness_goal: goal.goal || customGoal,
               }));
             }}
-            className={`relative cursor-pointer ${selectedGoal === goal.id
-              ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-              : 'bg-gradient-to-t from-[#F4F4F4] to-white border-black'
-              } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
+            className={`relative cursor-pointer ${
+              selectedGoal === goal.id
+                ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+                : "bg-gradient-to-t from-[#F4F4F4] to-white border-black"
+            } border py-5 h-[175px] rounded-[20px] flex justify-between px-2 w-full overflow-hidden transition-all duration-300`}
           >
             <div className="flex items-start justify-start">
               <input
@@ -544,7 +546,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
         ))}
       </div>
 
-      {selectedGoal === 'other' && (
+      {selectedGoal === "other" && (
         <div className="mt-4">
           <input
             type="text"
@@ -558,11 +560,11 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
 
       <div className="flex justify-center md:justify-between w-full my-5 gap-5 ">
         <AuthButton
-          title={'Prev'}
+          title={"Prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
@@ -597,10 +599,11 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
             <div
               key={level.id}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-        ${isSelected
-                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-                }`}
+        ${
+          isSelected
+            ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+            : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
+        }`}
               onClick={() => {
                 setSelectedLevel(level.id);
                 setFormData((prev) => ({ ...prev, fitness_level: level.label }));
@@ -610,7 +613,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
                 src={level.image}
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-          ${isSelected ? 'opacity-70' : 'opacity-100 group-hover:opacity-40'}`}
+          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {level.label}
@@ -622,11 +625,11 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
 
       <div className="flex justify-center md:justify-between w-full my-5 gap-5">
         <AuthButton
-          title={'prev'}
+          title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
@@ -664,11 +667,11 @@ export function RegisterFourthPage({
           <GiBodyHeight className=" text-lg" />
 
           <Input
-            label={'Height'}
+            label={"Height"}
             placeholder="Height (cm)"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register('height', {
-              required: 'Height is required',
+            {...register("height", {
+              required: "Height is required",
               onChange: (e) =>
                 setFormData((prev) => ({ ...prev, height: e.target.value })),
             })}
@@ -683,11 +686,11 @@ export function RegisterFourthPage({
           <GiWeight className=" text-lg" />
 
           <Input
-            label={'Weight'}
+            label={"Weight"}
             placeholder="Weight (kg)"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register('weight', {
-              required: 'Weight is required',
+            {...register("weight", {
+              required: "Weight is required",
               onChange: (e) =>
                 setFormData((prev) => ({ ...prev, weight: e.target.value })),
             })}
@@ -702,12 +705,12 @@ export function RegisterFourthPage({
           <FaBirthdayCake className="text-lg" />
 
           <Input
-            label={'Age'}
+            label={"Age"}
             type="number"
             placeholder="Age"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
-            {...register('age', {
-              required: 'Age is required',
+            {...register("age", {
+              required: "Age is required",
               onChange: (e) =>
                 setFormData((prev) => ({ ...prev, age: e.target.value })),
             })}
@@ -836,10 +839,10 @@ export function RegisterFourthPage({
 
         <div className="flex justify-between w-full gap-5 md:gap-0">
           <AuthButton
-            title={'prev'}
+            title={"prev"}
             onclick={() => setPage((prev) => prev - 1)}
           />
-          <AuthButton title={'Submit'} type={'submit'} />
+          <AuthButton title={"Submit"} type={"submit"} />
         </div>
       </form>
     </>
@@ -847,12 +850,12 @@ export function RegisterFourthPage({
 }
 export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
   const [selectedFitness, setSelectedFitness] = useState(
-    formData.fitness_type || null,
+    formData.fitness_type || null
   );
 
   const fitnessTypes = [
-    { id: 'muscular', label: 'Muscular Fitness', image: musclar },
-    { id: 'cardio', label: 'Cardio Fitness', image: cardio },
+    { id: "muscular", label: "Muscular Fitness", image: musclar },
+    { id: "cardio", label: "Cardio Fitness", image: cardio },
     // { id: 'flexibility', label: 'Flexibility', image: flex },
   ];
 
@@ -877,26 +880,28 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
             <div
               key={type.id}
               onClick={() => {
-                handleSelect(type)
+                handleSelect(type);
                 setFormData((prev) => ({
                   ...prev,
-                  fitness_type: type.label
-                }))
+                  fitness_type: type.label,
+                }));
               }}
               className={`relative border py-5 h-[295px] rounded-[20px] flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-              ${isSelected
-                  ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                  : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-                }`}
+              ${
+                isSelected
+                  ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+                  : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
+              }`}
             >
               <img
                 src={type.image}
                 alt={type.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-                ${isSelected
-                    ? 'opacity-70'
-                    : 'opacity-100 group-hover:opacity-40'
-                  }`}
+                ${
+                  isSelected
+                    ? "opacity-70"
+                    : "opacity-100 group-hover:opacity-40"
+                }`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {type.label}
@@ -904,15 +909,15 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
             </div>
           );
         })}
-      </div >
+      </div>
 
       <div className="flex justify-between w-full mt-6">
         <AuthButton
-          title={'Prev'}
+          title={"Prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
@@ -922,17 +927,17 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
 export function DietPage({ setPage, page, formData, setFormData }) {
   const [selectedDiet, setSelectedDiet] = useState(formData.diet || null);
   const [selectedAllergies, setSelectedAllergies] = useState(
-    formData.allergies || [],
+    formData.allergies || []
   );
-  const [otherAllergy, setOtherAllergy] = useState(formData.otherAllergy || '');
+  const [otherAllergy, setOtherAllergy] = useState(formData.otherAllergy || "");
 
   const diets = [
-    { id: 'normal', label: 'Normal Diet' },
-    { id: 'vegetarian', label: 'Vegetarian Diet' },
-    { id: 'keto', label: 'Keto Diet' },
+    { id: "normal", label: "Normal Diet" },
+    { id: "vegetarian", label: "Vegetarian Diet" },
+    { id: "keto", label: "Keto Diet" },
   ];
 
-  const allergies = ['eggs', 'nuts', 'dairy', 'gluten'];
+  const allergies = ["eggs", "nuts", "dairy", "gluten"];
 
   const toggleAllergy = (item) => {
     setSelectedAllergies((prev) => {
@@ -976,10 +981,11 @@ export function DietPage({ setPage, page, formData, setFormData }) {
               setFormData((prev) => ({ ...prev, diet: diet.id }));
             }}
             className={`relative  border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-            ${selectedDiet === diet.id
-                ? 'bg-gradient-to-t from-primary/55 to-white border-yellow-500'
-                : 'border-black hover:bg-gradient-to-t hover:from-primary hover:to-white'
-              }`}
+            ${
+              selectedDiet === diet.id
+                ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
+                : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
+            }`}
           >
             <h3 className="font-family-pri text-[43px] leading-10 text-white text-center z-10">
               {diet.label}
@@ -997,9 +1003,10 @@ export function DietPage({ setPage, page, formData, setFormData }) {
           <label
             key={item}
             className={`cursor-pointer px-4 py-2 rounded-full border transition-all duration-300
-              ${selectedAllergies.includes(item)
-                ? 'bg-primary text-white border-primary'
-                : 'bg-white border-gray-400'
+              ${
+                selectedAllergies.includes(item)
+                  ? "bg-primary text-white border-primary"
+                  : "bg-white border-gray-400"
               }`}
           >
             <input
@@ -1026,11 +1033,11 @@ export function DietPage({ setPage, page, formData, setFormData }) {
 
       <div className="flex justify-between w-full mt-6">
         <AuthButton
-          title={'Prev'}
+          title={"Prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
@@ -1041,7 +1048,7 @@ export function DietPage({ setPage, page, formData, setFormData }) {
 export function DurationPage({ setPage, page, formData, setFormData }) {
   const [daysPerWeek, setDaysPerWeek] = useState(formData.daysPerWeek || 3);
   const [durationMinutes, setDurationMinutes] = useState(
-    formData.durationMinutes || '',
+    formData.durationMinutes || ""
   );
 
   const handleSubmit = () => {
@@ -1113,11 +1120,11 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
 
       <div className="flex justify-center md:justify-between w-full my-5 gap-5">
         <AuthButton
-          title={'prev'}
+          title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}
         />
         <AuthButton
-          title={'Next'}
+          title={"Next"}
           onclick={() => setPage((prev) => prev + 1)}
         />
       </div>
