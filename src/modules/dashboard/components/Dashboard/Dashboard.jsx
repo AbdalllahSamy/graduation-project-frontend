@@ -21,6 +21,7 @@ export default function Dashboard() {
   const [rating, setRating] = useState(0);
   const [doneMeals, setDoneMeals] = useState([]);
   const [plan, setPlan] = useState(null);
+  const [feedbacks,setFeddbacks]=useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [ratedDays, setRatedDays] = useState(() => {
@@ -32,6 +33,7 @@ export default function Dashboard() {
     try {
       const res = await axiosInstance.get(`/weeks-plans/${id}`);
       setPlan(res.data.data.plan);
+      console.log(res,'plan')
     } catch (err) {
       console.error("Error fetching plan:", err);
     }
@@ -83,6 +85,7 @@ export default function Dashboard() {
       id: day.id,
       day: day.day,
       day_id: day.id,
+      feedback:day.feedback,
       muscle: day.muscle_group,
       trainings: day.exercises.map((exercise) => ({
         id: exercise.id,
@@ -145,23 +148,30 @@ export default function Dashboard() {
     );
   };
 
-  useEffect(() => {
-    if (allTrainingsDone && !ratedDays[currentDayData.day_id]) {
-      setIsDialogOpen(true);
-    }
-  }, [allTrainingsDone, ratedDays, currentDayData.day_id]);
+useEffect(() => {
+  const hasFeedback = currentDayData.feedback !== null && currentDayData.feedback !== undefined;
+  if (allTrainingsDone && !ratedDays[currentDayData.day_id] && !hasFeedback) {
+    setIsDialogOpen(true);
+  } else {
+    setIsDialogOpen(false); // Ensure dialog is closed if conditions are not met
+  }
+}, [allTrainingsDone, ratedDays, currentDayData.day_id, currentDayData.feedback]);
 
   const categoryImages = {
     Juice: juice,
     Vegetables: vegetables,
     ProteinIntake: protin,
   };
-
+  useEffect(() => {
+    console.log("fucato", ratedDays, days.length);
+    
+  },[])
   const sendFeedBack = async (day_id, ratingValue) => {
     if (day_id && id) {
       try {
         await axiosInstance.post(`weekly-plan/${id}/day/${day_id}/feedback`, {
           rate: ratingValue,
+          last_day: true
         });
         setRatedDays((prev) => ({ ...prev, [day_id]: true }));
         setIsDialogOpen(false);

@@ -45,7 +45,7 @@ export default function Testt() {
   const [loading, setLoading] = useState(false)
   const [userType, setUserType] = useState(null)
   const [plan, setPlan] = useState(null)
-    const [water,setWater] = useState(0);
+  const [water, setWater] = useState(0);
 
   // useEffect(() => {
   //   const type = localStorage.getItem('going_to_gym')
@@ -81,12 +81,12 @@ export default function Testt() {
     }
   }, []);
   const litresToCups = (litres) => Math.ceil(litres * 4.22675);
-    const goal =litresToCups(water);
+  const goal = litresToCups(water);
 
   const percentage = (cups / goal) * 100;
   //water
 
-//litresToCups function converts litres to cups, where 1 litre = 4.22675 cups
+  //litresToCups function converts litres to cups, where 1 litre = 4.22675 cups
   const [date, setDate] = useState(new Date());
   const [dataAnalysis, setDataAnalysis] = useState([]);
   const [userAnalysis, setUserAnalysis] = useState([]);
@@ -270,28 +270,79 @@ export default function Testt() {
           )}
 
         {userType === 'gym_only' && plan && (
-          <div className="col-span-4 max-w-4xl p-6 bg-white/10 backdrop-blur-lg rounded-2xl shadow-lg space-y-6">
-            <h2 className="text-2xl font-bold text-white">Your General Plan</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="p-4 border rounded-xl bg-gray-50">
-                <h3 className="font-semibold text-yellow-600 mb-2">Diet</h3>
-                <p className="text-gray-700 whitespace-pre-line">{plan.Diet}</p>
+          <section className="w-full py-12 px-4 sm:px-6 lg:px-12 rounded-2xl">
+            <div className="max-w-7xl mx-auto space-y-12">
+
+              {/* Header */}
+              <div className="text-center">
+                <h2 className="text-4xl font-bold text-yellow-400">Your General Plan</h2>
+                <p className="text-gray-300 mt-2">Split into focused cards to help you follow easily and stay motivated.</p>
               </div>
-              <div className="p-4 border rounded-xl bg-gray-50">
-                <h3 className="font-semibold text-yellow-600 mb-2">Equipment</h3>
-                <p className="text-gray-700">{plan.Equipment}</p>
+
+              {/* Diet Section */}
+              <div>
+                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">🥗 Diet</h3>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <div className=" p-5 rounded-2xl border border-yellow-500 shadow-xl">
+                    <h4 className="text-lg text-yellow-300 font-bold mb-2">Vegetables</h4>
+                    <p className="text-white/90">Carrots, Sweet Potato, Lettuce</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-neutral-900 to-black p-5 rounded-2xl border border-yellow-500 shadow-xl">
+                    <h4 className="text-lg text-yellow-300 font-bold mb-2">Protein Intake</h4>
+                    <p className="text-white/90">Red meats, poultry, fish, eggs, dairy, legumes, nuts</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-neutral-900 to-black p-5 rounded-2xl border border-yellow-500 shadow-xl">
+                    <h4 className="text-lg text-yellow-300 font-bold mb-2">Juices</h4>
+                    <p className="text-white/90">Fruit juice, watermelon, carrot, apple, mango</p>
+                  </div>
+                </div>
               </div>
-              <div className="p-4 border rounded-xl bg-gray-50">
-                <h3 className="font-semibold text-yellow-600 mb-2">Exercises</h3>
-                <p className="text-gray-700">{plan.Exercises}</p>
+
+              {/* Exercises Section */}
+              <div>
+                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">💪 Exercises</h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {plan.Exercises.split(",").map((exercise, index) => (
+                    <div
+                      key={index}
+                      className="bg-gradient-to-br from-neutral-900 to-black p-5 rounded-2xl border border-yellow-500 shadow-xl"
+                    >
+                      <h4 className="text-lg font-bold text-yellow-300">🏋️ {exercise.trim()}</h4>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="p-4 border rounded-xl bg-gray-50 md:col-span-2">
-                <h3 className="font-semibold text-yellow-600 mb-2">Recommendation</h3>
-                <p className="text-gray-700 whitespace-pre-line">{plan.Recommendation}</p>
+
+              {/* Equipment */}
+              <div>
+                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">🏋️ Equipment</h3>
+                <div className="bg-gradient-to-br from-neutral-900 to-black p-5 rounded-2xl border border-yellow-500 shadow-xl inline-block">
+                  <p className="text-white/90">{plan.Equipment}</p>
+                </div>
+              </div>
+
+              {/* Recommendations */}
+              <div>
+                <h3 className="text-2xl font-semibold text-yellow-400 mb-4">📌 Recommendations</h3>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {plan.Recommendation.split(/(?=\- )|(?=Always)|(?=Here are)/).map((rec, index) => (
+                    <div
+                      key={index}
+                      className="bg-gradient-to-br from-neutral-900 to-black p-6 rounded-2xl border-l-4 border-yellow-500 shadow-lg"
+                    >
+                      <p className="text-white/90 leading-relaxed">{rec.trim()}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         )}
+
+
+
+
+
         {/* weeks */}
 
         {/* <div className="col-span-1 sm:col-span-2 xl:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
