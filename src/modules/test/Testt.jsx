@@ -365,7 +365,7 @@ export default function Testt() {
               styles={buildStyles({
                 pathColor: primaryColor,
                 textColor: primaryColor,
-                trailColor: '#bfdbfe',
+                trailColor: '#fff',
                 textSize: '16px',
                 width: '20px',
               })}
@@ -419,7 +419,7 @@ export default function Testt() {
           />
         </div> */}
 
-        <div className="w-full text-white">
+        {/* <div className="w-full text-white">
           <div className="flex justify-between items-center mb-2">
             <p className="font-semibold text-[${primaryColor}]">Scheduled</p>
             <button className="text-sm text-[${primaryColor}] hover:underline">
@@ -450,7 +450,7 @@ export default function Testt() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
