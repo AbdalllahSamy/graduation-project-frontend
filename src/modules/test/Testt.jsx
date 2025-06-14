@@ -58,7 +58,6 @@ export default function Testt() {
   };
 
   //water
-  const goal = 8;
   const [cups, setCups] = useState(() => {
     const savedCups = localStorage.getItem('cups');
     return savedCups ? parseInt(savedCups) : 0;
@@ -81,10 +80,12 @@ export default function Testt() {
       localStorage.setItem('track-date', today);
     }
   }, []);
+  const litresToCups = (litres) => Math.ceil(litres * 4.22675);
+    const goal =litresToCups(water);
 
   const percentage = (cups / goal) * 100;
   //water
-const litresToCups = (litres) => Math.ceil(litres * 4.22675);
+
 //litresToCups function converts litres to cups, where 1 litre = 4.22675 cups
   const [date, setDate] = useState(new Date());
   const [dataAnalysis, setDataAnalysis] = useState([]);
@@ -157,6 +158,7 @@ const litresToCups = (litres) => Math.ceil(litres * 4.22675);
       </div>
     )
   }
+
   return (
     <div className={`grid grid-cols-3 gap-6 p-4 sm:p-6 ${bgDark} min-h-screen `}>
       <div className="col-span-2 flex flex-col gap-4 sm:gap-6 ">
