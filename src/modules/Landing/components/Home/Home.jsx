@@ -44,7 +44,7 @@ export default function Home() {
     switch (activeTab) {
       case 'bmi':
         return (
-          <div className="mt-20 mx-14">
+          <div className="mt-20 mx-14 font-family-sec">
             <section className="bg-black py-16">
               <div className="container mx-auto px-4">
                 <div className="flex flex-col lg:flex-row gap-12">
@@ -648,6 +648,7 @@ export default function Home() {
               );
             })}
           </ul>
+          <div className="flex gap-8">
 
           <div className="hidden lg:block">
             <Link
@@ -656,6 +657,15 @@ export default function Home() {
             >
               Login
             </Link>
+          </div>
+          <div className="hidden lg:block">
+            <Link
+              to="/register"
+              className="bg-primary hover:bg-prfrom-primary text-black font-bold py-2 px-5 rounded-xl shadow-lg transition duration-300"
+            >
+              Register
+            </Link>
+          </div>
           </div>
 
           <button className="md:hidden text-white focus:outline-none">
