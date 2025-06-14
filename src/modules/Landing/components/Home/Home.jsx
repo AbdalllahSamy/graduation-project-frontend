@@ -1119,7 +1119,7 @@ export default function Home() {
               Quick Links
             </h3>
             <ul className="space-y-3 text-sm">
-              {['Features', 'Dashboard', 'Tools', 'FAQs'].map((item) => (
+              {[ 'Dashboard', 'Tools', 'FAQs'].map((item) => (
                 <li key={item}>
                   <a
                     href={`#${item.toLowerCase()}`}

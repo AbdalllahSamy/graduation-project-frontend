@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaHeartbeat, FaDumbbell, FaAppleAlt } from 'react-icons/fa';
-
+import about from "../../../../assets/images/about.jpg"
 export default function About() {
   return (
     <div className="min-h-[120vh] bg-gradient-to-br from-black via-gray-900 to-black text-white font-family-sec px-6 md:px-16 py-24">
@@ -15,7 +15,7 @@ export default function About() {
         >
           {/* ضع هنا صورة عن طريق استبدال src */}
           <img
-            src="/your-image-path.jpg"
+            src={about}
             alt="About Health Advisor"
             className="w-full h-full object-cover"
           />
