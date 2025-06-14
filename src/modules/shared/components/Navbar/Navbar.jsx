@@ -16,9 +16,9 @@ export default function Navbar() {
             {['Home', 'Services', 'About', 'Contact'].map((item) => {
               let path = '#';
               if (item === 'Home') path = '/home';
-              else if (item === 'About') path = '/dashboard/about';
-              else if (item === 'Contact') path = '/dashboard/contact';
-              else if (item === 'Services') path = '/dashboard/services';
+              else if (item === 'About') path = '/about';
+              else if (item === 'Contact') path = '/contact';
+              else if (item === 'Services') path = '/services';
 
               return (
                 <li key={item} className="group relative">

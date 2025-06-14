@@ -4,6 +4,7 @@ import {
   ChevronRight,
   House,
   LogOut,
+  Send,
   SquareChartGantt,
   TrainIcon,
 } from 'lucide-react';
@@ -12,10 +13,12 @@ import { Menu, MenuItem, Sidebar, SubMenu } from 'react-pro-sidebar';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../../assets/images/White.svg';
 import { GiSportMedal } from 'react-icons/gi';
+import { useParams } from 'react-router-dom';
 
 export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   let navigate = useNavigate();
+  const { id } = useParams();       
 
   return (
     <Sidebar
@@ -44,37 +47,60 @@ export default function SideBar() {
       <Menu>
         {/* Section Title */}
         <div
-          className={`ps-4 font-family-sec transition-all duration-300 ${
-            isCollapsed
-              ? 'text-[8px] text-[#999]' // collapsed style
-              : 'text-lg text-[#fefefe]' // expanded style
-          }`}
+          className={`ps-4 font-family-sec transition-all duration-300 ${isCollapsed
+            ? 'text-[8px] text-[#999]' // collapsed style
+            : 'text-lg text-[#fefefe]' // expanded style
+            }`}
         >
           Dashboard
         </div>
 
-        <MenuItem icon={<House />} component={<Link to="/home" />}>
+        {/* <MenuItem icon={<House />} component={<Link to="/dashboard/weeks" />}>
           Home
-        </MenuItem>
-        <MenuItem icon={<SquareChartGantt />}  component={<Link to="/dashboard" />}> Analysis </MenuItem>
+        </MenuItem> */}
+        <MenuItem icon={<SquareChartGantt />} component={<Link to="/dashboard" />} className='font-family-sec'> Analysis </MenuItem>
 
         {/* Another Section */}
         <div
-          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${
-            isCollapsed ? 'text-sm text-[#999]' : 'text-lg text-[#fefefe]'
-          }`}
+          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${isCollapsed ? 'text-sm text-[#999]' : 'text-lg text-[#fefefe]'
+            }`}
         >
           Plan
         </div>
-        
 
-        <MenuItem icon={<House />}> Gym Plan </MenuItem>
 
-        <SubMenu label="Diet Plan" icon={<SquareChartGantt />}>
+        <MenuItem
+          onClick={()=>{navigate(`/dashboard/${id}`)}}
+          icon={<House />}
+        >
+          Gym Plan
+        </MenuItem>
+        {/* <SubMenu label="Diet Plan" icon={<SquareChartGantt />}>
           <MenuItem> This Week </MenuItem>
           <MenuItem> Next Week </MenuItem>
           <MenuItem> Last Week </MenuItem>
-        </SubMenu>
+        </SubMenu> */}
+
+
+
+        <div
+          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${isCollapsed
+            ? 'text-sm text-[#999]'
+            : 'text-lg text-[#fefefe]'
+            }`}
+        >
+          User Guide
+        </div>
+        <MenuItem icon={<BicepsFlexed />} onClick={() => { navigate('exercises') }}> Exercises </MenuItem>
+        <div
+          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${isCollapsed
+            ? 'text-sm text-[#999]'
+            : 'text-lg text-[#fefefe]'
+            }`}
+        >
+          Social
+        </div>
+        <MenuItem icon={<Send />} onClick={() => { navigate('community') }}> Community </MenuItem>
 
         <MenuItem
           icon={<LogOut />}
@@ -86,18 +112,8 @@ export default function SideBar() {
           LogOut
         </MenuItem>
 
-        <div
-          className={`ps-4 mt-5 font-family-sec transition-all duration-300 ${
-            isCollapsed
-              ? 'text-sm text-[#999]'
-              : 'text-lg text-[#fefefe]'
-          }`}
-        >
-          User Guide
-        </div>
-                <MenuItem icon={<BicepsFlexed />} onClick={()=>{navigate('exercises')}}> Exercises </MenuItem>
-
       </Menu>
+
     </Sidebar>
   );
 }

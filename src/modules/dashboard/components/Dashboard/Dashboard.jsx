@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaStar } from "react-icons/fa";
 
 import CustomDialog from "@/components/ui/CustomDialog";
 import { axiosInstance } from "@/services/apisUrls/apisUrls";
@@ -20,31 +19,21 @@ export default function Dashboard() {
   });
   const [completedTrainingsByDay, setCompletedTrainingsByDay] = useState({});
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [doneMeals, setDoneMeals] = useState([]);
   const [plan, setPlan] = useState(null);
+  const [feedbacks,setFeddbacks]=useState([])
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [currentDay, setCurrentDay] = useState(() => {
-    const lastUpdate = localStorage.getItem('lastUpdateDate');
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0];
-    const savedDay = localStorage.getItem('currentDay');
-    const currentDayValue = savedDay ? parseInt(savedDay) : 0;
-
-    // If last update was not today, increment the day
-    if (lastUpdate !== todayString) {
-      const newDay = currentDayValue + 1;
-      localStorage.setItem('currentDay', newDay);
-      localStorage.setItem('lastUpdateDate', todayString);
-      return newDay;
-    }
-    return currentDayValue;
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [ratedDays, setRatedDays] = useState(() => {
+    const savedRatedDays = localStorage.getItem('ratedDays');
+    return savedRatedDays ? JSON.parse(savedRatedDays) : {};
   });
 
   const getPlan = async () => {
     try {
       const res = await axiosInstance.get(`/weeks-plans/${id}`);
       setPlan(res.data.data.plan);
+      console.log(res,'plan')
     } catch (err) {
       console.error("Error fetching plan:", err);
     }
@@ -54,95 +43,104 @@ export default function Dashboard() {
     getPlan();
   }, [id]);
 
-  // Save selectedDay to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('selectedDay', selectedDay);
   }, [selectedDay]);
 
-  // Check for midnight and update currentDay
   useEffect(() => {
-    const updateDayIfMidnight = () => {
-      const now = new Date();
-      const todayString = now.toISOString().split('T')[0];
-      const lastUpdate = localStorage.getItem('lastUpdateDate');
-
-      if (lastUpdate !== todayString) {
-        setCurrentDay((prev) => {
-          const newDay = prev + 1;
-          localStorage.setItem('currentDay', newDay);
-          localStorage.setItem('lastUpdateDate', todayString);
-          return newDay;
-        });
-      }
-
-      // Schedule next check for midnight
-      const tomorrow = new Date(now);
-      tomorrow.setDate(now.getDate() + 1);
-      tomorrow.setHours(0, 0, 0, 0);
-      const msUntilMidnight = tomorrow - now;
-
-      const timeout = setTimeout(updateDayIfMidnight, msUntilMidnight);
-      return () => clearTimeout(timeout);
-    };
-
-    updateDayIfMidnight(); // Check immediately on mount
-    const interval = setInterval(updateDayIfMidnight, 60 * 60 * 1000); // Check hourly
-    return () => clearInterval(interval);
-  }, []);
+    localStorage.setItem('ratedDays', JSON.stringify(ratedDays));
+  }, [ratedDays]);
 
   const mealsByCategory = plan
     ? plan.diet_recommendation
-        .split(";")
-        .map((category, catIndex) => {
-          const [key, value] = category.split(":").map((s) => s.trim());
-          if (!key || !value) return null;
-          const items = value
-            .replace(/[()]/g, "")
-            .split(",")
-            .map((item) => item.trim())
-            .filter((item) => item);
-          return {
-            category: key,
-            items: items.map((item, itemIndex) => ({
-              id: `${catIndex}-${itemIndex}`,
-              img: itemIndex % 2 === 0 ? vegetables : meal2,
-              name: item,
-              description: `A nutritious ${item.toLowerCase()} from ${key.toLowerCase()}`,
-              calories: key.includes("Juice")
-                ? 150
-                : key.includes("Vegetables")
+      .split(";")
+      .map((category, catIndex) => {
+        const [key, value] = category.split(":").map((s) => s.trim());
+        if (!key || !value) return null;
+        const items = value
+          .replace(/[()]/g, "")
+          .split(",")
+          .map((item) => item.trim())
+          .filter((item) => item);
+        return {
+          category: key,
+          items: items.map((item, itemIndex) => ({
+            id: `${catIndex}-${itemIndex}`,
+            img: itemIndex % 2 === 0 ? vegetables : meal2,
+            name: item,
+            description: `A nutritious ${item.toLowerCase()} from ${key.toLowerCase()}`,
+            calories: key.includes("Juice")
+              ? 150
+              : key.includes("Vegetables")
                 ? 100
                 : 300,
-            })),
-          };
-        })
-        .filter(Boolean)
+          })),
+        };
+      })
+      .filter(Boolean)
     : [];
 
   const days = plan
-    ? plan.weekly_workout_plan.map((day, index) => ({
-        id: index,
-        day: day.day,
-        muscle: day.muscle_group,
-        trainings: day.exercises.map((exercise, i) => ({
-          id: i,
-          img: img1,
-          name: exercise.name,
-          sets: parseInt(exercise.reps.split("x")[0]) || 3,
-          reps: parseInt(exercise.reps.split("x")[1]) || 10,
-        })),
-      }))
+    ? plan.weekly_workout_plan.map((day) => ({
+      id: day.id,
+      day: day.day,
+      day_id: day.id,
+      feedback:day.feedback,
+      muscle: day.muscle_group,
+      trainings: day.exercises.map((exercise) => ({
+        id: exercise.id,
+        day_id: day.id,
+        img: img1,
+        is_done: exercise.is_done,
+        name: exercise.name,
+        sets: parseInt(exercise.reps.split("x")[0]) || 3,
+        reps: parseInt(exercise.reps.split("x")[1]) || 10,
+      })),
+    }))
     : [];
 
-  const toggleTrainingDone = (dayId, trainingId) => {
-    setCompletedTrainingsByDay((prev) => {
-      const current = prev[dayId] || [];
-      const updated = current.includes(trainingId)
-        ? current.filter((id) => id !== trainingId)
-        : [...current, trainingId];
-      return { ...prev, [dayId]: updated };
-    });
+  const toggleTrainingDone = async (dayId, trainingId) => {
+    try {
+      await axiosInstance.post(`/mark-exercise-done/${id}/${dayId}/${trainingId}`);
+      setPlan((prevPlan) => {
+        if (!prevPlan) return prevPlan;
+        const updatedWeeklyWorkoutPlan = prevPlan.weekly_workout_plan.map((day) => {
+          if (day.id === dayId) {
+            return {
+              ...day,
+              exercises: day.exercises.map((exercise) => {
+                if (exercise.id === trainingId) {
+                  return { ...exercise, is_done: !exercise.is_done };
+                }
+                return exercise;
+              }),
+            };
+          }
+          return day;
+        });
+        return { ...prevPlan, weekly_workout_plan: updatedWeeklyWorkoutPlan };
+      });
+      setCompletedTrainingsByDay((prev) => {
+        const current = prev[dayId] || [];
+        const updated = current.includes(trainingId)
+          ? current.filter((id) => id !== trainingId)
+          : [...current, trainingId];
+        return { ...prev, [dayId]: updated };
+      });
+    } catch (err) {
+      console.error("Error marking exercise:", err);
+    }
   };
+
+  const currentDayData =
+    days.find((d) => d.id === selectedDay) || { trainings: [], muscle: "", day: "" };
+
+  const currentDayTrainings = currentDayData.trainings || [];
+  const completedForDay = currentDayTrainings.filter((t) => t.is_done).length;
+
+  const allTrainingsDone =
+    currentDayTrainings.length > 0 &&
+    completedForDay === currentDayTrainings.length;
 
   const toggleMealDone = (id) => {
     setDoneMeals((prev) =>
@@ -150,53 +148,71 @@ export default function Dashboard() {
     );
   };
 
-  const currentDayData =
-    days.find((d) => d.id === selectedDay) || { trainings: [], muscle: "", day: "" };
-  const currentDayTrainings = currentDayData.trainings || [];
-  const completedForDay = completedTrainingsByDay[selectedDay] || [];
-  const allTrainingsDone =
-    currentDayTrainings.length > 0 &&
-    completedForDay.length === currentDayTrainings.length;
+useEffect(() => {
+  const hasFeedback = currentDayData.feedback !== null && currentDayData.feedback !== undefined;
+  if (allTrainingsDone && !ratedDays[currentDayData.day_id] && !hasFeedback) {
+    setIsDialogOpen(true);
+  } else {
+    setIsDialogOpen(false); // Ensure dialog is closed if conditions are not met
+  }
+}, [allTrainingsDone, ratedDays, currentDayData.day_id, currentDayData.feedback]);
 
   const categoryImages = {
     Juice: juice,
     Vegetables: vegetables,
     ProteinIntake: protin,
   };
+  useEffect(() => {
+    console.log("fucato", ratedDays, days.length);
+    
+  },[])
+  const sendFeedBack = async (day_id, ratingValue) => {
+    if (day_id && id) {
+      try {
+        await axiosInstance.post(`weekly-plan/${id}/day/${day_id}/feedback`, {
+          rate: ratingValue,
+          last_day: true
+        });
+        setRatedDays((prev) => ({ ...prev, [day_id]: true }));
+        setIsDialogOpen(false);
+        setRating(0);
+        getPlan();
+      } catch (err) {
+        console.error("Feedback error:", err);
+      }
+    }
+  };
 
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-950">
+    <div className="flex flex-col lg:flex-row w-full h-screen bg-gray-950 overflow-hidden">
       <div className="flex flex-col w-full lg:w-[75%] p-8">
-        {/* Title & Days */}
         <h1 className="text-5xl font-extrabold mb-6 text-white text-center font-family-pri">
           Weekly Training
         </h1>
 
         <div className="flex items-center justify-center gap-4 flex-wrap mb-8 font-family-sec">
-          {days.map((day) => {
-            const isFuture = day.id > currentDay;
-            return (
-              <button
-                key={day.id}
-                onClick={() => !isFuture && setSelectedDay(day.id)}
-                disabled={isFuture}
-                className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ease-in-out ${
-                  selectedDay === day.id
-                    ? "bg-gradient-to-r from-primary to-black text-white scale-105 border-2 border-white"
-                    : isFuture
-                    ? "bg-black/10 text-gray-500 cursor-not-allowed"
+          {days.map((day) => (
+            <button
+              key={day.id}
+              onClick={() => {
+                setSelectedDay(day.id);
+              }}
+              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ease-in-out ${
+                selectedDay === day.id
+                  ? "bg-gradient-to-r from-primary to-black text-white scale-105 border-2 border-white"
+                  : ratedDays[day.day_id]
+                    ? "bg-green-600 text-white border-2 border-white opacity-75"
                     : "bg-black/10 text-gray-300 hover:bg-primary hover:text-white border-2 border-white shadow-md hover:scale-105"
-                }`}
-              >
-                {day.day}
-              </button>
-            );
-          })}
+              }`}
+            >
+              {day.day}
+              {ratedDays[day.day_id] && " ✅"}
+            </button>
+          ))}
         </div>
 
-        {/* Progress Bar */}
         <p className="text-lg font-semibold text-center mb-4 text-gray-300 font-family-sec">
-          Training Progress for {currentDayData.day}: {completedForDay.length} /{" "}
+          Training Progress for {currentDayData.day}: {completedForDay} /{" "}
           {currentDayTrainings.length}
         </p>
         <div className="w-full bg-gray-600 rounded-full h-3 mb-6">
@@ -205,105 +221,114 @@ export default function Dashboard() {
             style={{
               width: `${
                 currentDayTrainings.length
-                  ? (completedForDay.length / currentDayTrainings.length) * 100
+                  ? (completedForDay / currentDayTrainings.length) * 100
                   : 0
               }%`,
             }}
           />
         </div>
 
-        {/* Trainings List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6">
-          {currentDayTrainings.map((training) => {
-            const isDone = completedForDay.includes(training.id);
-            return (
-              <div
-                key={training.id}
-                className={`relative flex flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${
-                  isDone
-                    ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
-                    : "bg-black/10 text-gray-300 border border-white/20 backdrop-blur-md"
-                }`}
-              >
-                <div className="flex flex-col items-center gap-4">
-                  <img
-                    src={training.img}
-                    alt={training.name}
-                    className="w-20 h-20 rounded-md object-cover shadow-lg"
-                  />
-                  <button
-                    onClick={() => toggleTrainingDone(selectedDay, training.id)}
-                    className={`px-6 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
-                      isDone
-                        ? "bg-white text-green-600"
-                        : "bg-gradient-to-r from-primary to-black text-white border-2 border-white"
-                    }`}
-                  >
-                    {isDone ? "Done ✅" : "Mark as Done"}
-                  </button>
-                </div>
-                <div className="text-center">
-                  <p className="text-xl font-semibold uppercase">{training.name}</p>
-                  <p className="text-md text-gray-500">Muscle: {currentDayData.muscle}</p>
-                  <p className="text-sm text-gray-400">
-                    Sets: {training.sets} · Reps: {training.reps}
-                  </p>
-                  <p className="text-sm mt-4 text-gray-500">Don’t forget to stretch!</p>
-                </div>
-                {isDone && (
-                  <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-md z-10">
-                    <span className="bg-green-500 text-white text-xl font-semibold px-4 py-2 rounded-full">
-                      Done
-                    </span>
-                  </div>
-                )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-6 overflow-y-scroll hide-scrollbar">
+          {currentDayTrainings.map((training) => (
+            <div
+              key={training.id}
+              className={`relative flex flex-col gap-4 p-8 rounded-2xl shadow-xl transition-all duration-500 ease-in-out transform hover:scale-[1.05] ${
+                training.is_done
+                  ? "bg-gradient-to-r from-green-500 to-green-700 text-white"
+                  : "bg-black/10 text-gray-300 border border-white/20 backdrop-blur-md"
+              }`}
+            >
+              <div className="flex flex-col items-center gap-4">
+                <img
+                  src={training.img}
+                  alt={training.name}
+                  className="w-20 h-20 rounded-md object-cover shadow-lg"
+                />
+                <button
+                  onClick={() => toggleTrainingDone(training.day_id, training.id)}
+                  className={`px-6 cursor-pointer py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
+                    training.is_done
+                      ? "bg-white text-green-600"
+                      : "bg-gradient-to-r from-primary to-black text-white border-2 border-white"
+                  }`}
+                >
+                  {training.is_done ? "Done ✅" : "Mark as Done"}
+                </button>
               </div>
-            );
-          })}
+              <div className="text-center">
+                <p className="text-xl font-semibold uppercase">{training.name}</p>
+                <p className="text-md text-gray-500">Muscle: {currentDayData.muscle}</p>
+                <p className="text-sm text-gray-400">
+                  Sets: {training.sets} · Reps: {training.reps}
+                </p>
+                <p className="text-sm mt-4 text-gray-500">Don’t forget to stretch!</p>
+              </div>
+              {!!training.is_done && (
+                <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-white/80 backdrop-blur-md z-10">
+                  <span className="bg-green-500 text-white text-xl font-semibold px-4 py-2 rounded-full">
+                    Done
+                  </span>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
-        {/* Rating Dialog */}
-        {allTrainingsDone && (
-          <div className="flex justify-center mt-8">
+        {isDialogOpen && (
+          <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-blue-100/40 backdrop-blur-md z-10">
             <CustomDialog
-              dialogClassName="relative z-[999999]"
+              dialogClassName="w-full max-w-[40rem]"
               title="Rate"
               btnClassName="bg-black text-white px-8 py-3 rounded-full font-semibold text-lg cursor-pointer hover:bg-gray-800"
-              contentClassName="bg-white text-black"
+              contentClassName="bg-white text-black w-[30rem] overflow-hidden"
             >
-              <div className="flex flex-col items-center space-y-6 p-8">
+              <div className="flex flex-col items-center space-y-6 p-8 w-full">
                 <p className="text-lg font-semibold">
                   How was your full workout for {currentDayData.day}?
                 </p>
-                <div className="flex space-x-4">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <FaStar
-                      key={star}
-                      className={`cursor-pointer text-4xl ${
-                        (hoverRating || rating) >= star
-                          ? "text-yellow-500"
-                          : "text-gray-300"
-                      }`}
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoverRating(star)}
-                      onMouseLeave={() => setHoverRating(0)}
-                    />
-                  ))}
+                <div className=" flex-col flex gap-3 justify-center items-center ">
+                  <button
+                    onClick={() => {
+                      setRating(1);
+                      sendFeedBack(currentDayData.day_id, 1);
+                    }}
+                    className="px-6 py-2 text-sm font-semibold rounded-full bg-black backdrop-blur-3xl text-white hover:bg-black/60"
+                  >
+                    Easy 
+                  </button>
+                  <button
+                    onClick={() => {
+                      setRating(3);
+                      sendFeedBack(currentDayData.day_id, 3);
+                    }}
+                    className="px-6 py-2 text-sm font-semibold rounded-full bg-black backdrop-blur-3xl text-white hover:bg-black/60"
+                  >
+                    Medium 
+                  </button>
+                  <button
+                    onClick={() => {
+                      setRating(5);
+                      sendFeedBack(currentDayData.day_id, 5);
+                    }}
+                    className="px-6 py-2 text-sm font-semibold rounded-full bg-black backdrop-blur-3xl text-white hover:bg-black/60"
+                  >
+                    Hard
+                  </button>
                 </div>
-                <p className="text-sm">You rated this: {rating} ⭐</p>
+                <p className="text-sm">
+                  {rating ? `You rated this: ${rating === 1 ? "Easy" : rating === 3 ? "Medium" : "Hard"} (${rating})` : "Select a difficulty"}
+                </p>
               </div>
             </CustomDialog>
           </div>
         )}
       </div>
 
-      {/* Meals Sidebar */}
-      <div className="bg-black/10 shadow-xl w-full lg:w-[25%] p-6 border-l border-white font-family-sec">
+      <div className="bg-black/10 shadow-xl w-full lg:w-[25%] p-6 border-l border-white font-family-sec overflow-y-scroll hide-scrollbar">
         <h2 className="text-4xl font-family-pri font-bold text-center mb-6 text-white">
           Daily Meals
         </h2>
 
-        {/* Filter Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-6">
           {mealsByCategory.map((category) => (
             <button
@@ -324,7 +349,6 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Meal Cards */}
         <div className="flex flex-col gap-8">
           {(selectedCategory
             ? mealsByCategory.filter((c) => c.category === selectedCategory)

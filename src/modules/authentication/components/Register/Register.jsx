@@ -26,6 +26,8 @@ export default function Register() {
   const nav = useNavigate();
   const [token, setToken] = useState("");
   const [page, setPage] = React.useState(1);
+  const [totalPages, setTotalPages] = useState(6); // New state for total pages
+  const [progress, setProgress] = useState(0);
   const [formData, setFormData] = useState({
     sex: '',
     age: 0,
@@ -38,7 +40,7 @@ export default function Register() {
     fitness_type: "Muscular Fitness",
     diet_preference: "Normal Diet",
     allergies: [],
-    days_per_week: 0,
+    days_per_week: 3,
     workout_duration_minutes: 0,
     has_gym_access: false,
     fitness_level: 'intermediate',
@@ -48,6 +50,13 @@ export default function Register() {
     console.log(page);
     console.log("Form Data:", formData);
   }, [page, formData]);
+  useEffect(() => {
+    // Set total pages based on selectedFitness
+    const newTotalPages = selectedFitness === 'gym_and_other_sports' ? 8 : 6;
+    setTotalPages(newTotalPages);
+    // Calculate progress based on current page
+    setProgress(Math.ceil(((page - 1) / (newTotalPages - 1)) * 100));
+  }, [page, selectedFitness]);
   // const { token, setToken } = React.useContext(AuthContext);
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -154,7 +163,7 @@ export default function Register() {
           diet_preference: formData.diet,
           allergies: formData.allergies,
           fitness_level: formData.fitness_level || "intermediate",
-          days_per_week: Number(formData.days_per_week),
+          days_per_week: Number(formData.days_per_week?formData.days_per_week:3),
           workout_duration_minutes: Number(formData.workout_duration_minutes),
           preferred_language: "english",
         };
@@ -183,12 +192,13 @@ export default function Register() {
   return (
     <div className="w-full flex justify-center gap-3">
       <div className="flex flex-col gap-3 w-[60%] ">
-        {page === 1 && <RegisterFirstPage setPage={setPage} page={page} />}
+        {page === 1 && <RegisterFirstPage setPage={setPage} page={page} progress={progress} />}
         {page === 2 && (
           <ModelRegisterPage
             setPage={setPage}
             page={page}
             setSelectedFitness={setSelectedFitness}
+            progress={progress}
           />
         )}
         {page === 4 && (
@@ -197,6 +207,7 @@ export default function Register() {
             page={page}
             formData={formData}
             setFormData={setFormData}
+            progress={progress}
           />
         )}
         {page === 3 && (
@@ -205,6 +216,7 @@ export default function Register() {
             page={page}
             formData={formData}
             setFormData={setFormData}
+            progress={progress}
           />
         )}
         {(selectedFitness === 'gym_and_other_sports' && page === 8) ||
@@ -215,6 +227,7 @@ export default function Register() {
             formData={formData}
             setFormData={setFormData}
             sendAnswers={sendAnswers}
+            progress={progress}
           />
         ) : null}
         {page === 5 && (
@@ -223,6 +236,7 @@ export default function Register() {
             page={page}
             formData={formData}
             setFormData={setFormData}
+            progress={progress}
           />
         )}
         {selectedFitness === 'gym_and_other_sports' && page === 6 && (
@@ -231,6 +245,7 @@ export default function Register() {
             page={page}
             formData={formData}
             setFormData={setFormData}
+            progress={progress}
           />
         )}
         {selectedFitness === 'gym_and_other_sports' && page === 7 && (
@@ -239,13 +254,14 @@ export default function Register() {
             page={page}
             formData={formData}
             setFormData={setFormData}
+            progress={progress}
           />
         )}
       </div>
     </div>
   );
 }
-export function RegisterFirstPage({ setPage, page }) {
+export function RegisterFirstPage({ setPage, page ,progress}) {
   const {
     register,
     handleSubmit,
@@ -272,9 +288,9 @@ export function RegisterFirstPage({ setPage, page }) {
   };
   return (
     <>
-      <div className="flex flex-col gap-8 justify-center  h-[400px]">
+      <div className="flex flex-col gap-8 justify-center  h-[400px] mt-14">
         <div className="flex justify-center">
-          <CustomProgressBar progress={0} />
+          <CustomProgressBar progress={progress} />
         </div>
         <form
           onSubmit={handleSubmit(registerUser)}
@@ -402,7 +418,7 @@ export function RegisterFirstPage({ setPage, page }) {
               <p className="text-red-500 text-sm">{errors.username.message}</p>
             )}
           </div> */}
-          <div className="flex justify-center col-span-2 mt-4">
+          <div className="flex justify-center col-span-2 mt-4 ">
             <AuthButton
               title="Next"
               type="submit"
@@ -414,7 +430,7 @@ export function RegisterFirstPage({ setPage, page }) {
     </>
   );
 }
-export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
+export function ModelRegisterPage({ setPage, page, setSelectedFitness,progress }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
@@ -429,7 +445,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={25} />
+        <CustomProgressBar progress={progress} />
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
@@ -460,7 +476,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
                 
-          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
+          ${isSelected ? "opacity-20" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10 ">
                 {level.label}
@@ -480,7 +496,7 @@ export function ModelRegisterPage({ setPage, page, setSelectedFitness }) {
     </>
   );
 }
-export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
+export function RegisterSecondPage({ setPage, page, formData, setFormData,progress }) {
   const goals = [
     { id: "lose", label: "LOSS\nWEIGHT", goal: "Weight Loss" },
     { id: "fitness", label: "Weight\nLoss", goal: "Weight Gain" },
@@ -493,7 +509,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={50} />
+        <CustomProgressBar progress={progress} />
       </div>
       <div>
         <h2 className="font-family-pri font-bold text-center text-4xl  my-2 ">
@@ -538,7 +554,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
             </div>
 
             <div className="flex items-center">
-              <h2 className="font-family-pri text-[43px] leading-10 whitespace-pre-line ">
+              <h2 className="font-family-pri text-[43px] leading-10 whitespace-pre-line text-black z-30">
                 {goal.label}
               </h2>
             </div>
@@ -571,7 +587,7 @@ export function RegisterSecondPage({ setPage, page, formData, setFormData }) {
     </>
   );
 }
-export function RegisterThirdPage({ setPage, page, setFormData }) {
+export function RegisterThirdPage({ setPage, page, setFormData,progress }) {
   const [selectedLevel, setSelectedLevel] = useState(null);
 
   const trainingLevels = [
@@ -583,7 +599,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={25} />
+        <CustomProgressBar progress={progress} />
       </div>
       <div>
         <h3 className="font-family-pri font-bold text-center text-4xl mt-3">
@@ -613,7 +629,7 @@ export function RegisterThirdPage({ setPage, page, setFormData }) {
                 src={level.image}
                 alt={level.label}
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
-          ${isSelected ? "opacity-70" : "opacity-100 group-hover:opacity-40"}`}
+          ${isSelected ? "opacity-20" : "opacity-100 group-hover:opacity-40"}`}
               />
               <h3 className="relative font-family-pri text-[43px] leading-10 text-white text-center z-10">
                 {level.label}
@@ -642,6 +658,7 @@ export function RegisterFourthPage({
   formData,
   setFormData,
   sendAnswers,
+  progress
 }) {
   const {
     register,
@@ -653,7 +670,7 @@ export function RegisterFourthPage({
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={100} />
+        <CustomProgressBar  progress={progress} />
       </div>
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2 ">
         Body Information
@@ -723,7 +740,7 @@ export function RegisterFourthPage({
         {/* Gender */}
 
         <div className="flex justify-between">
-          <label className="text-sm font-medium text-gray-700 mb-2 flex  items-center gap-2">
+          <label className="text-sm font-medium text-white mb-2 flex  items-center gap-2">
             <FaTransgenderAlt className=" text-lg" />
             Gender
           </label>
@@ -741,7 +758,7 @@ export function RegisterFourthPage({
                   }))
                 }
               />
-              <span className="text-sm text-gray-700">Male</span>
+              <span className="text-sm text-white">Male</span>
             </label>
 
             <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-indigo-50 transition">
@@ -757,12 +774,12 @@ export function RegisterFourthPage({
                   }))
                 }
               />
-              <span className="text-sm text-gray-700">Female</span>
+              <span className="text-sm text-white">Female</span>
             </label>
           </div>
         </div>
         <div className="flex flex-col gap-2 mt-4 ">
-          <h3 className="md:text-lg text-sm font-bold text-yellow-800 mb-2 md:mb-0 ">
+          <h3 className="md:text-lg text-sm font-bold text-yellow-600 mb-2 md:mb-0 ">
             Do you have any medical conditions?
           </h3>
           <div className="flex justify-between gap-5 md-gap-0">
@@ -837,7 +854,7 @@ export function RegisterFourthPage({
           </div>
         </div>
 
-        <div className="flex justify-between w-full gap-5 md:gap-0">
+        <div className="flex justify-between w-full gap-5 md:gap-0 mb-5">
           <AuthButton
             title={"prev"}
             onclick={() => setPage((prev) => prev - 1)}
@@ -848,7 +865,7 @@ export function RegisterFourthPage({
     </>
   );
 }
-export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
+export function RegisterFifthPage({ setPage, page, formData, setFormData,progress }) {
   const [selectedFitness, setSelectedFitness] = useState(
     formData.fitness_type || null
   );
@@ -867,7 +884,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={75} />
+        <CustomProgressBar  progress={progress} />
       </div>
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
         What is your fitness type?
@@ -899,7 +916,7 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
                 className={`absolute top-0 left-0 w-full h-full object-cover rounded-[20px] transition-all duration-300
                 ${
                   isSelected
-                    ? "opacity-70"
+                    ? "opacity-20"
                     : "opacity-100 group-hover:opacity-40"
                 }`}
               />
@@ -924,12 +941,14 @@ export function RegisterFifthPage({ setPage, page, formData, setFormData }) {
     </>
   );
 }
-export function DietPage({ setPage, page, formData, setFormData }) {
+export function DietPage({ setPage, page, formData, setFormData, progress }) {
   const [selectedDiet, setSelectedDiet] = useState(formData.diet || null);
   const [selectedAllergies, setSelectedAllergies] = useState(
     formData.allergies || []
   );
-  const [otherAllergy, setOtherAllergy] = useState(formData.otherAllergy || "");
+  const [otherAllergy, setOtherAllergy] = useState(
+    formData.otherAllergy || ""
+  );
 
   const diets = [
     { id: "normal", label: "Normal Diet" },
@@ -944,28 +963,30 @@ export function DietPage({ setPage, page, formData, setFormData }) {
       const newList = prev.includes(item)
         ? prev.filter((a) => a !== item)
         : [...prev, item];
-      setFormData((prev) => ({
-        ...prev,
-        allergies: newList,
-      }));
       return newList;
     });
   };
 
   const handleSubmit = () => {
+    // If there's a free‑text allergy, append it
+    const combinedAllergies = otherAllergy
+      ? [...selectedAllergies, otherAllergy.trim()]
+      : selectedAllergies;
+
     setFormData((prev) => ({
       ...prev,
       diet: selectedDiet,
-      allergies: selectedAllergies,
-      otherAllergy,
+      allergies: combinedAllergies,
+      otherAllergy: otherAllergy.trim(),
     }));
+
     setPage((prev) => prev + 1);
   };
 
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={100} />
+        <CustomProgressBar progress={progress} />
       </div>
 
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
@@ -978,16 +999,15 @@ export function DietPage({ setPage, page, formData, setFormData }) {
             key={diet.id}
             onClick={() => {
               setSelectedDiet(diet.id);
-              setFormData((prev) => ({ ...prev, diet: diet.id }));
             }}
-            className={`relative  border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
-            ${
-              selectedDiet === diet.id
-                ? "bg-gradient-to-t from-primary/55 to-white border-yellow-500"
-                : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
-            }`}
+            className={`relative border py-5 h-[175px] rounded-[20px] bg-amber-100 flex justify-center items-center px-2 w-full overflow-hidden transition-all duration-500 group cursor-pointer
+              ${
+                selectedDiet === diet.id
+                  ? "bg-yellow-200"
+                  : "border-black hover:bg-gradient-to-t hover:from-primary hover:to-white"
+              }`}
           >
-            <h3 className="font-family-pri text-[43px] leading-10 text-white text-center z-10">
+            <h3 className="font-family-pri text-[43px] leading-10 text-black text-center z-10">
               {diet.label}
             </h3>
           </div>
@@ -1006,7 +1026,7 @@ export function DietPage({ setPage, page, formData, setFormData }) {
               ${
                 selectedAllergies.includes(item)
                   ? "bg-primary text-white border-primary"
-                  : "bg-white border-gray-400"
+                  : "bg-black border-gray-400"
               }`}
           >
             <input
@@ -1033,44 +1053,43 @@ export function DietPage({ setPage, page, formData, setFormData }) {
 
       <div className="flex justify-between w-full mt-6">
         <AuthButton
-          title={"Prev"}
+          title="Prev"
           onclick={() => setPage((prev) => prev - 1)}
         />
-        <AuthButton
-          title={"Next"}
-          onclick={() => setPage((prev) => prev + 1)}
-        />
+        <AuthButton title="Next" onclick={handleSubmit} />
       </div>
     </>
   );
 }
 
-export function DurationPage({ setPage, page, formData, setFormData }) {
-  const [daysPerWeek, setDaysPerWeek] = useState(formData.daysPerWeek || 3);
+
+export function DurationPage({ setPage, page, formData, setFormData,progress }) {
+  const [daysPerWeek, setDaysPerWeek] = useState(formData.days_per_week || 3);
   const [durationMinutes, setDurationMinutes] = useState(
-    formData.durationMinutes || ""
+    formData.workout_duration_minutes || ""
   );
 
-  const handleSubmit = () => {
-    setFormData({
-      ...formData,
-      daysPerWeek,
-      durationMinutes,
-    });
-    setPage((prev) => prev + 1);
-  };
+  // Set default days_per_week to 3 in formData when component mounts
+  useEffect(() => {
+    if (formData.days_per_week === 0) {
+      setFormData((prev) => ({
+        ...prev,
+        days_per_week: 3,
+      }));
+    }
+  }, [formData.days_per_week]); // Empty dependency array ensures this runs only once on mount
 
   return (
     <>
       <div className="flex justify-center">
-        <CustomProgressBar progress={100} />
+        <CustomProgressBar  progress={progress} />
       </div>
 
       <h2 className="font-family-pri font-bold text-center text-4xl tracking-wider my-2">
         What is your time preference?
       </h2>
 
-      <div className="px-10 mt-6 space-y-6">
+      <div className="px-10 mt-6 space-y-6 h-90">
         {/* Days per Week Range */}
         <div>
           <label className="block font-semibold text-lg mb-2">
@@ -1083,10 +1102,11 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
             step={1}
             value={daysPerWeek}
             onChange={(e) => {
-              setDaysPerWeek(Number(e.target.value));
+              const newValue = Number(e.target.value);
+              setDaysPerWeek(newValue);
               setFormData((prev) => ({
                 ...prev,
-                days_per_week: Number(e.target.value),
+                days_per_week: newValue,
               }));
             }}
             className="w-full accent-primary"
@@ -1118,7 +1138,7 @@ export function DurationPage({ setPage, page, formData, setFormData }) {
         </div>
       </div>
 
-      <div className="flex justify-center md:justify-between w-full my-5 gap-5">
+      <div className="flex justify-center md:justify-between w-full gap-5">
         <AuthButton
           title={"prev"}
           onclick={() => setPage((prev) => prev - 1)}

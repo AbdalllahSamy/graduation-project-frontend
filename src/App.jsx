@@ -25,6 +25,7 @@ import Weeks from "./modules/test/Weeks";
 import "leaflet/dist/leaflet.css";
 import Exercises from "./modules/dashboard/components/Dashboard/exercises";
 import LayoutHeader from "./modules/shared/components/LayoutoutHeader/LayoutHeader";
+import Services from "./modules/Landing/components/Services/Services";
 
 function App() {
   const routes = createBrowserRouter([
@@ -90,6 +91,16 @@ function App() {
     ),
     children: [
       { path: '', element: <Contact /> }, 
+    ],
+    errorElement: <NotFound />,
+  },
+  {
+    path: '/services',
+    element: (
+      <LayoutHeader />
+    ),
+    children: [
+      { path: '', element: <Services /> }, 
     ],
     errorElement: <NotFound />,
   },

@@ -63,7 +63,7 @@ export default function Login() {
         <div className="w-[50%] mx-auto relative my-[20px]">
           <hr className="border-[#AFA8A8] " />
           <div className="font-family-sec absolute inset-0  w-full flex items-center justify-center text-center ">
-            <div className="w-fit bg-white p-2">
+            <div className="w-fit bg-black p-2">
               <p>Or</p>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function Login() {
               disabled={isSubmitting}
               type="submit"
               title={'Login'}
-              className="w-[100%] font-family-sec bg-black rounded-[30px] text-white px-10 py-2 cursor-pointer disabled:bg-gray-400 hover:transform hover:scale-105 transition-all duration-300"
+              className="w-[100%] font-family-sec font-semibold bg-primary rounded-[30px] text-white px-10 py-2 cursor-pointer disabled:bg-gray-400 hover:transform hover:scale-105 transition-all duration-300"
             >
               {isSubmitting ? <>Submiting ...</> : 'Login'}
             </button>
